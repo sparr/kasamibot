@@ -11,7 +11,6 @@
 
 import * as _Common from "../rolelib/common";
 
-
 import * as PositionLib from "../lib/position";
 import * as PrayerLib from "../lib/prayer";
 
@@ -28,9 +27,8 @@ enum State {
     Renewing = 6,
     SuperPraising = 7,
     DoublePraising = 8,
-    Fortify = 9
+    Fortify = 9,
 }
-
 
 export function run(creep: Creep) {
     if (!creep.hasState()) {
@@ -39,7 +37,7 @@ export function run(creep: Creep) {
 
     checkIfPraisingIsFinished(creep);
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToPraiseroom:
             runMoveToPraiseroom(creep);
             break;
@@ -78,10 +76,10 @@ function runMoveToPraiseroom(creep: Creep) {
         creep.travelToRoom(praiseroom);
     } else {
         if (creep.memory.role === Role.PraiserSupport) {
-            creep.setState(State.DoublePraising)
+            creep.setState(State.DoublePraising);
             runDoublePraising(creep);
         } else {
-            creep.setState(State.Constructing)
+            creep.setState(State.Constructing);
             runConstructing(creep);
         }
     }
@@ -97,7 +95,7 @@ function runRenewing(creep: Creep) {
     if (creep.ticksToLive > 1400 || spawn === undefined ||
     (creep.room.energyAvailable < 50 && creep.carry.energy === 0)) {
         creep.room.memory.renewing = undefined;
-        creep.setState(State.Praising)
+        creep.setState(State.Praising);
         runPraising(creep);
         return;
     }
@@ -126,13 +124,13 @@ function runRenewing(creep: Creep) {
     if (distanceToSite < 4) {
         let response = creep.upgradeController(creep.room.controller);
         if (response === OK) {
-            if (Memory.stats['room.' + creep.room.name + '.energyUpgraded'] === undefined) {
-                Memory.stats['room.' + creep.room.name + '.energyUpgraded'] = 0;
+            if (Memory.stats["room." + creep.room.name + ".energyUpgraded"] === undefined) {
+                Memory.stats["room." + creep.room.name + ".energyUpgraded"] = 0;
             }
             if (creep.body[0].boost === RESOURCE_CATALYZED_GHODIUM_ACID) {
-                Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += (creep.getActiveBodyparts(WORK) * 2);
+                Memory.stats["room." + creep.room.name + ".energyUpgraded"] += (creep.getActiveBodyparts(WORK) * 2);
             } else {
-                Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += creep.getActiveBodyparts(WORK);
+                Memory.stats["room." + creep.room.name + ".energyUpgraded"] += creep.getActiveBodyparts(WORK);
             }
         }
     }
@@ -144,7 +142,7 @@ function runGetEnergyFromStorage(creep: Creep) {
             (s: Structure) => s.structureType === STRUCTURE_STORAGE || s.structureType === STRUCTURE_TERMINAL ||
             s.structureType === STRUCTURE_SPAWN || s.structureType === STRUCTURE_LAB}) as ConstructionSite[];
         if (constructionsites.length > 0) {
-            creep.setState(State.Constructing)
+            creep.setState(State.Constructing);
             runConstructing(creep);
             return;
         }
@@ -204,13 +202,13 @@ function runSuperPraising(creep: Creep) {
 
     let response = creep.upgradeController(creep.room.controller);
     if (response === OK) {
-        if (Memory.stats['room.' + creep.room.name + '.energyUpgraded'] === undefined) {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] = 0;
+        if (Memory.stats["room." + creep.room.name + ".energyUpgraded"] === undefined) {
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] = 0;
         }
         if (creep.body[0].boost === RESOURCE_CATALYZED_GHODIUM_ACID) {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += (creep.getActiveBodyparts(WORK) * 2);
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] += (creep.getActiveBodyparts(WORK) * 2);
         } else {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += creep.getActiveBodyparts(WORK);
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] += creep.getActiveBodyparts(WORK);
         }
     }
 }
@@ -241,7 +239,7 @@ function runDoublePraising(creep: Creep) {
 
     let container = Game.getObjectById(creep.memory.containerId) as StructureContainer | null;
     if (container === null) {
-        let spawn1 = creep.room.getSpawn()
+        let spawn1 = creep.room.getSpawn();
         if (spawn1 === undefined) {
             log.error("Spawn1 missing in praiseroom", creep.room.name);
             return;
@@ -260,10 +258,10 @@ function runDoublePraising(creep: Creep) {
 
     let response = creep.upgradeController(creep.room.controller);
     if (response === OK) {
-        if (Memory.stats['room.' + creep.room.name + '.energyUpgraded'] === undefined) {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] = 0;
+        if (Memory.stats["room." + creep.room.name + ".energyUpgraded"] === undefined) {
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] = 0;
         }
-        Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += creep.getActiveBodyparts(WORK);
+        Memory.stats["room." + creep.room.name + ".energyUpgraded"] += creep.getActiveBodyparts(WORK);
     }
 }
 
@@ -276,7 +274,7 @@ function runFortify(creep: Creep) {
                 creep.memory.rampart = undefined;
                 creep.setState(State.SuperPraising);
                 runSuperPraising(creep);
-                return;   
+                return;
             }
         }
 
@@ -305,7 +303,7 @@ function runFortify(creep: Creep) {
 }
 
 function moveAwayFromController(creep: Creep) {
-    _Common.moveOffRoad(creep)
+    _Common.moveOffRoad(creep);
 }
 
 function runPraising(creep: Creep) {
@@ -315,7 +313,7 @@ function runPraising(creep: Creep) {
     }
 
     if (creep.carry.energy === 0) {
-        creep.setState(State.GetEnergyFromStorage)
+        creep.setState(State.GetEnergyFromStorage);
         runGetEnergyFromStorage(creep);
         return;
     }
@@ -330,7 +328,7 @@ function runPraising(creep: Creep) {
     if (Game.time % 333 === 0) {
         let constructionsites = creep.room.find(FIND_MY_CONSTRUCTION_SITES) as ConstructionSite[];
         if (constructionsites.length > 0) {
-            creep.setState(State.Constructing)
+            creep.setState(State.Constructing);
             runConstructing(creep);
             return;
         }
@@ -353,13 +351,13 @@ function runPraising(creep: Creep) {
 
         let response = creep.upgradeController(creep.room.controller);
         if (response === OK) {
-            if (Memory.stats['room.' + creep.room.name + '.energyUpgraded'] === undefined) {
-                Memory.stats['room.' + creep.room.name + '.energyUpgraded'] = 0;
+            if (Memory.stats["room." + creep.room.name + ".energyUpgraded"] === undefined) {
+                Memory.stats["room." + creep.room.name + ".energyUpgraded"] = 0;
             }
             if (creep.body[0].boost === RESOURCE_CATALYZED_GHODIUM_ACID) {
-                Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += (creep.getActiveBodyparts(WORK) * 2);
+                Memory.stats["room." + creep.room.name + ".energyUpgraded"] += (creep.getActiveBodyparts(WORK) * 2);
             } else {
-                Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += creep.getActiveBodyparts(WORK);
+                Memory.stats["room." + creep.room.name + ".energyUpgraded"] += creep.getActiveBodyparts(WORK);
             }
         }
     }
@@ -368,7 +366,7 @@ function runPraising(creep: Creep) {
 
 function runConstructing(creep: Creep) {
     if (creep.carry.energy === 0 && creep.room.storage !== undefined) {
-        creep.setState(State.GetEnergyFromStorage)
+        creep.setState(State.GetEnergyFromStorage);
         return;
     }
 

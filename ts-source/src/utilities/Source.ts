@@ -10,7 +10,6 @@ import * as RoomRepository from "../repository/Room";
 
 import * as IntelLib from "../lib/intel";
 
-
 export function getTiersRequiredForPioneerMining(tier: number, possibleMiningPositions: number, spawnPos: RoomPosition, sourcePos: RoomPosition): number {
     const ticksToFill = 25; // 50 capacity / 2 mined per tick
     let distance = PathfindingUtilities.getDistanseBetween(spawnPos, sourcePos);
@@ -68,7 +67,7 @@ export function getRequiredEnergyHaulers(room: Room, maxTier: number): number {
         if (IntelLib.hasIntel(outpost)) {
             for (let sourceId of IntelLib.sourceIds(outpost)) {
                 let distance = PathfindingUtilities.getDistanseBetween(spawn.pos, IntelLib.sourcePos(outpost, sourceId));
-                    energyDistance += 10 * distance;
+                energyDistance += 10 * distance;
             }
         }
     }
@@ -252,5 +251,5 @@ export function getSourcesNeedingHauling(room: Room): string[] {
         }
     }
 
-    return _.shuffle(_.map(sources, function (c: Source) {return c.id}));
+    return _.shuffle(_.map(sources, function (c: Source) {return c.id; }));
 }

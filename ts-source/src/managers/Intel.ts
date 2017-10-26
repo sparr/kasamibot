@@ -54,9 +54,7 @@ export class IntelManager extends Manager {
                     }
                 }
                 this.setValue(this.MEMORY_LASTRUN, Game.time);
-            };
+            ;
         }
     }
 }
-
-

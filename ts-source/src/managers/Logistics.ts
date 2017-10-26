@@ -2,9 +2,8 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 
 import * as ProfileUtilities from "../utilities/Profiles";
 
-import * as BaseHauler from "../roles/BaseHauler";
 import * as BaseCourier from "../roles/BaseCourier";
-
+import * as BaseHauler from "../roles/BaseHauler";
 
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
@@ -14,9 +13,9 @@ import * as RoomRepository from "../repository/Room";
 
 import {Order} from "../classes/Order";
 
+import {Priority} from "../enums/priority";
 import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
-import {Priority} from "../enums/priority";
 
 export class LogisticsManager extends Manager {
 

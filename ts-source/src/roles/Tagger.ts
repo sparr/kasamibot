@@ -8,7 +8,7 @@ enum State {
     MovingToRoom = 1,
     Pacman = 2,
     Ayce = 3,
-    Upgrading = 4
+    Upgrading = 4,
 }
 
 export function run(creep: Creep) {
@@ -16,7 +16,7 @@ export function run(creep: Creep) {
         creep.setState(State.TankUp);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.TankUp:
             runTankUp(creep);
             break;
@@ -61,11 +61,10 @@ function runMovingToRoom(creep: Creep) {
     if (praiseroom !== creep.room.name || PositionLib.positionIsBorderOrNextToBorder(creep.pos)) {
         creep.travelToRoom(praiseroom);
     } else {
-        creep.setState(State.Upgrading)
+        creep.setState(State.Upgrading);
         runUpgrading(creep);
     }
 }
-
 
 function runUpgrading(creep: Creep) {
     let praiseroom = Game.rooms[creep.memory.target];
@@ -76,7 +75,7 @@ function runUpgrading(creep: Creep) {
             creep.travelTo(praiseroom.controller);
         }
     } else {
-        creep.setState(State.Pacman)
+        creep.setState(State.Pacman);
         runPacman(creep);
     }
 }
@@ -94,14 +93,14 @@ function runPacman(creep: Creep) {
             if (Game.flags["Pacman"] instanceof Flag) {
                 (Game.flags["Pacman"] as Flag).remove();
             }
-            creep.setState(State.Ayce)
+            creep.setState(State.Ayce);
             runAyce(creep);
             return;
         }
 
-        makeFancyArt(creep, positions, flag, creep.memory.pacmanIndex)
+        makeFancyArt(creep, positions, flag, creep.memory.pacmanIndex);
     } else {
-        creep.setState(State.Ayce)
+        creep.setState(State.Ayce);
         runAyce(creep);
     }
 }
@@ -127,7 +126,7 @@ function runAyce(creep: Creep) {
             return;
         }
 
-        makeFancyArt(creep, positions, flag, creep.memory.ayceIndex)
+        makeFancyArt(creep, positions, flag, creep.memory.ayceIndex);
     } else {
         if (creep.room.controller !== undefined && creep.room.controller.my && creep.room.controller.level === 2) {
             creep.room.controller.unclaim();
@@ -175,7 +174,7 @@ function makeFancyArt(creep: Creep, positions: [[number, number]], flag: RoomPos
             }
             let res = position.createConstructionSite(STRUCTURE_WALL);
             if (res !== OK) {
-                console.log(creep.room.name +": Tagger got error when building construction site: " + res);
+                console.log(creep.room.name + ": Tagger got error when building construction site: " + res);
             } else {
                 if (creep.pos.getRangeTo(position) > 3) {
                     creep.moveTo(position);
@@ -183,7 +182,6 @@ function makeFancyArt(creep: Creep, positions: [[number, number]], flag: RoomPos
             }
         }
 }
-
 
 function getPacmanPositions(): [[number, number]] {
     return [
@@ -208,7 +206,7 @@ function getPacmanPositions(): [[number, number]] {
         [15, 12],
         [15, 11],
         [16, 10], [16, 9], [16, 8], [16, 7], [16, 6],
-        [15, 5],[15, 4],
+        [15, 5], [15, 4],
         [14, 3],
         [13, 2],
         [12, 1],
@@ -232,6 +230,6 @@ function getAycePositions(): [[number, number]] {
         [1, 0], [1, 3], [1, 6], [1, 8], [1, 0], [1, 11], [1, 14], [1, 16],
         [2, 0], [2, 3], [2, 7], [2, 11], [2, 16], [2, 17], [2, 18],
         [3, 0], [3, 1], [3, 2], [3, 3], [3, 7], [3, 11], [3, 14], [3, 16],
-        [4, 0], [4, 3], [4, 7], [4, 12], [4, 13], [4, 17], [4, 18], [4, 19]
-    ]
+        [4, 0], [4, 3], [4, 7], [4, 12], [4, 13], [4, 17], [4, 18], [4, 19],
+    ];
 }

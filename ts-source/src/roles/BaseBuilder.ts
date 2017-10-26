@@ -8,8 +8,8 @@
  *   freq - frequency for changing target wall
  */
 
-import {log} from "../tools/Logger";
 import {RoomLevel} from "../enums/roomlevel";
+import {log} from "../tools/Logger";
 
 import * as _Common from "../rolelib/common";
 
@@ -23,16 +23,15 @@ enum State {
     Constructing = 2,
     Fortify = 3,
     Tanking = 4,
-    RepairWall = 5
+    RepairWall = 5,
 }
-
 
 export function run(creep: Creep) {
     if (!creep.hasState()) {
         creep.setState(State.Waiting);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runWaiting(creep);
             break;
@@ -147,10 +146,10 @@ function runFortify(creep: Creep) {
     let range = creep.pos.getRangeTo(targetSite);
     if (range > 0 && range < 4 && !PositionLib.positionIsBorder(creep.pos)) {
         creep.repair(targetSite);
-        if (Memory.stats['room.' + creep.room.name + '.wallsRepaired'] === undefined) {
-            Memory.stats['room.' + creep.room.name + '.wallsRepaired'] = 0;
+        if (Memory.stats["room." + creep.room.name + ".wallsRepaired"] === undefined) {
+            Memory.stats["room." + creep.room.name + ".wallsRepaired"] = 0;
         }
-        Memory.stats['room.' + creep.room.name + '.wallsRepaired'] += creep.getActiveBodyparts(WORK);
+        Memory.stats["room." + creep.room.name + ".wallsRepaired"] += creep.getActiveBodyparts(WORK);
     } else {
         creep.travelTo(targetSite);
     }
@@ -183,10 +182,10 @@ function runRepairWall(creep: Creep) {
 
     let response = creep.repair(targetSite);
     if (response === OK) {
-        if (Memory.stats['room.' + creep.room.name + '.wallsRepaired'] === undefined) {
-            Memory.stats['room.' + creep.room.name + '.wallsRepaired'] = 0;
+        if (Memory.stats["room." + creep.room.name + ".wallsRepaired"] === undefined) {
+            Memory.stats["room." + creep.room.name + ".wallsRepaired"] = 0;
         }
-        Memory.stats['room.' + creep.room.name + '.wallsRepaired'] += creep.getActiveBodyparts(WORK);
+        Memory.stats["room." + creep.room.name + ".wallsRepaired"] += creep.getActiveBodyparts(WORK);
     } else
     if (response === ERR_NOT_IN_RANGE) {
         creep.travelTo(targetSite);
@@ -216,7 +215,7 @@ function runTanking(creep: Creep) {
             creep.travelTo(storage);
         }
     } else {
-        _Common.moveOffRoad(creep)
+        _Common.moveOffRoad(creep);
     }
 }
 
@@ -249,10 +248,9 @@ function findNewTargetConstructionSite(creep: Creep): ConstructionSite | null {
     return closestSite;
 }
 
-
 function findNewTargetWallSite(creep: Creep): Structure | null {
     let walls = creep.room.find(FIND_STRUCTURES, {filter: function(s: Structure) {
-        return (s.structureType === STRUCTURE_RAMPART || s.structureType === STRUCTURE_WALL)
+        return (s.structureType === STRUCTURE_RAMPART || s.structureType === STRUCTURE_WALL);
     }}) as Structure[];
 
     if (walls.length === 0) {

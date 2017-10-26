@@ -56,8 +56,6 @@ export function filterPillageableStructuresFromList(structures: Structure[]): St
     });
 }
 
-
-
 export function findHostileVitalStructures(room: Room, pillage: boolean = false): Structure[] {
     let structures = room.find(FIND_HOSTILE_STRUCTURES, {filter: function (s: Structure) {
         return s.structureType === STRUCTURE_TOWER || s.structureType === STRUCTURE_SPAWN ||
@@ -112,7 +110,7 @@ export function getPrioritizedTarget(creep: Creep): Creep | null {
     let closestDangerousCreep = creep.pos.findClosestByPath(enemiesInRoom, {
         filter: function(c: Creep) {
             return c.getActiveBodyparts(ATTACK) > 0 || c.getActiveBodyparts(RANGED_ATTACK) > 0 || c.getActiveBodyparts(HEAL) > 0;
-        }
+        },
     }) as Creep;
     if (closestDangerousCreep !== null && closestDangerousCreep !== undefined) {
         return closestDangerousCreep;
@@ -125,8 +123,6 @@ export function getPrioritizedTarget(creep: Creep): Creep | null {
     }
     return null;
 }
-
-
 
 export function getPrioritizedTargetIncludingVitalBuildings(creep: Creep): Creep | Structure | null {
     let hostileCreep = getPrioritizedTarget(creep);

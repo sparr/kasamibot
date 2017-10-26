@@ -27,7 +27,7 @@ export function run(creep: Creep) {
         creep.setState(State.Standby);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Standby:
             runStandby(creep);
             break;

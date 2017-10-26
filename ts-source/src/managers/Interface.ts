@@ -2,7 +2,6 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 
 export class InterfaceManager extends Manager {
 
-
     constructor() {
         super("InterfaceManager");
     }

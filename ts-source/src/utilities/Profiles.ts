@@ -10,7 +10,7 @@ export function getB3TeamWreckerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
     let body: string[] = [];
 
-    body = addToBody(body, 4, [TOUGH])
+    body = addToBody(body, 4, [TOUGH]);
     body = addToBody(body, tier * 4, [TOUGH]);
 
     body = addToBody(body, 14, [WORK]);
@@ -45,7 +45,7 @@ export function getB3TeamHealerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
     let body: string[] = [];
 
-    body = addToBody(body, 4, [TOUGH])
+    body = addToBody(body, 4, [TOUGH]);
     body = addToBody(body, tier * 4, [TOUGH]);
 
     body = addToBody(body, tier * 8, [HEAL]);
@@ -61,7 +61,6 @@ export function getB3TeamHealerBody(tier: number): string[] {
     return body;
 }
 
-
 /**
  * TeamWrecker is a special role for attacking bases, working together with TeamHealer.
  * Has WORK for deconstruct and RANGED_ATTACK for defense. All parts T2 boosted.
@@ -73,7 +72,7 @@ export function getB2TeamWreckerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
     let body: string[] = [];
 
-    body = addToBody(body, 12, [TOUGH])
+    body = addToBody(body, 12, [TOUGH]);
 
     body = addToBody(body, 13, [WORK]);
     if (tier === 2) {
@@ -107,7 +106,7 @@ export function getB2TeamHealerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
     let body: string[] = [];
 
-    body = addToBody(body, 4, [TOUGH])
+    body = addToBody(body, 4, [TOUGH]);
     if (tier > 1) {
         body = addToBody(body, 8, [TOUGH]);
     }
@@ -131,9 +130,6 @@ export function getB2TeamHealerBody(tier: number): string[] {
     return body;
 }
 
-
-
-
 /**
  * TeamWrecker is a special role for attacking bases, working together with TeamHealer.
  * Has WORK for deconstruct and RANGED_ATTACK for defense. All parts T2 boosted.
@@ -143,7 +139,7 @@ export function getB1TeamWreckerBody(tier: number): string[] {
     if (tier > 1) { tier = 1; }
     let body: string[] = [];
 
-    body = addToBody(body, 10, [TOUGH])
+    body = addToBody(body, 10, [TOUGH]);
     body = addToBody(body, 16, [WORK]);
     body = addToBody(body, 6, [RANGED_ATTACK]);
     body = addToBody(body, 16, [MOVE]);
@@ -160,7 +156,7 @@ export function getB1TeamHealerBody(tier: number): string[] {
     if (tier > 1) { tier = 1; }
     let body: string[] = [];
 
-    body = addToBody(body, 10, [TOUGH])
+    body = addToBody(body, 10, [TOUGH]);
     body = addToBody(body, 18, [HEAL]);
     body = addToBody(body, 14, [MOVE]);
 
@@ -175,7 +171,6 @@ export function getB1TeamHealerBody(tier: number): string[] {
  * T2 - 3200 E, 16 WORK, 4 RANGED_ATTACK, 20 MOVE
  * T3 - 3950 E, 21 WORK, 4 RANGED_ATTACK, 25 MOVE
  */
-
 
 export function getB0TeamWreckerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
@@ -221,7 +216,6 @@ export function getB0TeamHealerBody(tier: number): string[] {
 
     body = addToBody(body, tier * 4, [HEAL]);
 
-
     return body;
 }
 
@@ -243,7 +237,6 @@ export function getPoachMinerBody(): string[] {
   body = addToBody(body, 5, [CARRY]);
   return body;
 }
-
 
 export function getPraiserBody(): string[] {
   let body: string[] = [];
@@ -284,7 +277,6 @@ export function getBankRanger(): string[] {
   body = addToBody(body, 7, [HEAL]);
   return body;
 }
-
 
 /**
  * Engineers are able to move each tick without roads, not on swamp. Balanced
@@ -390,7 +382,7 @@ export function getStationaryWorkerBody(tier: number): string[] {
   body = addToBody(body, Math.floor(Math.min(tier, 12) / 2), [WORK, WORK, WORK, MOVE]);
   body = addToBody(body, Math.ceil(Math.min(tier, 12) / 2), [WORK, WORK, CARRY, MOVE]);
   if (tier === 13) {
-    body = addToBody(body, 1, [WORK, MOVE])
+    body = addToBody(body, 1, [WORK, MOVE]);
   }
   return body;
 }
@@ -414,8 +406,6 @@ export function getProtectorBody(tier: number): string[] {
 export function getMaxTierProtector(energy: number): number {
   return getMaxTier(energy, getProtectorBody, 4);
 }
-
-
 
 /**
  * Offroad-Workers are able to move each tick off roads except on swamp, carry is minimum.
@@ -453,7 +443,6 @@ export function getWorkOnlyBody(tier: number): string[] {
 export function getMaxTierWorkOnly(energy: number): number {
   return getMaxTier(energy, getWorkOnlyBody, 16);
 }
-
 
 export function getOffroadWorkOnlyBody(tier: number): string[] {
   if (tier > 25) { tier = 25; }
@@ -603,7 +592,7 @@ export function getMaxTierBaseRanger(energy: number): number {
 export function getRangerBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
-  switch(tier) {
+  switch (tier) {
     case 1:
     case 2:
       body = addToBody(body, tier, [RANGED_ATTACK, MOVE]);
@@ -615,7 +604,7 @@ export function getRangerBody(tier: number): string[] {
       break;
     case 4:
       body = addToBody(body, 4, [RANGED_ATTACK]);
-      body = addToBody(body, 1, [HEAL, MOVE]);;
+      body = addToBody(body, 1, [HEAL, MOVE]); ;
       body = addToBody(body, 4, [MOVE]);
       break;
     case 5:
@@ -645,14 +634,13 @@ export function getMaxTierRanger(energy: number): number {
   return getMaxTier(energy, getRangerBody, 8);
 }
 
-
 /**
  * Supporters are able to move each tick without roads, and is a ranged attacker with focus on healing.
  */
 export function getSupporterBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
-  switch(tier) {
+  switch (tier) {
     case 1:
       body = addToBody(body, 1, [HEAL, MOVE]);
       break;
@@ -712,7 +700,7 @@ export function getMaxTierSupporter(energy: number): number {
 export function getPaladinBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
-  switch(tier) {
+  switch (tier) {
     case 1:
     case 2:
       body = addToBody(body, tier, [MOVE, ATTACK]);
@@ -756,7 +744,7 @@ export function getMaxTierPaladin(energy: number): number {
 export function getDrainerBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
-  switch(tier) {
+  switch (tier) {
     case 1:
       body = addToBody(body, 1, [HEAL, MOVE]);
       break;

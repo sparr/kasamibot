@@ -10,12 +10,12 @@
 
 import * as ScoutingUtilities from "../utilities/Scouting";
 
-import * as _Targeting from "../rolelib/targeting";
 import * as _Military from "../rolelib/military";
+import * as _Targeting from "../rolelib/targeting";
 
-import * as PositionLib from "../lib/position";
 import * as DamageLib from "../lib/damage";
 import * as IntelLib from "../lib/intel";
+import * as PositionLib from "../lib/position";
 
 import {log} from "../tools/Logger";
 
@@ -23,7 +23,7 @@ enum State {
     Waiting = 1,
     MovingToTarget = 2,
     Attacking = 3,
-    Sleep = 4
+    Sleep = 4,
 }
 
 export function run(creep: Creep) {
@@ -35,7 +35,7 @@ export function run(creep: Creep) {
 
     healIfNeeded(creep);
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runWaiting(creep);
             break;
@@ -69,7 +69,7 @@ function runMovingToTarget(creep: Creep): void {
 
     if (Game.time % 9 === 4 && !PositionLib.positionIsBorderOrNextToBorder(creep.pos) &&
         currentRoomHasHostilesToKill(creep)) {
-        creep.setState(State.Attacking)
+        creep.setState(State.Attacking);
         runAttacking(creep);
         return;
     }
@@ -121,7 +121,7 @@ function runAttacking(creep: Creep): void {
                 _Military.rangedAttackToEnemiesAround(creep);
             }
         } else
-        if(targetToAttack instanceof ConstructionSite) {
+        if (targetToAttack instanceof ConstructionSite) {
             _Military.rangedAttackToEnemiesAround(creep);
             creep.travelTo(targetToAttack, {range: 0});
         }
@@ -235,7 +235,7 @@ function findWallToDestroy(creep: Creep, targetToAttack: Structure  | Creep) {
     let path = PathFinder.search(
         creep.pos,
         {pos: targetToAttack.pos, range: 1},
-        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction
+        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction,
     }).path;
     for (let roomPos of path) {
         let structures = roomPos.lookFor(LOOK_STRUCTURES) as Structure[];

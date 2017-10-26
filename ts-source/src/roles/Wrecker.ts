@@ -21,7 +21,7 @@ import {log} from "../tools/Logger";
 
 enum State {
     MovingToTarget = 1,
-    Wrecking = 2
+    Wrecking = 2,
 }
 
 export function run(creep: Creep) {
@@ -29,7 +29,7 @@ export function run(creep: Creep) {
         creep.setState(State.MovingToTarget);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToTarget:
             runMovingToTarget(creep);
             break;
@@ -71,7 +71,7 @@ function runWrecking(creep: Creep): void {
         targetToDismantle = getNewTargetToDismantle(creep);
         if (targetToDismantle !== null) {
             creep.memory.targetToDismantle = targetToDismantle.id;
-            moveAndDismantle(creep,targetToDismantle);
+            moveAndDismantle(creep, targetToDismantle);
         } else {
             let targetRoom = getNextTargetRoom(creep);
             log.info("Wrecker " + creep.name + " is moving to a new target room: " + targetRoom, creep.room.name);
@@ -136,7 +136,7 @@ function findWallToDestroy(creep: Creep, targetToDismantle: Structure) {
     let path = PathFinder.search(
         creep.pos,
         {pos: targetToDismantle.pos, range: 1},
-        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction
+        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction,
     }).path;
     for (let roomPos of path) {
         let structures = roomPos.lookFor(LOOK_STRUCTURES) as Structure[];

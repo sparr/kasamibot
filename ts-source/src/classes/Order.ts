@@ -1,5 +1,5 @@
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 
 export class Order {
     public priority: Priority;
@@ -12,7 +12,7 @@ export class Order {
         route?: string[],
         boost?: string[],
         homeroom?: string,
-        token?: string
+        token?: string,
     };
     public twinOrder?: Order;
 }

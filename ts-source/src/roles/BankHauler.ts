@@ -22,7 +22,7 @@ enum State {
     MovingToBankPosition = 1,
     WaitForPower = 2,
     PickUpPower = 3,
-    ReturnToBase = 4
+    ReturnToBase = 4,
 }
 
 export function run(creep: Creep) {
@@ -31,7 +31,7 @@ export function run(creep: Creep) {
         creep.setState(State.MovingToBankPosition);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToBankPosition:
             runMovingToBankPosition(creep);
             break;
@@ -61,7 +61,6 @@ function runMovingToBankPosition(creep: Creep) {
         runWaitForPower(creep);
     }
 }
-
 
 function runWaitForPower(creep: Creep) {
     let bank = Game.getObjectById(creep.memory.target) as StructurePowerBank;
@@ -112,7 +111,6 @@ function runReturnToBase(creep: Creep) {
         log.error("BankHauler " + creep.name + " is missing homeroom or storage in home room", creep.memory.homeroom);
     }
 }
-
 
 function getPowerStackInRoom(creep: Creep): Resource | null {
     let powerStacks = creep.room.find(FIND_DROPPED_RESOURCES, {filter: function(r: Resource) {

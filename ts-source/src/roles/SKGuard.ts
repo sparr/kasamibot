@@ -1,6 +1,6 @@
-import * as _Common from "../rolelib/common";
-import * as PositionLib from "../lib/position";
 import * as IntelLib from "../lib/intel";
+import * as PositionLib from "../lib/position";
+import * as _Common from "../rolelib/common";
 
 export function run(creep: Creep) {
     let targetRoom: string | undefined = creep.memory.target;
@@ -154,7 +154,7 @@ function getNextLairSpawning(creep: Creep): StructureKeeperLair | null {
     let allSpawningLairs = creep.room.find(FIND_HOSTILE_STRUCTURES, {
         filter: function (s: StructureKeeperLair) {
             return s.structureType === STRUCTURE_KEEPER_LAIR && s.ticksToSpawn !== undefined && s.ticksToSpawn > 0;
-        }
+        },
     }) as StructureKeeperLair[];
     if (allSpawningLairs === undefined || allSpawningLairs.length === 0) {
         creep.memory.targetPos = undefined;

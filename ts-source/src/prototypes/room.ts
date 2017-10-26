@@ -3,7 +3,7 @@ Room.prototype.getHostileCreeps = function(): Creep[] {
 };
 
 Room.prototype.getHostileCreepsNotAtBorder = function(): Creep[] {
-    return _.filter(this.getHostileCreeps(), function (c: Creep) {return !c.isAtBorder()});
+    return _.filter(this.getHostileCreeps(), function (c: Creep) {return !c.isAtBorder(); });
 };
 
 Room.prototype.hasHostileCreeps = function(): boolean {
@@ -32,7 +32,7 @@ Room.prototype.getMineral = function(): Mineral | undefined {
         return minerals[0];
     }
     return undefined;
-}
+};
 
 Room.prototype.hasFreeSpawnCapacity = function(): boolean {
     let spawns = this.getSpawns() as Spawn[];
@@ -45,7 +45,7 @@ Room.prototype.hasFreeSpawnCapacity = function(): boolean {
         }
     }
     return false;
-}
+};
 
 Room.prototype.getFreeSpawn = function(): Spawn | undefined {
     let spawns = this.getSpawns() as Spawn[];
@@ -73,7 +73,7 @@ Room.prototype.getBoostLab = function(): StructureLab | undefined {
         }
     }
     return undefined;
-}
+};
 
 Room.prototype.getPowerSpawn = function(): PowerSpawn | undefined {
     if (this.controller === undefined || this.controller.level < 8) {
@@ -93,7 +93,7 @@ Room.prototype.getPowerSpawn = function(): PowerSpawn | undefined {
         return powerspawn[0];
     }
     return undefined;
-}
+};
 
 Room.prototype.getNuker = function(): StructureNuker | undefined {
     if (this.controller === undefined || this.controller.level < 8) {
@@ -113,7 +113,7 @@ Room.prototype.getNuker = function(): StructureNuker | undefined {
         return nuker[0];
     }
     return undefined;
-}
+};
 
 Room.prototype.getObserver = function (): StructureObserver | undefined {
     if (this.controller === undefined || this.controller.level < 8) {
@@ -133,7 +133,7 @@ Room.prototype.getObserver = function (): StructureObserver | undefined {
         return observer[0];
     }
     return undefined;
-}
+};
 
 Room.prototype.getBaseContainer = function(): Container | undefined {
     let c = Game.getObjectById(this.memory["roomContainer"]);
@@ -141,7 +141,7 @@ Room.prototype.getBaseContainer = function(): Container | undefined {
         return c;
     }
     return undefined;
-}
+};
 
 Room.prototype.getBaseLink = function(): StructureLink | undefined {
     if (this.memory.b === undefined) {
@@ -156,14 +156,14 @@ Room.prototype.getBaseLink = function(): StructureLink | undefined {
         }
     }
     return undefined;
-}
+};
 
 Room.prototype.hasLabArea = function(): boolean {
     if (this.memory.lab === undefined || this.memory.lab.operational === undefined) {
         return false;
     }
     return this.memory.lab.operational === true;
-}
+};
 Room.prototype.getProcessingLabs = function(): Lab[] {
     let labs: Lab[] = [];
     if (this.memory.lab !== undefined && this.memory.lab.processingLabs !== undefined) {
@@ -177,7 +177,7 @@ Room.prototype.getProcessingLabs = function(): Lab[] {
         labs.push(boostLab);
     }
     return labs;
-}
+};
 Room.prototype.getSupplyingLabs = function():  Lab[] {
     if (this.memory.lab === undefined || this.memory.lab.supplyingLabs === undefined) {
         return [];
@@ -185,20 +185,20 @@ Room.prototype.getSupplyingLabs = function():  Lab[] {
     return _.map(this.memory.lab.supplyingLabs, function(id: string) {
         return Game.getObjectById(id) as Lab;
     });
-}
+};
 
 Room.prototype.isExpansion = function(): boolean {
     return this.memory.isExpansion === true;
-}
+};
 
 Room.prototype.hasExpansion = function(): boolean {
     return this.memory.expansion !== undefined;
-}
+};
 
 Room.prototype.isAbandoned = function(): boolean {
     return this.memory.isBeingDismantled === true;
-}
+};
 
 Room.prototype.isUnderSiege = function(): boolean {
     return this.memory.defcon !== undefined && this.memory.defcon > 1;
-}
+};

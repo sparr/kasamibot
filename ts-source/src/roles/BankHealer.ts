@@ -23,7 +23,7 @@ enum State {
     MovingToBankRoom = 1,
     FindingTargetToHeal = 2,
     MovingToTargetToHeal = 3,
-    HealingTarget = 4
+    HealingTarget = 4,
 }
 
 export function run(creep: Creep) {
@@ -32,7 +32,7 @@ export function run(creep: Creep) {
         creep.setState(State.MovingToBankRoom);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToBankRoom:
             runMoveToBankRoom(creep);
             break;

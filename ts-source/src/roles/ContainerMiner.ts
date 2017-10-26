@@ -30,7 +30,7 @@ import {Priority} from "../enums/priority";
 enum State {
     MovingToContainer = 1,
     BuildingContainer = 2,
-    Mining = 3
+    Mining = 3,
 }
 
 export function run(creep: Creep) {
@@ -62,7 +62,7 @@ export function run(creep: Creep) {
         orderMyCopy(creep);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToContainer:
             runMovingToContainer(creep);
             break;
@@ -119,10 +119,10 @@ function runBuildingContainer(creep: Creep) {
             } else {
                 let responseHarvest = creep.harvest(source);
                 if (responseHarvest === OK) {
-                    if (Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] === undefined) {
-                        Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] = 0;
+                    if (Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] === undefined) {
+                        Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] = 0;
                     }
-                    Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] += creep.getWorkerParts() * 2;
+                    Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] += creep.getWorkerParts() * 2;
                 }
             }
         }
@@ -146,10 +146,10 @@ function runMining(creep: Creep) {
         if (source.energy > 0 && container.store[RESOURCE_ENERGY] < container.storeCapacity) {
             let responseHarvest = creep.harvest(source);
             if (responseHarvest === OK) {
-                if (Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] === undefined) {
-                    Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] = 0;
+                if (Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] === undefined) {
+                    Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] = 0;
                 }
-                Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] += creep.getWorkerParts() * 2;
+                Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] += creep.getWorkerParts() * 2;
             }
         }
     }
@@ -221,7 +221,7 @@ function setOrderCopyTick(creep: Creep) {
 }
 
 function orderMyCopy(creep: Creep) {
-    if(Game.rooms[creep.memory.homeroom] === undefined || !RoomRepository.hasOutpost(Game.rooms[creep.memory.homeroom], creep.memory.targetRoom)
+    if (Game.rooms[creep.memory.homeroom] === undefined || !RoomRepository.hasOutpost(Game.rooms[creep.memory.homeroom], creep.memory.targetRoom)
         || Game.rooms[creep.memory.homeroom].isAbandoned() || Game.rooms[creep.memory.homeroom].isUnderSiege()) {
         return;
     }

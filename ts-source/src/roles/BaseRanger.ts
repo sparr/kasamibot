@@ -10,8 +10,8 @@
 
 import * as _Common from "../rolelib/common";
 
-import * as _Targeting from "../rolelib/targeting";
 import * as _Military from "../rolelib/military";
+import * as _Targeting from "../rolelib/targeting";
 
 import {Threat} from "../classes/Threat";
 
@@ -20,7 +20,7 @@ import {log} from "../tools/Logger";
 enum State {
     Waiting = 1,
     MovingToPosition = 2,
-    Attacking = 3
+    Attacking = 3,
 }
 
 export function run(creep: Creep) {
@@ -33,7 +33,7 @@ export function run(creep: Creep) {
         setBoosting(creep);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runWaiting(creep);
             break;
@@ -154,13 +154,12 @@ function shootHostileCreeps(creep: Creep) {
             }
         }
         return true;
-    })
+    });
 
     if (closeDangerousCreepsNotOnRamparts.length > 0) {
         creep.rangedAttack(closeDangerousCreepsNotOnRamparts[0]);
     }
 }
-
 
 function defendersShouldBoost(threat: Threat): number {
     if (threat.boostedTough < 15) {
@@ -196,7 +195,7 @@ function getCreepInPosition(pos: RoomPosition): Creep | undefined {
     if (creep.length > 0) {
         return creep[0];
     }
-    return undefined
+    return undefined;
 }
 
 function findRampartCloseToEnemy(enemy: Creep): StructureRampart | undefined {

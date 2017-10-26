@@ -18,8 +18,8 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 import {log} from "../tools/Logger";
@@ -165,11 +165,11 @@ export class ScoutingManager extends Manager {
             return false;
         }
         if (this.signerIsGoingThereNow(room, roomName)) {
-            return false;;
+            return false; ;
         }
 
         if (Memory.rooms[roomName] !== undefined && Memory.rooms[roomName].isPraiseRoom) {
-            return false;;
+            return false; ;
         }
 
         if (Memory.rooms[roomName] !== undefined && Memory.rooms[roomName].inaccessible) {
@@ -327,7 +327,6 @@ function observeNextRoomForPortals(room: Room, observer: StructureObserver) {
     observer.observeRoom(RoomRepository.getClosestPortalroom(room.name));
 }
 
-
 export function orderScouting(room: Room, roomName: string): boolean {
     // TODO: Validate roomName
 
@@ -375,7 +374,6 @@ function setNeighbours(room: Room) {
         fourAway: ScoutingUtilities.getRoomsFourAway(room.name),
         fiveAway: ScoutingUtilities.getRoomsFiveAway(room.name),
         sixAway: ScoutingUtilities.getRoomsSixAway(room.name),
-        sevenAway: ScoutingUtilities.getRoomsSevenAway(room.name)
-    }
+        sevenAway: ScoutingUtilities.getRoomsSevenAway(room.name),
+    };
 }
-

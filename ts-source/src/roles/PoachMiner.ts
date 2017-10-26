@@ -4,8 +4,8 @@
  * Used for mining minerals in non-outpost lairrooms
  */
 
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as OrdersRepository from "../repository/Orders";
+import * as PathfindingUtilities from "../utilities/Pathfinding";
 
 import {Order} from "../classes/Order";
 
@@ -13,7 +13,7 @@ import {Priority} from "../enums/priority";
 
 enum State {
     MoveToMineral = 1,
-    Mining = 2
+    Mining = 2,
 }
 
 export function run(creep: Creep) {
@@ -26,7 +26,7 @@ export function run(creep: Creep) {
         orderMyCopy(creep);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToMineral:
             runMoveToMineral(creep);
             break;
@@ -70,10 +70,10 @@ function runMining(creep: Creep) {
     if (mineral !== null && (creep.carryCapacity - _.sum(creep.carry) > creep.getWorkerParts())) {
         let response = creep.harvest(mineral);
         if (response === OK) {
-            if (Memory.stats['mineralmined.' + mineral.mineralType] === undefined) {
-                Memory.stats['mineralmined.' + mineral.mineralType] = 0;
+            if (Memory.stats["mineralmined." + mineral.mineralType] === undefined) {
+                Memory.stats["mineralmined." + mineral.mineralType] = 0;
             }
-            Memory.stats['mineralmined.' + mineral.mineralType] += creep.getActiveBodyparts(WORK);
+            Memory.stats["mineralmined." + mineral.mineralType] += creep.getActiveBodyparts(WORK);
         }
     }
 }
@@ -95,7 +95,7 @@ function setOrderCopyTick(creep: Creep) {
 }
 
 function orderMyCopy(creep: Creep) {
-    if(Game.rooms[creep.memory.homeroom] === undefined || Game.rooms[creep.memory.homeroom].isAbandoned() || Game.rooms[creep.memory.homeroom].isUnderSiege() ||
+    if (Game.rooms[creep.memory.homeroom] === undefined || Game.rooms[creep.memory.homeroom].isAbandoned() || Game.rooms[creep.memory.homeroom].isUnderSiege() ||
         !_.contains(Game.rooms[creep.memory.homeroom].memory.poaching, creep.memory.target)) {
         return;
     }

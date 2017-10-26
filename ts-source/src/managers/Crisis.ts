@@ -8,8 +8,8 @@ import * as OperationLib from "../lib/operation";
 
 import * as RoomRepository from "../repository/Room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";

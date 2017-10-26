@@ -97,7 +97,6 @@ export function getNextHealCreepPos(room: Room, storagePos: RoomPosition): RoomP
     }
 }
 
-
 export function getHealSupporterPos(room: Room, storagePos: RoomPosition): RoomPosition {
     switch (room.memory.direction) {
         case "S":
@@ -141,7 +140,6 @@ export function getOfficerPos(room: Room, storagePos: RoomPosition): RoomPositio
             return new RoomPosition(storagePos.x - 3, storagePos.y + 1, storagePos.roomName);
     }
 }
-
 
 export function getContainer(room: Room, spawn1pos: RoomPosition): StructureContainer | undefined {
     let pos = getContainerPos(room, spawn1pos);
@@ -197,8 +195,8 @@ export function getPraiserPositions(room: Room, storagePos: RoomPosition): RoomP
                 new RoomPosition(storagePos.x + 1, storagePos.y - 1, storagePos.roomName),
                 new RoomPosition(storagePos.x + 1, storagePos.y, storagePos.roomName),
                 new RoomPosition(storagePos.x + 1, storagePos.y + 1, storagePos.roomName),
-                new RoomPosition(storagePos.x, storagePos.y + 1, storagePos.roomName)
-            ]
+                new RoomPosition(storagePos.x, storagePos.y + 1, storagePos.roomName),
+            ];
         case "E":
             return [
                 new RoomPosition(storagePos.x, storagePos.y - 1, storagePos.roomName),
@@ -207,8 +205,8 @@ export function getPraiserPositions(room: Room, storagePos: RoomPosition): RoomP
                 new RoomPosition(storagePos.x - 1, storagePos.y + 1, storagePos.roomName),
                 new RoomPosition(storagePos.x, storagePos.y + 1, storagePos.roomName),
                 new RoomPosition(storagePos.x + 1, storagePos.y + 1, storagePos.roomName),
-                new RoomPosition(storagePos.x + 1, storagePos.y, storagePos.roomName)
-            ]
+                new RoomPosition(storagePos.x + 1, storagePos.y, storagePos.roomName),
+            ];
         default: // South is default
             return [
                 new RoomPosition(storagePos.x - 1, storagePos.y, storagePos.roomName),
@@ -217,8 +215,8 @@ export function getPraiserPositions(room: Room, storagePos: RoomPosition): RoomP
                 new RoomPosition(storagePos.x + 1, storagePos.y - 1, storagePos.roomName),
                 new RoomPosition(storagePos.x + 1, storagePos.y, storagePos.roomName),
                 new RoomPosition(storagePos.x + 1, storagePos.y + 1, storagePos.roomName),
-                new RoomPosition(storagePos.x, storagePos.y + 1, storagePos.roomName)
-            ]
+                new RoomPosition(storagePos.x, storagePos.y + 1, storagePos.roomName),
+            ];
     }
 }
 
@@ -233,8 +231,8 @@ export function getSupporterPositions(room: Room, spawn2Pos: RoomPosition): Room
                 new RoomPosition(spawn2Pos.x + 1, spawn2Pos.y - 1, spawn2Pos.roomName),
                 new RoomPosition(spawn2Pos.x + 1, spawn2Pos.y, spawn2Pos.roomName),
                 new RoomPosition(spawn2Pos.x + 1, spawn2Pos.y + 1, spawn2Pos.roomName),
-                new RoomPosition(spawn2Pos.x, spawn2Pos.y + 1, spawn2Pos.roomName)
-            ]
+                new RoomPosition(spawn2Pos.x, spawn2Pos.y + 1, spawn2Pos.roomName),
+            ];
         case "E":
             return [
                 new RoomPosition(spawn2Pos.x - 1, spawn2Pos.y, spawn2Pos.roomName),
@@ -243,8 +241,8 @@ export function getSupporterPositions(room: Room, spawn2Pos: RoomPosition): Room
                 new RoomPosition(spawn2Pos.x - 3, spawn2Pos.y - 1, spawn2Pos.roomName),
                 new RoomPosition(spawn2Pos.x - 3, spawn2Pos.y, spawn2Pos.roomName),
                 new RoomPosition(spawn2Pos.x - 3, spawn2Pos.y + 1, spawn2Pos.roomName),
-                new RoomPosition(spawn2Pos.x - 2, spawn2Pos.y + 1, spawn2Pos.roomName)
-            ]
+                new RoomPosition(spawn2Pos.x - 2, spawn2Pos.y + 1, spawn2Pos.roomName),
+            ];
         default: // South is default
             console.log("Supporter-rotation not fixed for south (prayerroom)");
             return [
@@ -254,7 +252,7 @@ export function getSupporterPositions(room: Room, spawn2Pos: RoomPosition): Room
                 new RoomPosition(spawn2Pos.x + 1, spawn2Pos.y - 1, spawn2Pos.roomName),
                 new RoomPosition(spawn2Pos.x + 1, spawn2Pos.y, spawn2Pos.roomName),
                 new RoomPosition(spawn2Pos.x + 1, spawn2Pos.y + 1, spawn2Pos.roomName),
-                new RoomPosition(spawn2Pos.x, spawn2Pos.y + 1, spawn2Pos.roomName)
-            ]
+                new RoomPosition(spawn2Pos.x, spawn2Pos.y + 1, spawn2Pos.roomName),
+            ];
     }
 }

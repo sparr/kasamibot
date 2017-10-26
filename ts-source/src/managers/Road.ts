@@ -2,9 +2,9 @@ import * as PathFindingUtilities from "../utilities/Pathfinding";
 
 import * as RoomRepository from "../repository/Room";
 
-import * as IntelLib from "../lib/intel";
 import * as BaseLib from "../lib/base";
 import * as ExtensionLib from "../lib/extension";
+import * as IntelLib from "../lib/intel";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
@@ -16,8 +16,8 @@ class RoadInfo {
         [id: string] : {
             timePositions: number,
             timeBuilt: number,
-            positions: string[]
-        }
+            positions: string[],
+        },
     };
 }
 
@@ -113,7 +113,7 @@ export class RoadManager extends Manager {
             //console.log("Roadservice for room " + roadInfo.roomName + " current targets: " + Object.keys(roadInfo.roads).length);
             let targetsForRoom = this.getRoadTargetIds(room);
             //console.log("Number of wanted targets: " + targetsForRoom.length);
-            for(let id of targetsForRoom) {
+            for (let id of targetsForRoom) {
                 let target = Game.getObjectById(id) as Structure | Source | Mineral;
                 if (target !== null && target.pos !== undefined && target.pos instanceof RoomPosition) {
                     if (roadInfo.roads[id] === undefined || roadInfo.roads[id].timePositions + 5000 < Game.time) {
@@ -121,8 +121,8 @@ export class RoadManager extends Manager {
                             roadInfo.roads[id] = {
                                 timePositions: Game.time,
                                 timeBuilt: 0,
-                                positions: getRoadsTo(room, this.getRoadTargetFor(target))
-                            }
+                                positions: getRoadsTo(room, this.getRoadTargetFor(target)),
+                            };
                         } else {
                             roadInfo.roads[id].timePositions = Game.time;
                             roadInfo.roads[id].positions = getRoadsTo(room, this.getRoadTargetFor(target));
@@ -137,7 +137,7 @@ export class RoadManager extends Manager {
             }
 
             //console.log("Building roads: " + Object.keys(roadInfo.roads).length);
-            for(let id of Object.keys(roadInfo.roads)) {
+            for (let id of Object.keys(roadInfo.roads)) {
                 if (roadInfo.roads[id].timePositions + 20000 < Game.time) {
                     delete roadInfo.roads[id];
                     console.log("Deleting target for road no longer valid: " + id + " for room " + roadInfo.roomName);
@@ -170,12 +170,11 @@ export class RoadManager extends Manager {
 
         // Stats
         if (roadInfo !== undefined) {
-            Memory.stats['roads.' + roadInfo.roomName + '.total'] = _.sum(roadInfo.roads, (i: any) => i.positions.length);
+            Memory.stats["roads." + roadInfo.roomName + ".total"] = _.sum(roadInfo.roads, (i: any) => i.positions.length);
             RawMemory.segments[segmentToLoad] = JSON.stringify(roadInfo);
         } else {
             RawMemory.segments[segmentToLoad] = "";
         }
-
 
         if (processingFinishedForRoom) {
             let lastIndex = this.getValue(this.MEMORY_LASTINDEX);
@@ -224,7 +223,7 @@ export class RoadManager extends Manager {
         }
 
         let roadid: string, road: StructureRoad | null;
-        for(let id of Object.keys(roadInfo.roads)) {
+        for (let id of Object.keys(roadInfo.roads)) {
             for (roadid of roadInfo.roads[id].positions) {
                 road = Game.getObjectById(roadid) as StructureRoad | null;
                 if (road instanceof StructureRoad && road.hitsMax - road.hits > 2000) {
@@ -234,7 +233,7 @@ export class RoadManager extends Manager {
         }
         //console.log("Roads needing repairing in: " + room.name + " - " + structureIds.length);
         room.memory.roads = _.unique(structureIds);
-        Memory.stats['roads.' + roadInfo.roomName + '.repair'] = room.memory.roads.length;
+        Memory.stats["roads." + roadInfo.roomName + ".repair"] = room.memory.roads.length;
         room.memory.roadsUpdate = Game.time;
     }
 
@@ -265,7 +264,7 @@ export class RoadManager extends Manager {
             roadTargets = roadTargets.concat(sourceIds);
         }
         if (mineralId !== undefined) {
-            roadTargets.push(mineralId)
+            roadTargets.push(mineralId);
         }
         if (praiseroomControllerId !== undefined) {
             roadTargets.push(praiseroomControllerId);
@@ -280,12 +279,12 @@ export class RoadManager extends Manager {
     }
 
     private loadRoadInfoFromSegment(segmentToLoad: number): RoadInfo | undefined {
-        if (segmentToLoad === undefined || !(_.contains(Object.keys(RawMemory.segments), ""+segmentToLoad))) {
+        if (segmentToLoad === undefined || !(_.contains(Object.keys(RawMemory.segments), "" + segmentToLoad))) {
             return undefined;
         }
 
         let roadInfo: RoadInfo | undefined;
-        if (typeof RawMemory.segments[segmentToLoad] === 'string' && RawMemory.segments[segmentToLoad].length > 0) {
+        if (typeof RawMemory.segments[segmentToLoad] === "string" && RawMemory.segments[segmentToLoad].length > 0) {
             roadInfo = JSON.parse(RawMemory.segments[segmentToLoad]) as RoadInfo;
         }
         if (roadInfo === undefined || roadInfo.roomName === undefined) {
@@ -342,7 +341,7 @@ function buildRoadsToExtensions(room: Room): boolean {
     let extensions = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_EXTENSION}) as StructureExtension[];
     for (let e of extensions) {
         if (!extensionHasRoadConnection(e)) {
-            buildRoadBetween(e.pos, room.storage.pos)
+            buildRoadBetween(e.pos, room.storage.pos);
             return true;
         }
     }

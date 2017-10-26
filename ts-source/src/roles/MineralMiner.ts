@@ -36,10 +36,10 @@ export function run(creep: Creep) {
         if (creep.carryCapacity > _.sum(creep.carry)) {
             let response = creep.harvest(mineral);
             if (response === OK) {
-                if (Memory.stats['mineralmined.' + mineral.mineralType] === undefined) {
-                    Memory.stats['mineralmined.' + mineral.mineralType] = 0;
+                if (Memory.stats["mineralmined." + mineral.mineralType] === undefined) {
+                    Memory.stats["mineralmined." + mineral.mineralType] = 0;
                 }
-                Memory.stats['mineralmined.' + mineral.mineralType] += creep.getActiveBodyparts(WORK);
+                Memory.stats["mineralmined." + mineral.mineralType] += creep.getActiveBodyparts(WORK);
             }
         }
     }

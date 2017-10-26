@@ -157,23 +157,22 @@ export class CreepService {
         return creeps;
     }
 
-
     private logUsedCpu(func: Function, name: string,  ... args: any[]) {
         let cpuUsed = Game.cpu.getUsed();
         let result = func(... args);
         let usedCpu = Game.cpu.getUsed() - cpuUsed;
-        if (Memory.stats['cpu.role.' + name + ".used"] === undefined) {
-            Memory.stats['cpu.role.' + name + ".used"] = usedCpu;
+        if (Memory.stats["cpu.role." + name + ".used"] === undefined) {
+            Memory.stats["cpu.role." + name + ".used"] = usedCpu;
         } else {
-            Memory.stats['cpu.role.' + name + ".used"] += usedCpu;
+            Memory.stats["cpu.role." + name + ".used"] += usedCpu;
         }
-        if (Memory.stats['cpu.role.' + name + ".count"] === undefined) {
-            Memory.stats['cpu.role.' + name + ".count"] = 1;
+        if (Memory.stats["cpu.role." + name + ".count"] === undefined) {
+            Memory.stats["cpu.role." + name + ".count"] = 1;
         } else {
-            Memory.stats['cpu.role.' + name + ".count"] += 1;
+            Memory.stats["cpu.role." + name + ".count"] += 1;
         }
-        if (args[0] !== undefined && args[0].memory.homeroom !== undefined && Memory.stats['room.' + args[0].memory.homeroom + '.creepCpu'] !== undefined) {
-            Memory.stats['room.' + args[0].memory.homeroom + '.creepCpu'] += usedCpu;
+        if (args[0] !== undefined && args[0].memory.homeroom !== undefined && Memory.stats["room." + args[0].memory.homeroom + ".creepCpu"] !== undefined) {
+            Memory.stats["room." + args[0].memory.homeroom + ".creepCpu"] += usedCpu;
         }
         return result;
     }

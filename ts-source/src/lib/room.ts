@@ -6,7 +6,7 @@ export function getAllRoomsBeingDismantled(): Room[] {
     let rooms: Room[] = [];
 
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey]
+        let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true &&
             room.memory.isBeingDismantled === true)
         {
@@ -48,5 +48,3 @@ export function roomIsHighway(roomName: string): boolean {
     let parsed = /^[WE]([0-9]+)[NS]([0-9]+)$/.exec(roomName) as any;
     return (parsed[1] % 10 === 0) || (parsed[2] % 10 === 0);
 }
-
-

@@ -1,5 +1,5 @@
-import * as SourceUtilities from "../utilities/Source";
 import * as ProfileUtilities from "../utilities/Profiles";
+import * as SourceUtilities from "../utilities/Source";
 
 import * as ScoutingManager from "../managers/Scouting";
 
@@ -12,8 +12,8 @@ import {Order} from "../classes/Order";
 import * as OrdersRepository from "../repository/Orders";
 import * as RoomRepository from "../repository/Room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
@@ -43,7 +43,7 @@ export class MiningManager extends Manager {
                 let rooms = this.roomService.getNormalRoomsNotAbandoned();
                 for (let room of rooms) {
                     if (!room.isExpansion()) {
-                        this.organizeEnergyMining(room)
+                        this.organizeEnergyMining(room);
                     }
                 }
                 this.setValue(this.MEMORY_LASTRUN, Game.time);
@@ -113,7 +113,7 @@ export class MiningManager extends Manager {
                 }
             }
 
-        if (roomlevel >= RoomLevel.City && lairs.length > 0) {
+            if (roomlevel >= RoomLevel.City && lairs.length > 0) {
             for (let outpost of lairs) {
                 if (!IntelLib.hasInvaders(outpost)) {
                     for (let sourceId of IntelLib.sourceIds(outpost)) {
@@ -163,12 +163,12 @@ export class MiningManager extends Manager {
         let guardOrder = new Order();
         guardOrder.body = ProfileUtilities.getSKGuardBody();
         guardOrder.priority = Priority.Critical;
-        guardOrder.memory = {role: Role.SKGuard, target: targetRoom, tier: 1, token: ""+Game.time};
+        guardOrder.memory = {role: Role.SKGuard, target: targetRoom, tier: 1, token: "" + Game.time};
 
         let healerOrder = new Order();
         healerOrder.body = ProfileUtilities.getSKHealerBody();
         healerOrder.priority = Priority.Critical;
-        healerOrder.memory = {role: Role.SKHealer, target: targetRoom, tier: 1, token: ""+Game.time};
+        healerOrder.memory = {role: Role.SKHealer, target: targetRoom, tier: 1, token: "" + Game.time};
 
         healerOrder.twinOrder = guardOrder;
 
@@ -206,7 +206,7 @@ export class MiningManager extends Manager {
         let currentWorkers = this.creepService.getCreeps(Role.ContainerMiner, target);
         let orderedWorkers = OrdersRepository.getCreepsInQueue(room, Role.ContainerMiner, target);
         if (currentWorkers.length > 1) {
-            for(let c of currentWorkers) {
+            for (let c of currentWorkers) {
                 c.memory.orderCopyTick = -1;
             }
         }
@@ -231,7 +231,7 @@ export class MiningManager extends Manager {
         if (room.name === sourceRoom) {
             order.priority = Priority.Important;
         }
-        order.memory = {role: Role.ContainerMiner, target: target, tier: usedTier};
+        order.memory = {role: Role.ContainerMiner, target, tier: usedTier};
 
         OrdersRepository.orderCreep(room, order);
     }
@@ -271,7 +271,7 @@ export class MiningManager extends Manager {
         if (room.name === sourceRoom) {
             order.priority = Priority.Important;
         }
-        order.memory = {role: Role.ContainerHauler, target: target, tier: usedTier};
+        order.memory = {role: Role.ContainerHauler, target, tier: usedTier};
 
         OrdersRepository.orderCreep(room, order);
     }

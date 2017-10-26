@@ -4,5 +4,5 @@ export enum Labstatus {
     MovingMineralsToLab = 2,
     RunningReactions = 3,
     EmptyingLabs = 4,
-    EmptyingAllLabs = 5
+    EmptyingAllLabs = 5,
 }

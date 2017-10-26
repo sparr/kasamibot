@@ -5,11 +5,11 @@ import {RoomService} from "../services/Room";
 
 import * as OperationHauler from "../roles/OperationHauler";
 
-import * as OperationHaul from "../operations/Haul";
+import {IOperationData} from "../operations/_OperationData";
 import * as OperationDrain from "../operations/Drain";
 import * as OperationGuard from "../operations/Guard";
+import * as OperationHaul from "../operations/Haul";
 import * as OperationSpawnmove from "../operations/Spawnmove";
-import {IOperationData} from "../operations/_OperationData";
 
 import {OperationType} from "../enums/operationtypes";
 import {Role} from "../enums/role";
@@ -42,31 +42,31 @@ export class OperationManager extends Manager {
             Memory.operations = [];
         }
         for (let operation of Memory.operations as IOperationData[]) {
-            switch(operation.operationtype) {
+            switch (operation.operationtype) {
                 case OperationType.Haul:
                     if (operation.active && !OperationHaul.victoryConditionReached(operation as OperationHaul.Data)) {
-                        OperationHaul.run(operation as OperationHaul.Data, this.creepService, pri)
+                        OperationHaul.run(operation as OperationHaul.Data, this.creepService, pri);
                     } else {
                         operation.active = false;
                     }
                     break;
                 case OperationType.Drain:
                     if (operation.active && !OperationDrain.victoryConditionReached(operation as OperationDrain.Data)) {
-                        OperationDrain.run(operation as OperationDrain.Data, this.creepService, pri)
+                        OperationDrain.run(operation as OperationDrain.Data, this.creepService, pri);
                     } else {
                         operation.active = false;
                     }
                     break;
                 case OperationType.Guard:
                     if (operation.active && !OperationGuard.victoryConditionReached(operation as OperationGuard.Data)) {
-                        OperationGuard.run(operation as OperationGuard.Data, this.creepService, pri)
+                        OperationGuard.run(operation as OperationGuard.Data, this.creepService, pri);
                     } else {
                         operation.active = false;
                     }
                     break;
                 case OperationType.Spawnmove:
                     if (operation.active && !OperationSpawnmove.victoryConditionReached(operation as OperationSpawnmove.Data)) {
-                        OperationSpawnmove.run(operation as OperationSpawnmove.Data, pri, this.creepService)
+                        OperationSpawnmove.run(operation as OperationSpawnmove.Data, pri, this.creepService);
                     } else {
                         operation.active = false;
                     }

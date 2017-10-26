@@ -5,7 +5,7 @@ Mineral.prototype.memoryCheck = function(): void {
     if (Memory.minerals[this.id] === undefined) {
         Memory.minerals[this.id] = {};
     }
-}
+};
 
 Mineral.prototype.hasExtractor = function(): boolean {
     let structures = this.pos.lookFor(LOOK_STRUCTURES);
@@ -15,20 +15,20 @@ Mineral.prototype.hasExtractor = function(): boolean {
         }
     }
     return false;
-}
+};
 
 Mineral.prototype.hasMiningContainer = function(): boolean {
     return this.getMiningContainer() !== null;
-}
+};
 
 Mineral.prototype.buildExtractor = function(): boolean {
     return (this.pos as RoomPosition).createConstructionSite(STRUCTURE_EXTRACTOR) === 0;
-}
+};
 
 Mineral.prototype.setMiningContainerId = function(id: string): void {
     this.memoryCheck();
     Memory.minerals[this.id]["container"] = id;
-}
+};
 
 Mineral.prototype.getMiningContainer = function(): Container | null {
     this.memoryCheck();
@@ -42,7 +42,7 @@ Mineral.prototype.getMiningContainer = function(): Container | null {
         Memory.minerals[this.id]["container"] = undefined;
     }
     return container;
-}
+};
 
 Mineral.prototype.getMiningContainerConstructionSite = function(): ConstructionSite | null {
     this.memoryCheck();
@@ -56,7 +56,7 @@ Mineral.prototype.getMiningContainerConstructionSite = function(): ConstructionS
         }
     }
     return null;
-}
+};
 
 Mineral.prototype.buildMiningContainer = function(): void {
     this.memoryCheck();
@@ -72,7 +72,7 @@ Mineral.prototype.buildMiningContainer = function(): void {
         return;
     }
     position.createConstructionSite(STRUCTURE_CONTAINER);
-}
+};
 
 // TODO: Caching
 Mineral.prototype.getMiningPositions = function(): RoomPosition[] {
@@ -96,7 +96,7 @@ Mineral.prototype.getContainerPosition = function(): RoomPosition | undefined {
     this.memoryCheck();
     if (Memory.minerals[this.id].containerPos !== undefined) {
         let pos = Memory.minerals[this.id].containerPos;
-        return new RoomPosition(pos.x, pos.y, pos.roomName)
+        return new RoomPosition(pos.x, pos.y, pos.roomName);
     }
     let positions: RoomPosition[] = this.getMiningPositions();
 
@@ -108,7 +108,7 @@ Mineral.prototype.getContainerPosition = function(): RoomPosition | undefined {
     for (let positionId in positions) {
         let position = positions[positionId];
         for (let potNeighbour of positions) {
-            if((Math.abs(position.x - potNeighbour.x) + Math.abs(position.y - potNeighbour.y) === 1) ||
+            if ((Math.abs(position.x - potNeighbour.x) + Math.abs(position.y - potNeighbour.y) === 1) ||
             (Math.abs(position.x - potNeighbour.x) === 1 && Math.abs(position.y - potNeighbour.y) === 1)) {
                 if (neighbours[positionId] === undefined) {
                     neighbours[positionId] = 1;
@@ -131,7 +131,7 @@ Mineral.prototype.getContainerPosition = function(): RoomPosition | undefined {
         return positions[parseInt(maxPosId)];
     }
     return undefined;
-}
+};
 
 // TODO: Caching
 Mineral.prototype.getContainerMiningPositions = function(): RoomPosition[]{
@@ -140,11 +140,11 @@ Mineral.prototype.getContainerMiningPositions = function(): RoomPosition[]{
     let miningPositions: RoomPosition[] = [];
 
     for (let position of positions) {
-        if((Math.abs(containerPosition.x - position.x) + Math.abs(containerPosition.y - position.y) < 2) ||
+        if ((Math.abs(containerPosition.x - position.x) + Math.abs(containerPosition.y - position.y) < 2) ||
         (Math.abs(containerPosition.x - position.x) === 1 && Math.abs(containerPosition.y - position.y) === 1)) {
             miningPositions.push(position);
         }
     }
 
     return miningPositions;
-}
+};

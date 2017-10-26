@@ -9,7 +9,7 @@ import * as RoomRepository from "../repository/Room";
 export function getAllControlledRooms(): Room[] {
     let rooms: Room[] = [];
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey]
+        let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true &&
             room.memory.isBeingDismantled !== true && room.memory.isPraiseRoom !== true) {
             rooms.push(room);
@@ -21,7 +21,7 @@ export function getAllControlledRooms(): Room[] {
 export function getAllPraiseRooms(): Room[] {
     let rooms: Room[] = [];
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey]
+        let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true &&
             room.memory.isBeingDismantled !== true && room.memory.isPraiseRoom === true) {
             rooms.push(room);

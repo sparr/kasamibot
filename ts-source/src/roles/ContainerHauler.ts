@@ -1,6 +1,6 @@
 import * as EnergyLib from "../lib/energy";
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as _Common from "../rolelib/common";
+import * as PathfindingUtilities from "../utilities/Pathfinding";
 
 import * as RoomRepository from "../repository/Room";
 
@@ -8,7 +8,7 @@ import {RoomLevel} from "../enums/roomlevel";
 
 enum State {
     Tanking = 1,
-    Dumping = 2
+    Dumping = 2,
 }
 
 export function run(creep: Creep) {
@@ -17,7 +17,7 @@ export function run(creep: Creep) {
         creep.setState(State.Tanking);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Tanking:
             runTanking(creep);
             break;
@@ -82,7 +82,7 @@ function runTanking(creep: Creep) {
 
 function runDumping(creep: Creep) {
     if (creep.carry[RESOURCE_ENERGY] === 0) {
-        creep.setState(State.Tanking)
+        creep.setState(State.Tanking);
         return;
     }
     if (creep.memory.targetRoom === undefined) {

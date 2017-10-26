@@ -7,8 +7,8 @@
 
 import {State as DefenderState} from "../roles/OutpostDefender";
 
-import * as _Military from "../rolelib/military";
 import * as _Common from "../rolelib/common";
+import * as _Military from "../rolelib/military";
 
 import * as PositionLib from "../lib/position";
 
@@ -30,7 +30,7 @@ export function run(creep: Creep) {
 
     let hasHealed = healIfNeeded(creep);
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Standby:
             runStandby(creep);
             break;

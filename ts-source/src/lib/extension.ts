@@ -126,7 +126,7 @@ export function getRoomExtensionPositions(basePos: RoomPosition): {ext: string[]
     let roadPositions: string[] = [];
     let extPositions: string[] = [];
 
-    addMainWings(basePos, extPositions, roadPositions)
+    addMainWings(basePos, extPositions, roadPositions);
 
     extPositions = _.uniq(extPositions);
     for (let r of roadPositions) {
@@ -163,7 +163,7 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
                 cm.set(x, y, 1);
             } else
             if (x < 3 || x > 46 || y < 3 || y > 46) {
-                cm.set(x, y, 1)
+                cm.set(x, y, 1);
             }
         }
     }
@@ -179,7 +179,7 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
         cm.set(basePos.x + x, basePos.y + 7, 1);
     }
 
-    for(let p of extPositions) {
+    for (let p of extPositions) {
         let t = p.split("-");
         cm.set(Number.parseInt(t[0]), Number.parseInt(t[1]), 1);
     }
@@ -207,8 +207,8 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
 
     for (let x of _.range(3, 47)) {
         for (let y of _.range(3, 47)) {
-            if (cm.get(x,y) === 0 && x % 2 === y % 2 && posOnlyHasOneNeighbour(x, y, cm)) {
-                if (!_.contains(extPositions, shortPosRoomMaker(x,y, basePos.roomName))) {
+            if (cm.get(x, y) === 0 && x % 2 === y % 2 && posOnlyHasOneNeighbour(x, y, cm)) {
+                if (!_.contains(extPositions, shortPosRoomMaker(x, y, basePos.roomName))) {
                     let p = new RoomPosition(x, y, basePos.roomName);
                     if (getRangeToClosestVital(p) > 2) {
                         possiblePositions.push(p);
@@ -220,7 +220,7 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
     if (IntelLib.hasIntel(basePos.roomName)) {
         let extcm = new PathFinder.CostMatrix();
 
-        for(let p of extPositions) {
+        for (let p of extPositions) {
             let t = p.split("-");
             extcm.set(Number.parseInt(t[0]), Number.parseInt(t[1]), 0xFF);
         }
@@ -266,7 +266,7 @@ function getRangeToClosestVital(p: RoomPosition): number {
 
     let range = 10;
     for (let t of vitalTargets) {
-        let r = p.getRangeTo(t)
+        let r = p.getRangeTo(t);
         if (r < range) {
             range = r;
         }
@@ -326,7 +326,7 @@ function removeExtensionToVitalTargets(basePos: RoomPosition, extPositions: stri
 function getExtensionRoomCallback(extPositions: string[]): CostMatrix {
     let costs = new PathFinder.CostMatrix;
 
-    for(let p of extPositions) {
+    for (let p of extPositions) {
         let t = p.split("-");
         costs.set(Number.parseInt(t[0]), Number.parseInt(t[1]), 0xfe);
     }
@@ -335,10 +335,10 @@ function getExtensionRoomCallback(extPositions: string[]): CostMatrix {
 
 function addLowerWings(basePos: RoomPosition, extPositions: string[], roadPositions: string[]) {
     for (let s of [-1, 1]) {
-        roadPositions.push(shortPosRoomMaker(basePos.x + (s*3), basePos.y + 1, basePos.roomName));
-        roadPositions.push(shortPosRoomMaker(basePos.x + (s*4), basePos.y + 2, basePos.roomName));
+        roadPositions.push(shortPosRoomMaker(basePos.x + (s * 3), basePos.y + 1, basePos.roomName));
+        roadPositions.push(shortPosRoomMaker(basePos.x + (s * 4), basePos.y + 2, basePos.roomName));
         for (let i of [5, 6]) {
-            let testPos = new RoomPosition(basePos.x + (s*i), basePos.y - 2 + i, basePos.roomName);
+            let testPos = new RoomPosition(basePos.x + (s * i), basePos.y - 2 + i, basePos.roomName);
             if (buildableAroundPos(testPos) && getRangeToClosestVital(testPos) > 3) {
                 roadPositions.push(shortPosRoom(testPos));
                 addPositionsAround(testPos, extPositions);
@@ -347,17 +347,17 @@ function addLowerWings(basePos: RoomPosition, extPositions: string[], roadPositi
             }
         }
 
-        let t1 = Game.map.getTerrainAt(basePos.x + (s*4), basePos.y + 1, basePos.roomName);
+        let t1 = Game.map.getTerrainAt(basePos.x + (s * 4), basePos.y + 1, basePos.roomName);
         if (t1 === "swamp" || t1 === "plain") {
-            if (!(basePos.x + (s*4) < 3 || basePos.x + (s*4) > 46 || basePos.y + 1 < 3 || basePos.y + 1 > 46)) {
-                extPositions.push(shortPosRoomMaker(basePos.x + (s*4), basePos.y + 1, basePos.roomName));
+            if (!(basePos.x + (s * 4) < 3 || basePos.x + (s * 4) > 46 || basePos.y + 1 < 3 || basePos.y + 1 > 46)) {
+                extPositions.push(shortPosRoomMaker(basePos.x + (s * 4), basePos.y + 1, basePos.roomName));
             }
         }
 
-        let t2 = Game.map.getTerrainAt(basePos.x + (s*5), basePos.y + 1, basePos.roomName);
+        let t2 = Game.map.getTerrainAt(basePos.x + (s * 5), basePos.y + 1, basePos.roomName);
         if (t2 === "swamp" || t2 === "plain") {
-            if (!(basePos.x + (s*5) < 3 || basePos.x + (s*5) > 46 || basePos.y + 1 < 3 || basePos.y + 1 > 46)) {
-                extPositions.push(shortPosRoomMaker(basePos.x + (s*5), basePos.y + 1, basePos.roomName));
+            if (!(basePos.x + (s * 5) < 3 || basePos.x + (s * 5) > 46 || basePos.y + 1 < 3 || basePos.y + 1 > 46)) {
+                extPositions.push(shortPosRoomMaker(basePos.x + (s * 5), basePos.y + 1, basePos.roomName));
             }
         }
     }
@@ -366,9 +366,9 @@ function addLowerWings(basePos: RoomPosition, extPositions: string[], roadPositi
 function addMainWings(basePos: RoomPosition, extPositions: string[], roadPositions: string[]) {
     roadPositions.push(shortPosRoomMaker(basePos.x, basePos.y - 1, basePos.roomName));
     for (let s of [-1, 1]) {
-        roadPositions.push(shortPosRoomMaker(basePos.x + (s*1), basePos.y - 2, basePos.roomName));
+        roadPositions.push(shortPosRoomMaker(basePos.x + (s * 1), basePos.y - 2, basePos.roomName));
         for (let i of [2, 3, 4]) {
-            let testPos = new RoomPosition(basePos.x + (s*i), basePos.y - 1 - i, basePos.roomName);
+            let testPos = new RoomPosition(basePos.x + (s * i), basePos.y - 1 - i, basePos.roomName);
             if (buildableAroundPos(testPos) && getRangeToClosestVital(testPos) > 3) {
                 roadPositions.push(shortPosRoom(testPos));
                 addPositionsAround(testPos, extPositions);
@@ -378,7 +378,7 @@ function addMainWings(basePos: RoomPosition, extPositions: string[], roadPositio
             if (i === 4) {
                 for (let s2 of [-1, 1]) {
                     for (let j of [1, 2]) {
-                        let newTestPos = new RoomPosition(testPos.x + (s*s2*j), testPos.y + (s2*j), testPos.roomName);
+                        let newTestPos = new RoomPosition(testPos.x + (s * s2 * j), testPos.y + (s2 * j), testPos.roomName);
                         if (buildableAroundPos(newTestPos) && getRangeToClosestVital(testPos) > 3) {
                             roadPositions.push(shortPosRoom(newTestPos));
                             addPositionsAround(newTestPos, extPositions);
@@ -390,9 +390,9 @@ function addMainWings(basePos: RoomPosition, extPositions: string[], roadPositio
             }
         }
 
-        let t = Game.map.getTerrainAt(basePos.x + (s*3), basePos.y - 1, basePos.roomName);
+        let t = Game.map.getTerrainAt(basePos.x + (s * 3), basePos.y - 1, basePos.roomName);
         if (t === "swamp" || t === "plain") {
-            extPositions.push(shortPosRoomMaker(basePos.x + (s*3), basePos.y - 1, basePos.roomName));
+            extPositions.push(shortPosRoomMaker(basePos.x + (s * 3), basePos.y - 1, basePos.roomName));
         }
     }
 }

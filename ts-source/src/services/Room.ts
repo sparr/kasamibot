@@ -29,7 +29,6 @@ export class RoomService {
         return [];
     }
 
-
     public getNormalRoomsNotAbandoned(): Room[] {
         if (this.roomDictionary[Roomtype.NormalNotAbandoned] !== undefined) {
             return this.roomDictionary[Roomtype.NormalNotAbandoned];
@@ -64,7 +63,7 @@ export class RoomService {
         }
         return [];
     }
-    
+
     public getNormalUnderSiege(): Room[] {
         if (this.roomDictionary[Roomtype.NormalUnderSiege] !== undefined) {
             return this.roomDictionary[Roomtype.NormalUnderSiege];

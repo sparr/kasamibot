@@ -6,10 +6,10 @@ export function getCloseHighways(baseroom: string): string[] {
         getRoomsTwoAway(baseroom),
         getRoomsThreeAway(baseroom),
         getRoomsFourAway(baseroom),
-        getRoomsSixAway(baseroom)
+        getRoomsSixAway(baseroom),
     );
 
-    return _.filter(potentialHighways, function (r: string) { return RoomLib.roomIsHighway(r)});
+    return _.filter(potentialHighways, function (r: string) { return RoomLib.roomIsHighway(r); });
 }
 
 export function getRoomsOneAway(baseroom: string): string[] {
@@ -43,7 +43,7 @@ export function getRoomsTwoAway(baseroom: string): string[] {
     roomsTwoAway = _.uniq(roomsTwoAway);
 
     _.pull(roomsTwoAway, baseroom);
-    for(let oneAway of roomsOneAway) {
+    for (let oneAway of roomsOneAway) {
         _.pull(roomsTwoAway, oneAway);
     }
 
@@ -69,10 +69,10 @@ export function getRoomsThreeAway(baseroom: string): string[] {
     roomsThreeAway = _.uniq(roomsThreeAway);
 
     _.pull(roomsThreeAway, baseroom);
-    for(let oneAway of roomsOneAway) {
+    for (let oneAway of roomsOneAway) {
         _.pull(roomsThreeAway, oneAway);
     }
-    for(let twoAway of roomsTwoAway) {
+    for (let twoAway of roomsTwoAway) {
         _.pull(roomsThreeAway, twoAway);
     }
 
@@ -99,13 +99,13 @@ export function getRoomsFourAway(baseroom: string): string[] {
     roomsFourAway = _.uniq(roomsFourAway);
 
     _.pull(roomsFourAway, baseroom);
-    for(let oneAway of roomsOneAway) {
+    for (let oneAway of roomsOneAway) {
         _.pull(roomsFourAway, oneAway);
     }
-    for(let twoAway of roomsTwoAway) {
+    for (let twoAway of roomsTwoAway) {
         _.pull(roomsFourAway, twoAway);
     }
-    for(let threeAway of roomsThreeAway) {
+    for (let threeAway of roomsThreeAway) {
         _.pull(roomsFourAway, threeAway);
     }
 
@@ -133,16 +133,16 @@ export function getRoomsFiveAway(baseroom: string): string[] {
     roomsFiveAway = _.uniq(roomsFiveAway);
 
     _.pull(roomsFiveAway, baseroom);
-    for(let oneAway of roomsOneAway) {
+    for (let oneAway of roomsOneAway) {
         _.pull(roomsFiveAway, oneAway);
     }
-    for(let twoAway of roomsTwoAway) {
+    for (let twoAway of roomsTwoAway) {
         _.pull(roomsFiveAway, twoAway);
     }
-    for(let threeAway of roomsThreeAway) {
+    for (let threeAway of roomsThreeAway) {
         _.pull(roomsFiveAway, threeAway);
     }
-    for(let fourAway of roomsFourAway) {
+    for (let fourAway of roomsFourAway) {
         _.pull(roomsFiveAway, fourAway);
     }
 
@@ -171,25 +171,24 @@ export function getRoomsSixAway(baseroom: string): string[] {
     roomsSixAway = _.uniq(roomsSixAway);
 
     _.pull(roomsSixAway, baseroom);
-    for(let oneAway of roomsOneAway) {
+    for (let oneAway of roomsOneAway) {
         _.pull(roomsSixAway, oneAway);
     }
-    for(let twoAway of roomsTwoAway) {
+    for (let twoAway of roomsTwoAway) {
         _.pull(roomsSixAway, twoAway);
     }
-    for(let threeAway of roomsThreeAway) {
+    for (let threeAway of roomsThreeAway) {
         _.pull(roomsSixAway, threeAway);
     }
-    for(let fourAway of roomsFourAway) {
+    for (let fourAway of roomsFourAway) {
         _.pull(roomsSixAway, fourAway);
     }
-    for(let fiveAway of roomsFiveAway) {
+    for (let fiveAway of roomsFiveAway) {
         _.pull(roomsSixAway, fiveAway);
     }
 
     return roomsSixAway;
 }
-
 
 export function getRoomsSevenAway(baseroom: string): string[] {
 
@@ -214,22 +213,22 @@ export function getRoomsSevenAway(baseroom: string): string[] {
         roomsSevenAway = _.uniq(roomsSevenAway);
 
         _.pull(roomsSevenAway, baseroom);
-        for(let oneAway of roomsOneAway) {
+        for (let oneAway of roomsOneAway) {
             _.pull(roomsSevenAway, oneAway);
         }
-        for(let twoAway of roomsTwoAway) {
+        for (let twoAway of roomsTwoAway) {
             _.pull(roomsSevenAway, twoAway);
         }
-        for(let threeAway of roomsThreeAway) {
+        for (let threeAway of roomsThreeAway) {
             _.pull(roomsSevenAway, threeAway);
         }
-        for(let fourAway of roomsFourAway) {
+        for (let fourAway of roomsFourAway) {
             _.pull(roomsSevenAway, fourAway);
         }
-        for(let fiveAway of roomsFiveAway) {
+        for (let fiveAway of roomsFiveAway) {
             _.pull(roomsSevenAway, fiveAway);
         }
-        for(let sixAway of roomsSixAway) {
+        for (let sixAway of roomsSixAway) {
             _.pull(roomsSevenAway, sixAway);
         }
 

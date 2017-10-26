@@ -6,7 +6,7 @@ export function getRandomQuote(ownedRoom: boolean): string {
     if (ownedRoom) {
         return quote;
     }
-    return quotes[Math.floor(Math.random() * quotes.length)]
+    return quotes[Math.floor(Math.random() * quotes.length)];
 };
 
 const quote = "Operated by KasamiBot - https://kasami.github.io/kasamibot/";
@@ -124,5 +124,5 @@ const quotes =  [
     "Begin to code now what you will be hereafter. -William James",
     "Success in the only motivational factor that a screeps player with character needs. -Woody Hayes",
     "There is progress whether ye are going forward or backward. The thing is to upgrade. -Edgar Cayce",
-    "I code, therefore I am. -Simone Weil"
-]
+    "I code, therefore I am. -Simone Weil",
+];

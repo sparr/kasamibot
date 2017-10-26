@@ -16,9 +16,8 @@ import * as RoomRepository from "../repository/Room";
 
 enum State {
     MoveToPosition = 1,
-    Fortify = 2
+    Fortify = 2,
 }
-
 
 export function run(creep: Creep) {
 
@@ -26,7 +25,7 @@ export function run(creep: Creep) {
         creep.setState(State.MoveToPosition);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToPosition:
             runMoveToPosition(creep);
             break;
@@ -70,10 +69,10 @@ function runFortify(creep: Creep) {
     if (target !== null) {
         let response = creep.repair(target);
         if (response === OK) {
-            if (Memory.stats['room.' + creep.room.name + '.wallsRepaired'] === undefined) {
-                Memory.stats['room.' + creep.room.name + '.wallsRepaired'] = 0;
+            if (Memory.stats["room." + creep.room.name + ".wallsRepaired"] === undefined) {
+                Memory.stats["room." + creep.room.name + ".wallsRepaired"] = 0;
             }
-            Memory.stats['room.' + creep.room.name + '.wallsRepaired'] += creep.getActiveBodyparts(WORK);
+            Memory.stats["room." + creep.room.name + ".wallsRepaired"] += creep.getActiveBodyparts(WORK);
         }
     }
 }

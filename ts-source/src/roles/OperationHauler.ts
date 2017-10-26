@@ -17,16 +17,15 @@ enum State {
     TankUpInHomeroom = 1,
     MoveToTargetRoom = 2,
     TransferEnergyToStructure = 3,
-    MoveToHomeroom = 4
+    MoveToHomeroom = 4,
 }
-
 
 export function run(creep: Creep) {
     if (!creep.hasState()) {
         creep.setState(State.TankUpInHomeroom);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.TankUpInHomeroom:
             runTankUpInHomeroom(creep);
             break;
@@ -68,7 +67,7 @@ function runMoveToTargetRoom(creep: Creep) {
     if (targetRoom !== creep.room.name || PositionLib.positionIsBorderOrNextToBorder(creep.pos)) {
         creep.travelToRoom(targetRoom, {allowHostile: false}, true);
     } else {
-        creep.setState(State.TransferEnergyToStructure)
+        creep.setState(State.TransferEnergyToStructure);
         runTransferEnergyToStructure(creep);
     }
 }
@@ -85,7 +84,7 @@ function runTransferEnergyToStructure(creep: Creep) {
     }
 
     if (creep.room.storage === undefined) {
-        creep.setState(State.MoveToHomeroom)
+        creep.setState(State.MoveToHomeroom);
         runMoveToHomeroom(creep);
         return;
     }
@@ -105,7 +104,7 @@ function runMoveToHomeroom(creep: Creep) {
     if (homeroom !== creep.room.name) {
         creep.travelToRoom(homeroom, {allowHostile: false}, true);
     } else {
-        creep.setState(State.TankUpInHomeroom)
+        creep.setState(State.TankUpInHomeroom);
         runTankUpInHomeroom(creep);
     }
 }

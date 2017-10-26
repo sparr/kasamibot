@@ -1,7 +1,7 @@
 import {Manager} from "../managers/_Manager";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 
 import {Order}  from "../classes/Order";
 
@@ -28,7 +28,7 @@ export class SpawnManager extends Manager {
     public run (): void {
         let rooms = this.roomService.getNormalRooms();
         for (let room of rooms) {
-            let spawns = _.filter(room.getSpawns(), function (s: Spawn) { return !s.spawning;});
+            let spawns = _.filter(room.getSpawns(), function (s: Spawn) { return !s.spawning; });
 
             if (spawns.length > 0) {
                 this.processQueue(room, spawns);
@@ -64,15 +64,15 @@ export class SpawnManager extends Manager {
             let twinSpawn = spawns[0];
             let name = OrdersUtilities.makeRoleName(order.twinOrder.memory.role) + "-" + "T" + order.twinOrder.memory.tier + "-" + OrdersUtilities.makeRandomCreepId();
 
-            let response = twinSpawn.spawnCreep(order.twinOrder.body, name, {memory: order.twinOrder.memory, energyStructures: this.getEnergyStructures(room)})
+            let response = twinSpawn.spawnCreep(order.twinOrder.body, name, {memory: order.twinOrder.memory, energyStructures: this.getEnergyStructures(room)});
             //let response = twinSpawn.createCreep(order.twinOrder.body, name, order.twinOrder.memory);
 
             if (response < 0) {
                 room.memory.orders.unshift(order);
                 return;
             } else {
-                if (Memory.stats['room.' + room.name + '.creepCost'] !== undefined) {
-                    Memory.stats['room.' + room.name + '.creepCost'] += ProfileUtilities.getCostForBody(order.twinOrder.body);
+                if (Memory.stats["room." + room.name + ".creepCost"] !== undefined) {
+                    Memory.stats["room." + room.name + ".creepCost"] += ProfileUtilities.getCostForBody(order.twinOrder.body);
                 }
                 log.info("Spawned: " + Role[Game.creeps[name].memory.role] + " T" + order.twinOrder.memory.tier + " (" + Game.creeps[name].memory.target + ") - " + name, room.name);
             }
@@ -86,15 +86,15 @@ export class SpawnManager extends Manager {
         if (room.name !== spawn.room.name) {
             order.memory.homeroom = room.name;
         }
-        let response = spawn.spawnCreep(order.body, name, {memory: order.memory, energyStructures: this.getEnergyStructures(room)})
+        let response = spawn.spawnCreep(order.body, name, {memory: order.memory, energyStructures: this.getEnergyStructures(room)});
         //let response = spawn.createCreep(order.body, name, order.memory);
 
         if (response < 0) {
             room.memory.orders.unshift(order);
         } else {
             if (room.name === spawn.room.name) {
-                if (Memory.stats['room.' + room.name + '.creepCost'] !== undefined) {
-                    Memory.stats['room.' + room.name + '.creepCost'] += ProfileUtilities.getCostForBody(order.body);
+                if (Memory.stats["room." + room.name + ".creepCost"] !== undefined) {
+                    Memory.stats["room." + room.name + ".creepCost"] += ProfileUtilities.getCostForBody(order.body);
                 }
                 log.info("Spawned: " + Role[Game.creeps[name].memory.role] + " T" + order.memory.tier + " (" + Game.creeps[name].memory.target + ") - " + name, spawn.room.name);
             } else {

@@ -1,10 +1,10 @@
 
+import * as OrdersRepository from "../repository/Orders";
 import * as ProfileUtilities from "../utilities/Profiles";
 import * as SourceUtilities from "../utilities/Source";
-import * as OrdersRepository from "../repository/Orders";
 
-import * as MineralMiner from "../roles/MineralMiner";
 import * as MineralHauler from "../roles/MineralHauler";
+import * as MineralMiner from "../roles/MineralMiner";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
@@ -17,8 +17,8 @@ import {Order} from "../classes/Order";
 
 import * as RoomRepository from "../repository/Room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 export class MineralManager extends Manager {
@@ -77,7 +77,7 @@ export class MineralManager extends Manager {
 
             let lairs = RoomRepository.getLairOutposts(room);
             if (RoomRepository.getRoomLevel(room)  >= RoomLevel.City && (lairs.length > 0 || room.memory.praiseroom !== undefined)) {
-                let mineralOutposts: string[] = lairs
+                let mineralOutposts: string[] = lairs;
                 if (room.memory.praiseroomHibernated !== true) {
                     mineralOutposts = lairs.concat(room.memory.praiseroom);
                 }
@@ -153,7 +153,7 @@ export class MineralManager extends Manager {
         let order = new Order();
         order.body = ProfileUtilities.getHaulerBody(usedTier);
         order.priority = Priority.Standard;
-        order.memory = {role: Role.MineralHauler, target: target, tier: usedTier};
+        order.memory = {role: Role.MineralHauler, target, tier: usedTier};
 
         OrdersRepository.orderCreep(room, order);
     }

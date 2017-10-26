@@ -1,21 +1,21 @@
 import * as ProfileUtilities from "../utilities/Profiles";
 
-import * as RoomLib from "../lib/room";
 import * as BaseLib from "../lib/base";
 import * as BuildLib from "../lib/build";
-import * as StructureLib from "../lib/structure";
 import * as ExtensionLib from "../lib/extension";
+import * as RoomLib from "../lib/room";
+import * as StructureLib from "../lib/structure";
 
 import * as BaseBuilder from "../roles/BaseBuilder";
 
-import * as RoomRepository from "../repository/Room";
 import * as OrdersRepository from "../repository/Orders";
+import * as RoomRepository from "../repository/Room";
 
 import {Order} from "../classes/Order";
 
+import {Priority} from "../enums/priority";
 import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
-import {Priority} from "../enums/priority";
 
 import {log} from "../tools/Logger";
 
@@ -123,14 +123,14 @@ export class BuildManager extends Manager {
 
     private orderBaseBuilders(room: Room): void {
         let ordered = OrdersRepository.getCreepsInQueue(room, Role.BaseBuilder, room.name);
-        let spawned = this.creepService.getCreeps(Role.BaseBuilder, room.name).length
+        let spawned = this.creepService.getCreeps(Role.BaseBuilder, room.name).length;
 
         if (ordered + spawned > 1) {
             return;
         }
 
         let orderedTiers = OrdersRepository.getNumberOfTiersInQueue(room, Role.BaseBuilder, room.name);
-        let spawnedTiers = this.creepService.getNumberOfTiers(Role.BaseBuilder, room.name)
+        let spawnedTiers = this.creepService.getNumberOfTiers(Role.BaseBuilder, room.name);
 
         let neededTiers = Math.ceil(BuildLib.getConstructionPointsInRoom(room) / 5000);
         if (orderedTiers + spawnedTiers >= neededTiers) {
@@ -201,7 +201,7 @@ export function placeBuildings(room: Room): void {
     // Extensions
     ExtensionLib.destroyExtensionsNotCorrectlyPlaced(room, basePosition);
     let extensions = ExtensionLib.getExtensionPositions(room, basePosition);
-    buildIfPossibleRoomPosition(room, STRUCTURE_EXTENSION, extensions, BaseLib.getPossibleExtensionsCount(room))
+    buildIfPossibleRoomPosition(room, STRUCTURE_EXTENSION, extensions, BaseLib.getPossibleExtensionsCount(room));
 
     // Storage
     if (level >= RoomLevel.DefendedColonyReadyForExpansion) {
@@ -245,9 +245,9 @@ export function placeBuildings(room: Room): void {
     }
 
     if (level >= RoomLevel.City) {
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition,-1, 5, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, -1, 5, false, true);
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 5, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition,-1, 6, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, -1, 6, false, true);
     }
 
     if (level >= RoomLevel.Metropolis) {
@@ -256,14 +256,14 @@ export function placeBuildings(room: Room): void {
         BuildLib.buildIfNotPresent(STRUCTURE_OBSERVER, basePosition, -2, 6, false, true);
 
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 6, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition,-1, 7, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, -1, 7, false, true);
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 0, 7, false, true);
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 1, 7, false, true);
     }
 }
 
 function buildIfPossible(room: Room, spawnpos: RoomPosition | null, structureType: string, positions: number[][],
-        possible: number | undefined = undefined, keepRoad: boolean = false): void {
+                         possible: number | undefined = undefined, keepRoad: boolean = false): void {
     let needed = 100;
     if (spawnpos === null) {
         spawnpos = new RoomPosition(0, 0, room.name);
@@ -289,7 +289,7 @@ function buildIfPossible(room: Room, spawnpos: RoomPosition | null, structureTyp
 }
 
 function buildIfPossibleRoomPosition(room: Room, structureType: string, positions: RoomPosition[],
-    possible: number | undefined = undefined, keepRoad: boolean = false): void {
+                                     possible: number | undefined = undefined, keepRoad: boolean = false): void {
     let needed = 100;
     if (possible !== undefined) {
         let current = room.find(FIND_STRUCTURES, {filter: function(s: Structure) { return s.structureType === structureType; }}).length;
@@ -350,6 +350,5 @@ Preferably exits to sk-room or highway, and has 2 sources and a good mineral
 2 links for sources
 1 for flower
 1 for entrance
-
 
 */

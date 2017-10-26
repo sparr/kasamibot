@@ -32,7 +32,6 @@ export const config = {
  */
 bot: true,
 
-
 /**
  * config.passive: boolean (default: false)
  * If the bot is passive, it will not try to attack other players.
@@ -41,7 +40,6 @@ bot: true,
  * Set this option to true to prevent the bot from attacking you.
  */
 passive: false,
-
 
 /**
  * config.slow: boolean (default: false)
@@ -53,7 +51,6 @@ passive: false,
  */
 slow: false,
 
-
 /**
  * config.creditsToMaintain: number (default: 250000)
  * This is the credit-level the bot will try to maintain. If the bot has more credits
@@ -63,7 +60,6 @@ slow: false,
  * Set this option to the credit amount you want the bot to keep before spending.
  */
 creditsToMaintain: 250000,
-
 
 /**
  * config.powerfocus: boolean (default: false)

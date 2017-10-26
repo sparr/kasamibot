@@ -18,7 +18,7 @@ export function getStatsForCreep(creep: Creep): {mpt: number, rpt: number, hpt: 
                 boost = 2;
             }
         }
-        switch(p.type) {
+        switch (p.type) {
             case ATTACK:
                 stats.mpt += (ATTACK_POWER * boost);
                 break;
@@ -46,7 +46,7 @@ export function getStatsForCreepBody(body: string[]): {mpt: number, rpt: number,
     let stats = {mpt: 0, rpt: 0, hpt: 0, dpt: 0};
     for (let p of body) {
         let boost = 1;
-        switch(p) {
+        switch (p) {
             case ATTACK:
                 stats.mpt += (ATTACK_POWER * boost);
                 break;

@@ -8,12 +8,11 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
+import {BoostStage} from "../enums/booststage";
+import {Role} from "../enums/role";
 import * as BoostLib from "../lib/boost";
 import * as TradeManager from "../managers/Trade";
 import {log} from "../tools/Logger";
-import {Role} from "../enums/role";
-import {BoostStage} from "../enums/booststage";
-
 
 export class BoostManager extends Manager {
 
@@ -96,7 +95,7 @@ export class BoostManager extends Manager {
         }
 
         let requiredMinerals = boosts.count * LAB_BOOST_MINERAL;
-        switch(room.memory.boostStage) {
+        switch (room.memory.boostStage) {
             case undefined:
             case BoostStage.ClearLab:
                 if (lab.mineralAmount > 0) {
@@ -104,7 +103,7 @@ export class BoostManager extends Manager {
                     break;
                 } else
                 if (_.sum(boostHauler.carry) > 0) {
-                    for(let inventory in boostHauler.carry) {
+                    for (let inventory in boostHauler.carry) {
                         boostHauler.transfer(boostHauler.room.terminal as Terminal, inventory);
                     }
                     break;
@@ -132,7 +131,7 @@ export class BoostManager extends Manager {
 
             case BoostStage.BoostCreep:
                 lab.boostCreep(boostTarget);
-                log.info("Boosting " + boostTarget.name +" with " + boosts.count + " " + boosts.type, room.name);
+                log.info("Boosting " + boostTarget.name + " with " + boosts.count + " " + boosts.type, room.name);
                 this.setBoostStage(room, BoostStage.ValidateBoost);
                 break;
 
@@ -141,7 +140,7 @@ export class BoostManager extends Manager {
                 if (BoostLib.creepIsBoosted(boostTarget, boosts.type)) {
                     BoostLib.removeWantedBoostTypeFromCreepMemory(boostTarget, boosts.type);
                 } else {
-                    log.error("Boosting of " + boostTarget.name +" with " + boosts.type + " failed", room.name);
+                    log.error("Boosting of " + boostTarget.name + " with " + boosts.type + " failed", room.name);
                 }
                 break;
         }
@@ -170,7 +169,7 @@ export class BoostManager extends Manager {
         }
 
         if (_.sum(boostHauler.carry) > 0) {
-            for(let inventory in boostHauler.carry) {
+            for (let inventory in boostHauler.carry) {
                 boostHauler.transfer(boostHauler.room.terminal as Terminal, inventory);
             }
             return false;

@@ -22,7 +22,7 @@ enum State {
     EnergyDistribution = 3,
     SupplyTowers = 4,
     SupplyLab = 5,
-    EnergyDistributionContainer = 6
+    EnergyDistributionContainer = 6,
 }
 
 export function run(creep: Creep) {
@@ -31,7 +31,7 @@ export function run(creep: Creep) {
         creep.setState(State.MoveToPraiseroom);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToPraiseroom:
             runMoveToPraiseroom(creep);
             break;
@@ -63,7 +63,7 @@ function runMoveToPraiseroom(creep: Creep) {
     if (praiseroom !== creep.room.name || PositionLib.positionIsBorderOrNextToBorder(creep.pos)) {
         creep.travelToRoom(praiseroom);
     } else {
-        creep.setState(State.MoveToPosition)
+        creep.setState(State.MoveToPosition);
         runMoveToPosition(creep);
     }
 }
@@ -185,7 +185,7 @@ function runSupplyLab(creep: Creep) {
         return;
     }
     if (creep.carry[RESOURCE_ENERGY] > 0) {
-        creep.transfer(creep.room.storage, RESOURCE_ENERGY)
+        creep.transfer(creep.room.storage, RESOURCE_ENERGY);
         return;
     }
     if (lab.mineralAmount < lab.mineralCapacity && creep.room.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] > (lab.mineralCapacity - lab.mineralAmount)) {
@@ -239,4 +239,3 @@ function labNeedMinerals(room: Room): StructureLab | undefined {
     }
     return undefined;
 }
-

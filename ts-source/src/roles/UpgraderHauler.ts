@@ -19,16 +19,15 @@ import {log} from "../tools/Logger";
 enum State {
     TankUp = 1,
     GiveEnergyToCreep = 2,
-    DropEnergyInContainer = 3
+    DropEnergyInContainer = 3,
 }
-
 
 export function run(creep: Creep) {
     if (!creep.hasState()) {
         creep.setState(State.TankUp);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.TankUp:
             runTankUp(creep);
             break;
@@ -87,7 +86,6 @@ function runGiveEnergyToCreep(creep: Creep) {
         upgrader = findUpgraderToProvide(creep);
     }
 
-
     if (upgrader === null) {
         if (creep.room.controller === undefined) {
             _Common.moveOffRoad(creep);
@@ -95,7 +93,7 @@ function runGiveEnergyToCreep(creep: Creep) {
         }
         let rangeToController = creep.pos.getRangeTo(creep.room.controller);
         if (rangeToController > 5) {
-            creep.travelTo(creep.room.controller)
+            creep.travelTo(creep.room.controller);
         } else {
             _Common.moveOffRoad(creep);
         }
@@ -112,7 +110,6 @@ function runGiveEnergyToCreep(creep: Creep) {
     }
 
 }
-
 
 function runDropEnergyInContainer(creep: Creep) {
     if (creep.carry.energy === 0) {

@@ -20,7 +20,7 @@ import {log} from "../tools/Logger";
 
 enum State {
     Waiting = 1,
-    Moving = 2
+    Moving = 2,
 }
 
 export function run(creep: Creep) {
@@ -30,7 +30,7 @@ export function run(creep: Creep) {
         creep.setState(State.Waiting);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runIdle(creep);
             break;
@@ -64,7 +64,7 @@ function runMoving(creep: Creep) {
     if (teammate instanceof Creep) {
         let rangeToTeammate = creep.pos.getRangeTo(teammate.pos);
         moveToTeammate(creep, teammate, rangeToTeammate);
-        healSelfOrTeammate(creep, teammate, rangeToTeammate)
+        healSelfOrTeammate(creep, teammate, rangeToTeammate);
 
     } else {
         log.error("TeamHealer " + creep.name + " seems to have lost it's teammate.", creep.room.name);
@@ -119,7 +119,7 @@ function findPossibleTeammate(creep: Creep): Creep | null {
         function(c: Creep) {
             return (c.memory.role === Role.TeamWrecker || c.memory.role === Role.TeamWarrior) &&
             c.memory.healer === undefined;
-        }
+        },
     }) as Creep[];
     if (possibleTeammates.length > 0) {
         return possibleTeammates[0];

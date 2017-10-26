@@ -1,5 +1,5 @@
-import * as RoomUtilities from "../utilities/Room";
 import * as OrdersRepository from "../repository/Orders";
+import * as RoomUtilities from "../utilities/Room";
 
 import {RoomLevel} from "../enums/roomlevel";
 
@@ -109,8 +109,6 @@ function updateRoomLevel(room: Room) {
             break;
     }
 }
-
-
 
 function checkRoomLevel(room: Room) {
     let level = RoomRepository.getRoomLevel(room);

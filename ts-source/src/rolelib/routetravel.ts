@@ -15,7 +15,7 @@ export function travelByRoute(creep: Creep, options?: any, enemyCheck?: boolean)
             if (options) {
                 options.range = 0;
             } else {
-                options = {range: 0}
+                options = {range: 0};
             }
             creep.travelTo(portal, options, enemyCheck);
         } else
@@ -39,7 +39,7 @@ function getNextTargetRoom(creep: Creep): string | undefined {
     } else {
         creep.memory.routeTarget = undefined;
     }
-    if (creep.memory.routeTarget !== undefined && creep.memory.routeTarget.charAt(0) === '$') {
+    if (creep.memory.routeTarget !== undefined && creep.memory.routeTarget.charAt(0) === "$") {
         creep.memory.routeTarget = creep.memory.routeTarget.slice(1);
         creep.memory.routePortal = getPortalInRoom(creep);
     }

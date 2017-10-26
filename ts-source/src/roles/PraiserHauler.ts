@@ -23,9 +23,8 @@ enum State {
     DecideWhereToPutEnergy = 3,
     MoveToHomeroom = 4,
     TransferEnergyToStructure = 5,
-    GiveEnergyToCreep = 6
+    GiveEnergyToCreep = 6,
 }
-
 
 export function run(creep: Creep) {
 
@@ -33,7 +32,7 @@ export function run(creep: Creep) {
         creep.setState(State.TankUpInHomeroom);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.TankUpInHomeroom:
             runTankUpInHomeroom(creep);
             break;
@@ -85,7 +84,7 @@ function runMoveToPraiseroom(creep: Creep) {
     if (praiseroom !== creep.room.name || PositionLib.positionIsBorderOrNextToBorder(creep.pos)) {
         creep.travelToRoom(praiseroom);
     } else {
-        creep.setState(State.DecideWhereToPutEnergy)
+        creep.setState(State.DecideWhereToPutEnergy);
         runDecideWhereToPutEnergy(creep);
     }
 }
@@ -122,7 +121,7 @@ function runTransferEnergyToStructure(creep: Creep) {
 
     let structure = Game.getObjectById(creep.memory.structureid) as Storage | Container | Terminal;
     if (structure === null) {
-        creep.setState(State.DecideWhereToPutEnergy)
+        creep.setState(State.DecideWhereToPutEnergy);
         runDecideWhereToPutEnergy(creep);
         return;
     }
@@ -174,7 +173,7 @@ function runMoveToHomeroom(creep: Creep) {
     if (homeroom !== creep.room.name) {
         creep.travelToRoom(homeroom);
     } else {
-        creep.setState(State.TankUpInHomeroom)
+        creep.setState(State.TankUpInHomeroom);
         runTankUpInHomeroom(creep);
     }
 }

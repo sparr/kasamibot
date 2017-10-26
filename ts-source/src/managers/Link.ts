@@ -29,8 +29,8 @@ function runLinks(room: Room) {
         return;
     }
     if (Game.time % 2 === 0) {
-        let baseLink = room.getBaseLink()
-        let controllerLink = room.controller.getContainerOrLink()
+        let baseLink = room.getBaseLink();
+        let controllerLink = room.controller.getContainerOrLink();
         if (baseLink instanceof StructureLink && baseLink.cooldown === 0 && controllerLink instanceof StructureLink && baseLink.cooldown === 0 && controllerLink.energy < 200) {
             baseLink.transferEnergy(controllerLink);
         }

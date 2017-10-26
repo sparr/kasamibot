@@ -17,7 +17,7 @@ interface Memory {
 }
 
 interface global {
-    intel: {[roomName: string]: any}
+    intel: {[roomName: string]: any};
 }
 
 declare var global: any;

@@ -9,10 +9,10 @@
  * Should provide interface for requesting buying of boost-materials (catalyzed stuff)
  */
 
-import * as MarketManager from "../managers/Market"
+import * as MarketManager from "../managers/Market";
 
-import * as RoomUtilities from "../utilities/Room";
 import * as RoomRepository from "../repository/Room";
+import * as RoomUtilities from "../utilities/Room";
 
 import * as TradeConfig from "../config/trade";
 import {RoomLevel} from "../enums/roomlevel";
@@ -102,7 +102,7 @@ export class TradeManager extends Manager {
             if (Memory.settings.prepareRespawn === true) {
                 let nextPrepareRespawn = this.getValue(this.MEMORY_NEXTRUN_PREPARERESPAWN);
                 if (nextPrepareRespawn === undefined || nextPrepareRespawn < Game.time) {
-                    let rooms = this.roomService.getNormalRooms()
+                    let rooms = this.roomService.getNormalRooms();
                     let counter = 0;
                     for (let room of rooms) {
                         if (this.sellEverything(room) && counter < 10) {
@@ -121,7 +121,7 @@ export class TradeManager extends Manager {
             // Send away everything for abandoned rooms
             let nextRunAbandonedRooms = this.getValue(this.MEMORY_NEXTRUN_ABANDONEDROOMS);
             if (nextRunAbandonedRooms === undefined || nextRunAbandonedRooms < Game.time) {
-                let disRooms = this.roomService.getRoomsBeingAbandoned()
+                let disRooms = this.roomService.getRoomsBeingAbandoned();
                 if (disRooms.length > 0) {
                     for (let room of disRooms) {
                         if (this.sendAwayEverything(room)) {
@@ -141,7 +141,7 @@ export class TradeManager extends Manager {
             if (nextSendPower === undefined || nextSendPower < Game.time) {
                 let roomWithPowerOverflow = this.getRoomWantingToDistributePower();
                 if (roomWithPowerOverflow !== undefined) {
-                    this.sendPowerToOthers(roomWithPowerOverflow)
+                    this.sendPowerToOthers(roomWithPowerOverflow);
                     this.setValue(this.MEMORY_NEXTRUN_SENDPOWER, Game.time + 200);
                 } else {
                     this.setValue(this.MEMORY_NEXTRUN_SENDPOWER, Game.time + 1000);
@@ -340,12 +340,12 @@ export class TradeManager extends Manager {
                 } else {
                     this.setValue(this.MEMORY_NEXTRUN_SENDENERGYAWAY, Game.time + 500);
                 }
-                    this.hasRunSendEnergyAway = true;
+                this.hasRunSendEnergyAway = true;
                 return;
             }
 
             // Sending boost to needing rooms
-            let nextRunSendBoost= this.getValue(this.MEMORY_NEXTRUN_SENDBOOST);
+            let nextRunSendBoost = this.getValue(this.MEMORY_NEXTRUN_SENDBOOST);
             if (nextRunSendBoost === undefined || nextRunSendBoost < Game.time) {
                 let roomWithExcessBoost = this.getRoomWithExcessBoost();
                 if (roomWithExcessBoost !== undefined) {
@@ -366,7 +366,6 @@ export class TradeManager extends Manager {
             }
         }
     }
-
 
     private getRoomNeedingCrisisEnergy(): Room | undefined {
         let rooms = _.shuffle(this.roomService.getNormalAndNotExpansion());
@@ -448,7 +447,6 @@ export class TradeManager extends Manager {
         return result;
     }
 
-
     private getRoomWantingToSellToGoodDeals(): {room: Room, mineral: string} | undefined {
         let rooms = this.roomService.getNormalAndNotExpansion();
         let goodDealLimit = TradeConfig.sendMineralsToGoodDealsWhenAbove;
@@ -460,13 +458,12 @@ export class TradeManager extends Manager {
                 let roomMinerals = getTradeMinerals(room);
                 for (let roomMineral of roomMinerals) {
                     if (room.storage.store[roomMineral] > goodDealLimit) {
-                        return {room: room, mineral: roomMineral};
+                        return {room, mineral: roomMineral};
                     }
                 }
             }
         }
     }
-
 
     private getRoomWantingToDistributePower(): Room | undefined {
         let rooms = this.roomService.getNormalAndNotExpansion();
@@ -516,7 +513,6 @@ export class TradeManager extends Manager {
         }
     }
 
-
     private requestCrisisEnergy(room: Room) {
         if (room.terminal === undefined || room.terminal.store[RESOURCE_ENERGY] > TradeConfig.requestCrisisEnergyWhenTerminalEnergyBelow * 2) {
             return;
@@ -533,8 +529,8 @@ export class TradeManager extends Manager {
         }
         if (providerRoom !== undefined && providerRoom.terminal !== undefined) {
             providerRoom.terminal.send(RESOURCE_ENERGY, TradeConfig.batchSizeForCrisisEnergy, room.name);
-            log.info("Requesting "+ TradeConfig.batchSizeForCrisisEnergy+" energy from room because of crisis: " + providerRoom.name +
-            " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForCrisisEnergy, room.name, providerRoom.name) + " energy)", room.name)
+            log.info("Requesting " + TradeConfig.batchSizeForCrisisEnergy + " energy from room because of crisis: " + providerRoom.name +
+            " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForCrisisEnergy, room.name, providerRoom.name) + " energy)", room.name);
             return;
         }
     }
@@ -557,7 +553,7 @@ export class TradeManager extends Manager {
         }
         if (targetRoom !== undefined) {
             room.terminal.send(RESOURCE_ENERGY, TradeConfig.batchSizeForSendingEnergy, targetRoom);
-            log.info("Sending "+TradeConfig.batchSizeForSendingEnergy +" energy because of overflow to room: " + targetRoom +
+            log.info("Sending " + TradeConfig.batchSizeForSendingEnergy + " energy because of overflow to room: " + targetRoom +
             " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForSendingEnergy, room.name, targetRoom) + " energy)", room.name);
         }
     }
@@ -579,7 +575,7 @@ export class TradeManager extends Manager {
         }
         if (providerRoom !== undefined && providerRoom.terminal !== undefined) {
             providerRoom.terminal.send(RESOURCE_ENERGY, TradeConfig.batchSizeForSendingEnergy, room.name);
-            log.info("Sending "+TradeConfig.batchSizeForSendingEnergy +" energy to praise GCL: " + room.name +
+            log.info("Sending " + TradeConfig.batchSizeForSendingEnergy + " energy to praise GCL: " + room.name +
             " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForSendingEnergy, providerRoom.name, room.name) + " energy)", providerRoom.name);
         }
     }
@@ -591,7 +587,7 @@ export class TradeManager extends Manager {
         for (let potRoom of this.roomService.getNormalAndNotExpansion()) {
             if (RoomRepository.getRoomLevel(potRoom) >= RoomLevel.Metropolis && potRoom.terminal !== undefined && roomCanTrade(potRoom) && potRoom.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] > TradeConfig.sendUpgradeBoostWhenAbove) {
                 potRoom.terminal.send(RESOURCE_CATALYZED_GHODIUM_ACID, TradeConfig.batchSizeForSendingUpgradeBoost, praiseroom.name);
-                log.info("Sending "+TradeConfig.batchSizeForSendingUpgradeBoost +" "+ RESOURCE_CATALYZED_GHODIUM_ACID + " to praise GCL: " + praiseroom.name + "'>" + praiseroom.name +
+                log.info("Sending " + TradeConfig.batchSizeForSendingUpgradeBoost + " " + RESOURCE_CATALYZED_GHODIUM_ACID + " to praise GCL: " + praiseroom.name + "'>" + praiseroom.name +
                 " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForSendingUpgradeBoost, potRoom.name, praiseroom.name) + " energy)", potRoom.name);
             }
         }
@@ -636,7 +632,6 @@ export class TradeManager extends Manager {
         }
     }
 
-
     private lookForGoodDeals(room: Room, mineral: string, acceptOkeyDeals: boolean = false) {
         if (!roomCanTrade(room)) {
             return;
@@ -676,8 +671,8 @@ export class TradeManager extends Manager {
                 let amount = Math.min(wantedOrder.amount, 10000);
                 Game.market.deal(wantedOrder.id, amount, room.name);
                 log.info("Selling directly " +
-                amount +" " + mineral + " for " + wantedOrder.price + " because of a good deal! Cost: " +
-                Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string) +" (" + wantedOrder.id + ")", room.name);
+                amount + " " + mineral + " for " + wantedOrder.price + " because of a good deal! Cost: " +
+                Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string) + " (" + wantedOrder.id + ")", room.name);
             }
         }
     }
@@ -695,8 +690,8 @@ export class TradeManager extends Manager {
                 (potRoom.terminal.store[RESOURCE_POWER] < (TradeConfig.batchSizeForSendingPower * 2) || potRoom.terminal.store[RESOURCE_POWER] === undefined))
             {
                 room.terminal.send(RESOURCE_POWER, TradeConfig.batchSizeForSendingPower, potRoom.name);
-                log.info("Sending "+
-                TradeConfig.batchSizeForSendingPower+" "+ RESOURCE_POWER +" to room: " +
+                log.info("Sending " +
+                TradeConfig.batchSizeForSendingPower + " " + RESOURCE_POWER + " to room: " +
                 potRoom.name + " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForSendingPower, room.name, potRoom.name) + " energy)", room.name);
                 return;
             }
@@ -710,7 +705,7 @@ export class TradeManager extends Manager {
 
         let inventory = Object.keys(room.terminal.store);
         if (inventory.length > 1) {
-            for(let type of inventory) {
+            for (let type of inventory) {
                 if (room.terminal.store[type] >= 100 && type !== RESOURCE_ENERGY) {
                     if (this.sellOfResources(room, type)) {
                         return true;
@@ -725,7 +720,6 @@ export class TradeManager extends Manager {
         }
         return false;
     }
-
 
     private sellOfResources(room: Room, resource: string): boolean {
         if (!roomCanTrade(room)) {
@@ -765,8 +759,8 @@ export class TradeManager extends Manager {
                 let cost = Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string);
                 if (room.terminal !== undefined && room.terminal.store[RESOURCE_ENERGY] > cost) {
                     Game.market.deal(wantedOrder.id, amount, room.name);
-                    log.info("Selling directly " + amount +" " + resource + " for " + wantedOrder.price + " because of overflow. Cost: " +
-                    Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string) +" (" + wantedOrder.id + ")", room.name);
+                    log.info("Selling directly " + amount + " " + resource + " for " + wantedOrder.price + " because of overflow. Cost: " +
+                    Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string) + " (" + wantedOrder.id + ")", room.name);
                     return true;
                 }
             }
@@ -787,14 +781,13 @@ export class TradeManager extends Manager {
                 potRoom.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] === undefined))
             {
                 room.terminal.send(RESOURCE_CATALYZED_GHODIUM_ACID, TradeConfig.batchSizeForSendingUpgradeBoost , potRoom.name);
-                log.info("Sending "+
-                TradeConfig.batchSizeForSendingUpgradeBoost +" "+ RESOURCE_CATALYZED_GHODIUM_ACID +" to room: " +
+                log.info("Sending " +
+                TradeConfig.batchSizeForSendingUpgradeBoost + " " + RESOURCE_CATALYZED_GHODIUM_ACID + " to room: " +
                 potRoom.name + " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForSendingUpgradeBoost , room.name, potRoom.name) + " energy)", room.name);
                 return;
             }
         }
     }
-
 
     private sendMineralsToOthers(room: Room, mineraltype: string): boolean {
         if (!roomCanTrade(room)) {
@@ -807,15 +800,14 @@ export class TradeManager extends Manager {
             if (potRoom.name !== room.name && potRoom.controller !== undefined && potRoom.controller.level >= 6 && !potRoom.isAbandoned() &&
                 potRoom.terminal !== undefined && (potRoom.terminal.store[mineraltype] < (TradeConfig.batchSizeForSendingMinerals * 2) || potRoom.terminal.store[mineraltype] === undefined)) {
                 room.terminal.send(mineraltype, TradeConfig.batchSizeForSendingMinerals, potRoom.name);
-                log.info("Sending "+
-                TradeConfig.batchSizeForSendingMinerals+" "+ mineraltype +" to room: " +
+                log.info("Sending " +
+                TradeConfig.batchSizeForSendingMinerals + " " + mineraltype + " to room: " +
                 potRoom.name + " (costing " + Game.market.calcTransactionCost(TradeConfig.batchSizeForSendingMinerals, room.name, potRoom.name) + " energy)", room.name);
                 return true;
             }
         }
         return false;
     }
-
 
     private sendAwayEverything(room: Room, energyToo: boolean = true) {
         if (!roomCanTrade(room)) {
@@ -827,17 +819,17 @@ export class TradeManager extends Manager {
         let terminalRooms = _.shuffle(_.filter(this.roomService.getNormalAndNotExpansion(), function (r: Room) {return r.terminal !== undefined && r.name !== room.name && !r.isAbandoned(); }));
         let inventory = Object.keys(room.terminal.store);
         if (inventory.length > 1 && terminalRooms.length > 0) {
-            for(let type of inventory) {
+            for (let type of inventory) {
                 if (room.terminal.store[type] >= 100 && type !== RESOURCE_ENERGY) {
-                    log.info("Sending " + Math.min(TradeConfig.batchSizeForSendingEverythingOut, room.terminal.store[type]) + " "+ type + " to room " + terminalRooms[0].name + " because room is being abandoned.", room.name);
+                    log.info("Sending " + Math.min(TradeConfig.batchSizeForSendingEverythingOut, room.terminal.store[type]) + " " + type + " to room " + terminalRooms[0].name + " because room is being abandoned.", room.name);
                     room.terminal.send(type, Math.min(TradeConfig.batchSizeForSendingEverythingOut, room.terminal.store[type]), terminalRooms[0].name);
                     return true;
                 }
             }
             if (energyToo) {
-                for(let type of inventory) {
+                for (let type of inventory) {
                     if (room.terminal.store[type] >= 100 && type === RESOURCE_ENERGY) {
-                        log.info("Sending " + Math.min(TradeConfig.batchSizeForSendingEverythingOut, room.terminal.store[type]) + " "+ type + " to room " + terminalRooms[0].name + " because room is being abandoned.", room.name);
+                        log.info("Sending " + Math.min(TradeConfig.batchSizeForSendingEverythingOut, room.terminal.store[type]) + " " + type + " to room " + terminalRooms[0].name + " because room is being abandoned.", room.name);
                         room.terminal.send(type, Math.min(TradeConfig.batchSizeForSendingEverythingOut, room.terminal.store[type]), terminalRooms[0].name);
                         return true;
                     }
@@ -848,7 +840,7 @@ export class TradeManager extends Manager {
 }
 
 function getTradeMinerals(room: Room): string[] {
-    let minerals: string[] = []
+    let minerals: string[] = [];
     if (room.terminal !== undefined) {
         for (let m of basicMinerals) {
             if (room.terminal.store[m] !== undefined && room.terminal.store[m] > TradeConfig.sendMineralsToOtherRoomsWhenAbove) {
@@ -916,7 +908,7 @@ export function requestMineralsForLabs(room: Room, mineral: string, count: numbe
     }
     if (targetRoom !== undefined && targetRoom.terminal !== undefined) {
         targetRoom.terminal.send(mineral, count, room.name);
-        log.info("Sending "+count +" "+ mineral + " to " + room.name + " because it is needed for labs (costing " +
+        log.info("Sending " + count + " " + mineral + " to " + room.name + " because it is needed for labs (costing " +
         Game.market.calcTransactionCost(count, targetRoom.name, room.name) + " energy)", targetRoom.name);
     } else {
         buyMineralsForLabs(room, mineral, count);
@@ -939,7 +931,7 @@ export function requestMineralsForBoosting(room: Room, mineral: string, count: n
     }
     if (targetRoom !== undefined && targetRoom.terminal !== undefined) {
         targetRoom.terminal.send(mineral, count, room.name);
-        log.info("Sending "+count +" "+ mineral + " to " + room.name +
+        log.info("Sending " + count + " " + mineral + " to " + room.name +
         " because it is needed for boosting (costing " + Game.market.calcTransactionCost(count, targetRoom.name, room.name) + " energy)", targetRoom.name);
     } else {
         buyMineralsForBoosting(room, mineral, count);
@@ -964,7 +956,7 @@ export function buyMineralsForBoosting(room: Room, mineral: string, count: numbe
     }
     if (orderId !== undefined) {
         Game.market.deal(orderId, count, room.name);
-        log.info("Buying " + count +" " + mineral + " for " + minPrice + " because it is needed for boosting.", room.name);
+        log.info("Buying " + count + " " + mineral + " for " + minPrice + " because it is needed for boosting.", room.name);
     }
 }
 
@@ -990,7 +982,7 @@ function buyMissingMinerals(room: Room): boolean {
             if (orderId !== undefined) {
                 Game.market.deal(orderId, Math.min(4000, count), room.name);
                 log.info("Buying " +
-                Math.min(2000, count) +" " + min + " for " + minPrice + " because it is a mineral we are missing. (" + orderId + ")", room.name);
+                Math.min(2000, count) + " " + min + " for " + minPrice + " because it is a mineral we are missing. (" + orderId + ")", room.name);
                 return true;
             }
         }
@@ -1016,7 +1008,6 @@ export function buyMineralsForLabs(room: Room, mineral: string, count: number) {
     }
     if (orderId !== undefined) {
         Game.market.deal(orderId, count, room.name);
-        log.info("Buying " + count +" " + mineral + " for " + minPrice + " because it is needed for labs. (" + orderId + ")", room.name);
+        log.info("Buying " + count + " " + mineral + " for " + minPrice + " because it is needed for labs. (" + orderId + ")", room.name);
     }
 }
-

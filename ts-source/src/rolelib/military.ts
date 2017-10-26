@@ -2,8 +2,8 @@
  * Military is used for instructions that is commonly used by multiple military creeps
  */
 
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as _Targeting from "../rolelib/targeting";
+import * as PathfindingUtilities from "../utilities/Pathfinding";
 
 export function kiteAndAttack(creep: Creep, targetEnemy: Creep | Structure, range: number = 3): boolean {
 
@@ -58,6 +58,6 @@ function getFleeMove(creep: Creep, position: RoomPosition): RoomPosition {
         plainCost: 1,
         swampCost: 10,
         flee: true,
-        roomCallback: PathfindingUtilities.getKitingRoomCallback
+        roomCallback: PathfindingUtilities.getKitingRoomCallback,
     }).path[0];
 }

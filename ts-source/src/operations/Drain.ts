@@ -10,10 +10,10 @@
  * - Drainers die with more than 500 ticks left
  */
 
-import {ManagerPriority} from "../managers/_Manager";
 import {OperationType} from "../enums/operationtypes";
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
+import {ManagerPriority} from "../managers/_Manager";
 
 import {IOperationData} from "../operations/_OperationData";
 
@@ -23,12 +23,12 @@ import {CreepService} from "../services/Creep";
 
 import {Order} from "../classes/Order";
 
-import * as ProfileUtilities from "../utilities/Profiles";
 import * as PathfindingUtilities from "../utilities/Pathfinding";
+import * as ProfileUtilities from "../utilities/Profiles";
 
 export enum VictoryCondition {
     HostileRoomEnergy = 1,
-    Gametime = 2
+    Gametime = 2,
 }
 
 export class Data implements IOperationData {
@@ -64,7 +64,7 @@ export function victoryConditionReached(operation: Data): boolean {
     if (!(targetRoom instanceof Room)) {
         return false;
     }
-    switch(operation.victoryCondition) {
+    switch (operation.victoryCondition) {
         case VictoryCondition.HostileRoomEnergy:
             let towers = targetRoom.find(FIND_HOSTILE_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_TOWER}) as StructureTower[];
             let towerEnergy = _.sum(towers, (t: StructureTower) => t.energy);

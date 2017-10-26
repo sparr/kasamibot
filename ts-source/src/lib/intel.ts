@@ -2,7 +2,6 @@ import {Hostility} from "../enums/hostility";
 
 import {log} from "../tools/Logger";
 
-
 export function hasIntel(roomName: string): boolean {
     if (global.intel === undefined) {
         global.intel = {};
@@ -150,7 +149,7 @@ export function mineralPos(roomName: string): RoomPosition | undefined {
 
 export function sourcePos(roomName: string, sourceId: string): RoomPosition {
     if (hasIntel(roomName) && global.intel[roomName].s !== undefined && global.intel[roomName].s[sourceId] !== undefined) {
-        return makeRoomPosForSourceInfo(roomName, global.intel[roomName].s[sourceId])
+        return makeRoomPosForSourceInfo(roomName, global.intel[roomName].s[sourceId]);
     }
     log.error("IntelLib had to make a fake sourcepos for source " + sourceId, roomName);
     return new RoomPosition(25, 25, roomName);
@@ -215,7 +214,7 @@ function makeIdForControllerInfo(ipos: string): string {
 export function saveIntelForRoom(room: Room) {
     let hostiles = room.find(FIND_HOSTILE_CREEPS) as Creep[];
 
-    var intel: any = {};
+    let intel: any = {};
     if (room.memory.i !== undefined) {
         if (room.memory.i.t !== undefined) {
             room.memory.i = JSON.stringify(room.memory.i);

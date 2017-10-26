@@ -3,8 +3,8 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
-import * as RoomClaimer from "../roles/RoomClaimer";
 import * as ExpansionWorker from "../roles/ExpansionWorker";
+import * as RoomClaimer from "../roles/RoomClaimer";
 
 import * as ProfileUtilities from "../utilities/Profiles";
 import * as RoomUtilities from "../utilities/Room";
@@ -22,10 +22,9 @@ import {Order} from "../classes/Order";
 import * as IntelLib from "../lib/intel";
 import * as SpawnLib from "../lib/spawn";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
-
 
 export class ExpansionManager extends Manager {
     private roomService: RoomService;
@@ -161,7 +160,6 @@ export class ExpansionManager extends Manager {
             return false;
         }
 
-
         room.memory.expansion = expansion;
         RoomRepository.setBasePosition(expansion, spawnPos.pos);
         console.log("Room " + room.name + " is making an expansion at room " + expansion + " with a value of " + value);
@@ -246,7 +244,7 @@ export class ExpansionManager extends Manager {
         }
 
         if (target !== undefined && value !== undefined) {
-            return {roomName: target, value: value};
+            return {roomName: target, value};
         }
         return undefined;
     }
@@ -267,7 +265,7 @@ export class ExpansionManager extends Manager {
                     return;
                 }
 
-                if (Memory.settings.bot === true && Memory.rooms[room.memory.expansion] !== undefined && 
+                if (Memory.settings.bot === true && Memory.rooms[room.memory.expansion] !== undefined &&
                     Memory.rooms[room.memory.expansion].starttime !== undefined && Memory.rooms[room.memory.expansion].starttime + 20000 < Game.time) {
                     let expRoom = Game.rooms[room.memory.expansion];
                     if (expRoom === undefined || expRoom.controller === undefined || expRoom.controller.level < 2 || expRoom.getSpawn() === undefined) {
@@ -389,7 +387,7 @@ export class ExpansionManager extends Manager {
 }
 
 function buildSpawnForExpansion(expansion: Room) {
-    let spawnFlag = expansion.find(FIND_FLAGS, {filter: function(f: Flag) {return f.name === "Spawn";}}) as Flag[];
+    let spawnFlag = expansion.find(FIND_FLAGS, {filter: function(f: Flag) {return f.name === "Spawn"; }}) as Flag[];
     if (spawnFlag !== undefined && spawnFlag.length === 1 && Object.keys(Game.constructionSites).length < 95) {
         spawnFlag[0].pos.createConstructionSite(STRUCTURE_SPAWN);
         spawnFlag[0].remove();
@@ -419,7 +417,7 @@ function evaluateExpansions(room: Room): boolean {
         room.memory.neighbours.fourAway === undefined || room.memory.neighbours.fiveAway === undefined) {
             return false;
         }
-        let possible = room.memory.neighbours.threeAway.concat(room.memory.neighbours.fourAway, room.memory.neighbours.fiveAway)
+        let possible = room.memory.neighbours.threeAway.concat(room.memory.neighbours.fourAway, room.memory.neighbours.fiveAway);
         room.memory.expansionTargets = {};
         for (let n of possible) {
             if (!RoomLib.roomIsHighway(n) && !RoomRepository.isMiddleRoom(n)) {
@@ -475,10 +473,10 @@ function getSwampValue(roomName: string): number {
     for (let x of _.range(1, 49)) {
         for (let y of _.range(1, 49)) {
             terrain = Game.map.getTerrainAt(x, y, roomName);
-            if (terrain === 'swamp') {
+            if (terrain === "swamp") {
                 swamp++;
             } else
-            if (terrain === 'plain') {
+            if (terrain === "plain") {
                 plain++;
             }
         }
@@ -492,7 +490,7 @@ function getSwampValue(roomName: string): number {
     if (plain > swamp) {
         return 30;
     }
-    return Math.max(Math.min(Math.ceil((30 * (plain/swamp)) - 30), 60), -30);
+    return Math.max(Math.min(Math.ceil((30 * (plain / swamp)) - 30), 60), -30);
 }
 
 export function getOutpostsValue(roomName: string): number | undefined {
@@ -507,9 +505,9 @@ export function getOutpostsValue(roomName: string): number | undefined {
         count = 4;
     }
 
-    let potOutposts = _.filter(closeRooms, function (r: string) { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r)});
+    let potOutposts = _.filter(closeRooms, function (r: string) { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r); });
 
-    let values: {roomName: string, value: number | undefined}[] = [];
+    let values: Array<{roomName: string, value: number | undefined}> = [];
     for (let o of potOutposts) {
         let distance = 2;
         if (_.contains(roomsOneAway, o)) {
@@ -546,7 +544,6 @@ function getOutpostValue(outpost: string, distance: number): number | undefined 
     let value = Math.ceil(sources * 30 / distance);
     return value;
 }
-
 
 /**
 

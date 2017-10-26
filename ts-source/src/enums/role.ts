@@ -54,5 +54,5 @@ export enum Role {
     UpgraderWithBoost = 1001,
     UpgraderWithoutBoost = 1002,
     PraiserWithBoost = 1003,
-    PraiserWithoutBoost = 1004
+    PraiserWithoutBoost = 1004,
 }

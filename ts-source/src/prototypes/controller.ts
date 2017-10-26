@@ -3,7 +3,7 @@ import * as PathfindingUtilities from "../utilities/Pathfinding";
 StructureController.prototype.getContainerPosition = function(): RoomPosition | undefined {
     if (this.room.memory.controllerContainerPos !== undefined) {
         let pos = this.room.memory.controllerContainerPos;
-        return new RoomPosition(pos.x, pos.y, pos.roomName)
+        return new RoomPosition(pos.x, pos.y, pos.roomName);
     }
     let positions: RoomPosition[] = this.getPossibleContainerPositions();
 
@@ -38,7 +38,7 @@ StructureController.prototype.getContainerPosition = function(): RoomPosition | 
         return positions[parseInt(minDistanseId)];
     }
     return undefined;
-}
+};
 
 StructureController.prototype.getPossibleContainerPositions = function(): RoomPosition[] {
     let positions: RoomPosition[] = [];
@@ -71,7 +71,6 @@ StructureController.prototype.getOkeyContainerPosition = function(): RoomPositio
     return bestPos;
 };
 
-
 StructureController.prototype.buildControllerContainer = function(): void {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
@@ -79,7 +78,7 @@ StructureController.prototype.buildControllerContainer = function(): void {
     }
 
     containerpos.createConstructionSite(STRUCTURE_CONTAINER);
-}
+};
 
 StructureController.prototype.buildControllerLink = function(): void {
     let containerpos = this.getContainerPosition() as RoomPosition;
@@ -95,7 +94,7 @@ StructureController.prototype.buildControllerLink = function(): void {
     }
 
     containerpos.createConstructionSite(STRUCTURE_LINK);
-}
+};
 
 StructureController.prototype.hasContainer = function(): boolean {
     let containerpos = this.getContainerPosition() as RoomPosition;
@@ -111,7 +110,7 @@ StructureController.prototype.hasContainer = function(): boolean {
     }
 
     return false;
-}
+};
 
 StructureController.prototype.hasLink = function(): boolean {
     let containerpos = this.getContainerPosition() as RoomPosition;
@@ -127,7 +126,7 @@ StructureController.prototype.hasLink = function(): boolean {
     }
 
     return false;
-}
+};
 
 StructureController.prototype.getContainer = function(): Container | undefined {
     let containerpos = this.getContainerPosition() as RoomPosition;
@@ -142,7 +141,7 @@ StructureController.prototype.getContainer = function(): Container | undefined {
         }
     }
     return undefined;
-}
+};
 
 StructureController.prototype.getContainerOrLink = function(): Link | Container | undefined {
     let containerpos = this.getContainerPosition() as RoomPosition;
@@ -157,4 +156,4 @@ StructureController.prototype.getContainerOrLink = function(): Link | Container 
         }
     }
     return undefined;
-}
+};

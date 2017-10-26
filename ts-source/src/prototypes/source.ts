@@ -1,5 +1,4 @@
 
-
 Source.prototype.memoryCheck = function(): void {
     if (Memory.sources === undefined) {
         Memory.sources = {};
@@ -7,16 +6,16 @@ Source.prototype.memoryCheck = function(): void {
     if (Memory.sources[this.id] === undefined) {
         Memory.sources[this.id] = {};
     }
-}
+};
 
 Source.prototype.hasMiningContainer = function(): boolean {
     return this.getMiningContainer() !== null;
-}
+};
 
 Source.prototype.setMiningContainerId = function(id: string): void {
     this.memoryCheck();
     Memory.sources[this.id]["container"] = id;
-}
+};
 
 Source.prototype.getMiningContainer = function(): StructureContainer | null {
     this.memoryCheck();
@@ -29,7 +28,7 @@ Source.prototype.getMiningContainer = function(): StructureContainer | null {
         Memory.sources[this.id]["container"] = undefined;
     }
     return container;
-}
+};
 
 // TODO: Caching
 Source.prototype.getMiningContainerConstructionSite = function(): ConstructionSite | null {
@@ -44,7 +43,7 @@ Source.prototype.getMiningContainerConstructionSite = function(): ConstructionSi
         }
     }
     return null;
-}
+};
 
 Source.prototype.buildMiningContainer = function(): void {
     this.memoryCheck();
@@ -63,7 +62,7 @@ Source.prototype.buildMiningContainer = function(): void {
         return;
     }
     containerPosition.createConstructionSite(STRUCTURE_CONTAINER);
-}
+};
 
 // TODO: Caching
 Source.prototype.getMiningPositions = function(): RoomPosition[] {
@@ -86,7 +85,7 @@ Source.prototype.getContainerPosition = function(): RoomPosition | undefined {
     this.memoryCheck();
     if (Memory.sources[this.id].containerPos !== undefined) {
         let pos = Memory.sources[this.id].containerPos;
-        return new RoomPosition(pos.x, pos.y, pos.roomName)
+        return new RoomPosition(pos.x, pos.y, pos.roomName);
     }
     let positions: RoomPosition[] = this.getMiningPositions();
 
@@ -99,7 +98,7 @@ Source.prototype.getContainerPosition = function(): RoomPosition | undefined {
     for (let positionId in positions) {
         let position = positions[positionId];
         for (let potNeighbour of positions) {
-            if((Math.abs(position.x - potNeighbour.x) + Math.abs(position.y - potNeighbour.y) === 1) ||
+            if ((Math.abs(position.x - potNeighbour.x) + Math.abs(position.y - potNeighbour.y) === 1) ||
             (Math.abs(position.x - potNeighbour.x) === 1 && Math.abs(position.y - potNeighbour.y) === 1)) {
                 if (neighbours[positionId] === undefined) {
                     neighbours[positionId] = 1;
@@ -127,7 +126,7 @@ Source.prototype.getContainerPosition = function(): RoomPosition | undefined {
         return positions[parseInt(maxPosId)];
     }
     return undefined;
-}
+};
 
 // TODO: Caching
 Source.prototype.getContainerMiningPositions = function(): RoomPosition[]{
@@ -136,14 +135,14 @@ Source.prototype.getContainerMiningPositions = function(): RoomPosition[]{
     let miningPositions: RoomPosition[] = [];
 
     for (let position of positions) {
-        if((Math.abs(containerPosition.x - position.x) + Math.abs(containerPosition.y - position.y) < 2) ||
+        if ((Math.abs(containerPosition.x - position.x) + Math.abs(containerPosition.y - position.y) < 2) ||
         (Math.abs(containerPosition.x - position.x) === 1 && Math.abs(containerPosition.y - position.y) === 1)) {
             miningPositions.push(position);
         }
     }
 
     return miningPositions;
-}
+};
 
 Source.prototype.getDistanceFrom = function (roomName: string): number | undefined {
     this.memoryCheck();
@@ -152,10 +151,10 @@ Source.prototype.getDistanceFrom = function (roomName: string): number | undefin
         return Memory.sources[this.id].basedistance;
     }
     return undefined;
-}
+};
 
 Source.prototype.setDistanceFrom = function (roomName: string, distance: number): void {
     this.memoryCheck();
     Memory.sources[this.id].basedistance = distance;
     Memory.sources[this.id].basedistanceRoom = roomName;
-}
+};

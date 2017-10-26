@@ -5,5 +5,5 @@ export enum Priority {
     Standard = 3, // >9000
     Low = 4, // >9500
     Trivial = 5, // >9800
-    Overflow = 6 // >10100
+    Overflow = 6, // >10100
 }

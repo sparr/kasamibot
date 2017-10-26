@@ -25,7 +25,7 @@ export function run(creep: Creep) {
 };
 
 function getRoomPosForOutpostController(target: string): RoomPosition | null {
-    let roomname = target.substr(1).split("-")[0];;
+    let roomname = target.substr(1).split("-")[0]; ;
     let controllerPos = IntelLib.controllerPos(roomname);
     let controllerId = IntelLib.controllerId(roomname);
     if (controllerPos !== null && controllerId !== null) {

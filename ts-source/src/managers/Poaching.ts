@@ -1,10 +1,10 @@
-import * as ProfileUtilities from "../utilities/Profiles";
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as OrdersRepository from "../repository/Orders";
+import * as PathfindingUtilities from "../utilities/Pathfinding";
+import * as ProfileUtilities from "../utilities/Profiles";
 
 import * as PoachGuard from "../roles/PoachGuard";
-import * as PoachMiner from "../roles/PoachMiner";
 import * as PoachHauler from "../roles/PoachHauler";
+import * as PoachMiner from "../roles/PoachMiner";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
@@ -17,10 +17,10 @@ import {Order} from "../classes/Order";
 
 import * as RoomRepository from "../repository/Room";
 
-import {Role} from "../enums/role";
-import {Priority} from "../enums/priority";
-import {RoomLevel} from "../enums/roomlevel";
 import {Hostility} from "../enums/hostility";
+import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
+import {RoomLevel} from "../enums/roomlevel";
 
 import {log} from "../tools/Logger";
 

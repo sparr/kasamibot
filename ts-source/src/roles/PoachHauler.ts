@@ -11,7 +11,7 @@ import {Role} from "../enums/role";
 enum State {
     MoveToMineral = 1,
     Collecting = 2,
-    Returning = 3
+    Returning = 3,
 }
 
 export function run(creep: Creep) {
@@ -20,7 +20,7 @@ export function run(creep: Creep) {
         creep.setState(State.MoveToMineral);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToMineral:
         runMoveToMineral(creep);
             break;
@@ -94,7 +94,7 @@ function runReturning(creep: Creep) {
                     return;
                 }
             }
-            if(shouldDoAnotherRun(creep)) {
+            if (shouldDoAnotherRun(creep)) {
                 creep.setState(State.MoveToMineral);
                 runMoveToMineral(creep);
             } else {

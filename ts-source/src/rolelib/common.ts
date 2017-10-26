@@ -2,11 +2,10 @@
  * Common is used for instructions that is commonly used by multiple creeps
  */
 
-import * as PathFindingUtilities from "../utilities/Pathfinding";
 import * as RoomRepository from "../repository/Room";
+import * as PathFindingUtilities from "../utilities/Pathfinding";
 
 import * as IntelLib from "../lib/intel";
-
 
 export function targetRoomHasInvaders(creep: Creep, targetRoom: string): boolean {
     if (targetRoom === creep.getHomeroom()) {
@@ -44,7 +43,7 @@ export function getTravelDestinasion(creep: Creep): RoomPosition | undefined {
     return undefined;
 }
 
-export function isCloseToSourceKeeper(creep: Creep, time: number = 10, distance: number = 5):boolean {
+export function isCloseToSourceKeeper(creep: Creep, time: number = 10, distance: number = 5): boolean {
 
     if (!isInSKRoom(creep)) {
         return false;
@@ -62,7 +61,7 @@ export function isCloseToSourceKeeper(creep: Creep, time: number = 10, distance:
     return false;
 }
 
-export function positionIsCloseToSourceKeeper(position: RoomPosition, time: number = 2, distance: number = 6):boolean {
+export function positionIsCloseToSourceKeeper(position: RoomPosition, time: number = 2, distance: number = 6): boolean {
     if (!RoomRepository.isSKRoom(position.roomName) || Game.rooms[position.roomName] === undefined) {
         return false;
     }
@@ -79,9 +78,7 @@ export function positionIsCloseToSourceKeeper(position: RoomPosition, time: numb
     return false;
 }
 
-
-
-export function stayAwayFromSourceKeeper(creep: Creep, time: number = 10, distance: number = 5):boolean {
+export function stayAwayFromSourceKeeper(creep: Creep, time: number = 10, distance: number = 5): boolean {
 
     if (!isInSKRoom(creep)) {
         return false;
@@ -137,7 +134,7 @@ function getOffroadMovePosition(creep: Creep): RoomPosition {
         swampCost: 2,
         flee: true,
         roomCallback: PathFindingUtilities.getOffroadRoomCallback,
-        maxRooms: 1
+        maxRooms: 1,
     }).path;
     for (let pos of path) {
         let structs = pos.lookFor(LOOK_STRUCTURES) as Structure[];
@@ -156,7 +153,7 @@ function getFleeMove(creep: Creep, position: RoomPosition): RoomPosition {
         swampCost: 10,
         flee: true,
         roomCallback: PathFindingUtilities.getKitingRoomCallback,
-        maxRooms: 1
+        maxRooms: 1,
     }).path[0];
 }
 

@@ -4,5 +4,5 @@ export enum BoostStage {
     LoadHauler = 2,
     UnloadHauler = 3,
     BoostCreep = 4,
-    ValidateBoost = 5
+    ValidateBoost = 5,
 }

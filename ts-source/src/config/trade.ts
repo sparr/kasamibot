@@ -1,4 +1,4 @@
-var tradeConfig = {
+const tradeConfig = {
     sendToNeighboursWhenTerminalEnergyAbove: 100000,
     sendToNeighboursWhenStorageEnergyAbove: 500000,
     requestCrisisEnergyWhenTerminalEnergyBelow: 80000,
@@ -19,7 +19,7 @@ var tradeConfig = {
     batchSizeForSendingMinerals: 2000,
     batchSizeForSendingPower: 2000,
     batchSizeForSendingUpgradeBoost: 2000,
-    batchSizeForCrisisEnergy: 20000
-}
+    batchSizeForCrisisEnergy: 20000,
+};
 
-export = tradeConfig
+export = tradeConfig;

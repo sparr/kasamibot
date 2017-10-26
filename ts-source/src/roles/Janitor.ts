@@ -10,7 +10,7 @@ enum State {
     Sleeping = 1,
     Tanking = 2,
     Repairing = 3,
-    Building = 4
+    Building = 4,
 }
 
 export function run(creep: Creep) {
@@ -35,7 +35,7 @@ export function run(creep: Creep) {
         creep.setState(State.Tanking);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Sleeping:
             runSleeping(creep);
             break;
@@ -121,7 +121,7 @@ function runRepairing(creep: Creep) {
     let targetSite = Game.getObjectById(creep.memory.targetSite) as Structure | null;
 
     if (targetSite !== null) {
-        if(_Common.targetRoomHasInvaders(creep, targetSite.room.name)) {
+        if (_Common.targetRoomHasInvaders(creep, targetSite.room.name)) {
             return;
         }
     }
@@ -136,14 +136,13 @@ function runRepairing(creep: Creep) {
             repairRoadsCloseby(creep);
             creep.travelTo(targetSite, {range: 0});
         } else {
-            creep.repair(targetSite)
+            creep.repair(targetSite);
         }
     }
     if (targetSite === null) {
         creep.setState(State.Sleeping);
     }
 }
-
 
 function runBuilding(creep: Creep) {
     if (creep.isEmpty()) {
@@ -159,7 +158,7 @@ function runBuilding(creep: Creep) {
     }
 
     if (targetSite !== null && targetSite !== undefined && targetSite.room !== undefined) {
-        if(_Common.targetRoomHasInvaders(creep, targetSite.room.name)) {
+        if (_Common.targetRoomHasInvaders(creep, targetSite.room.name)) {
             return;
         }
     }
@@ -169,7 +168,7 @@ function runBuilding(creep: Creep) {
             repairRoadsCloseby(creep);
             creep.travelTo(targetSite, {range: 0});
         } else {
-            creep.build(targetSite)
+            creep.build(targetSite);
         }
     } else {
         creep.memory.targetSite = undefined;
@@ -236,12 +235,11 @@ function setNewTankingPlace(creep: Creep) {
 function repairRoadsCloseby(creep: Creep) {
     let roadOnTile = creep.pos.lookFor(LOOK_STRUCTURES) as Structure[];
     for (let s of roadOnTile) {
-        if(s.structureType === STRUCTURE_ROAD && s.hitsMax - s.hits > 500) {
+        if (s.structureType === STRUCTURE_ROAD && s.hitsMax - s.hits > 500) {
             creep.repair(s);
         }
     }
 }
-
 
 function findNewConstructionSite(creep: Creep): ConstructionSite | undefined {
     if (creep.memory.homeroom !== undefined && Game.rooms[creep.memory.homeroom] !== null && Game.rooms[creep.memory.homeroom] !== undefined) {

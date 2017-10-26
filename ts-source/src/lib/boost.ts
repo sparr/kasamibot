@@ -50,7 +50,7 @@ export function boostHaulerInPosition(creep: Creep, position: RoomPosition) {
 }
 
 export function removeWantedBoostTypeFromCreepMemory(creep: Creep, type: string) {
-    creep.memory.boost = _.filter(creep.memory.boost, function(t: string) {return t !== type});
+    creep.memory.boost = _.filter(creep.memory.boost, function(t: string) {return t !== type; });
     if (creep.memory.boost.length === 0) {
         creep.memory.boost = undefined;
     }
@@ -86,7 +86,7 @@ export function getWantedBoosts(creep: Creep): {type: string; count: number} {
     let type = creep.memory.boost[0] as string;
     let bodypart = getBodyPartForBoost(type);
     let count = creep.getActiveBodyparts(bodypart);
-    return {type: type, count: count};
+    return {type, count};
 }
 
 export function doWeHaveMineralsRequired(room: Room, mineral: string, count: number): boolean {
@@ -100,7 +100,7 @@ export function doWeHaveMineralsRequired(room: Room, mineral: string, count: num
 }
 
 export function getBodyPartForBoost(boost: string): string {
-    switch(boost) {
+    switch (boost) {
         case RESOURCE_CATALYZED_UTRIUM_ACID:
             return ATTACK;
         case RESOURCE_CATALYZED_UTRIUM_ALKALIDE:

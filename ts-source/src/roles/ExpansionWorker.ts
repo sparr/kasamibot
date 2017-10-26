@@ -23,9 +23,9 @@
 import * as IntelLib from "../lib/intel";
 import * as RoomRepository from "../repository/Room";
 
+import {Role} from "../enums/role";
 import * as PositionLib from "../lib/position";
 import * as RouteTravel from "../rolelib/routetravel";
-import {Role} from "../enums/role";
 
 import {log} from "../tools/Logger";
 
@@ -43,7 +43,7 @@ enum State {
     GetEnergyFromStructure = 11,
     Renewing = 12,
     RemoveHostileConstructionSites = 13,
-    Repairing = 14
+    Repairing = 14,
 }
 
 export function run(creep: Creep) {
@@ -51,7 +51,7 @@ export function run(creep: Creep) {
         creep.setState(State.TankUpInHomeroom);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToExpansion:
             runMoveToExpansion(creep);
             break;
@@ -254,7 +254,7 @@ function runMoveToExpansion(creep: Creep) {
     if (expansionRoom !== creep.room.name || PositionLib.positionIsBorder(creep.pos)) {
         RouteTravel.travelByRoute(creep, {avoidKeepers: true, preferHighway: true, allowSK: true, ignoreRoads: true, allowHostile: false}, true);
     } else {
-        creep.setState(State.RemoveHostileConstructionSites)
+        creep.setState(State.RemoveHostileConstructionSites);
         runRemoveHostileConstructionSites(creep);
     }
 }
@@ -426,10 +426,10 @@ function runMining(creep: Creep) {
     if (source.energy > 0) {
         let responseHarvest = creep.harvest(source);
         if (responseHarvest === OK) {
-            if (Memory.stats['room.' + creep.memory.target + '.energyHarvested'] === undefined) {
-                Memory.stats['room.' + creep.memory.target + '.energyHarvested'] = 0;
+            if (Memory.stats["room." + creep.memory.target + ".energyHarvested"] === undefined) {
+                Memory.stats["room." + creep.memory.target + ".energyHarvested"] = 0;
             }
-            Memory.stats['room.' + creep.memory.target + '.energyHarvested'] += creep.getWorkerParts() * 2;
+            Memory.stats["room." + creep.memory.target + ".energyHarvested"] += creep.getWorkerParts() * 2;
         }
     }
 }
@@ -454,13 +454,13 @@ function runUpgrading(creep: Creep) {
             }
             let response = creep.upgradeController(controller);
             if (response === OK) {
-                if (Memory.stats['room.' + creep.room.name + '.energyUpgraded'] === undefined) {
-                    Memory.stats['room.' + creep.room.name + '.energyUpgraded'] = 0;
+                if (Memory.stats["room." + creep.room.name + ".energyUpgraded"] === undefined) {
+                    Memory.stats["room." + creep.room.name + ".energyUpgraded"] = 0;
                 }
                 if (creep.body[0].boost === RESOURCE_CATALYZED_GHODIUM_ACID) {
-                    Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += (creep.getActiveBodyparts(WORK) * 2);
+                    Memory.stats["room." + creep.room.name + ".energyUpgraded"] += (creep.getActiveBodyparts(WORK) * 2);
                 } else {
-                    Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += creep.getActiveBodyparts(WORK);
+                    Memory.stats["room." + creep.room.name + ".energyUpgraded"] += creep.getActiveBodyparts(WORK);
                 }
             }
         }

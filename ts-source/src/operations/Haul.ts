@@ -10,10 +10,10 @@
  * - Structure reaches energy-lvl
  */
 
-import {ManagerPriority} from "../managers/_Manager";
 import {OperationType} from "../enums/operationtypes";
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
+import {ManagerPriority} from "../managers/_Manager";
 
 import {IOperationData} from "../operations/_OperationData";
 
@@ -23,12 +23,12 @@ import {CreepService} from "../services/Creep";
 
 import {Order} from "../classes/Order";
 
-import * as ProfileUtilities from "../utilities/Profiles";
 import * as PathfindingUtilities from "../utilities/Pathfinding";
+import * as ProfileUtilities from "../utilities/Profiles";
 
 export enum VictoryCondition {
     RoomLevel = 1,
-    Gametime = 2
+    Gametime = 2,
 }
 
 export class Data implements IOperationData {
@@ -68,7 +68,7 @@ export function victoryConditionReached(operation: Data): boolean {
     if (!(toRoom instanceof Room)) {
         return false;
     }
-    switch(operation.victoryCondition) {
+    switch (operation.victoryCondition) {
         case VictoryCondition.RoomLevel:
             if (toRoom.controller !== undefined && toRoom.controller.level >= operation.victoryValue) {
                 operation.active = false;

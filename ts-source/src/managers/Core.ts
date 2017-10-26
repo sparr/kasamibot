@@ -7,36 +7,36 @@ import "../prototypes/source";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
-import {MemoryManager} from "../managers/Memory";
-import {IntelManager} from "../managers/Intel";
-import {UpgradeManager} from "../managers/Upgrade";
-import {InterfaceManager} from "../managers/Interface";
-import {LogisticsManager} from "../managers/Logistics";
+import {BoostManager} from "../managers/Boost";
+import {BuildManager} from "../managers/Build";
+import {CrisisManager} from "../managers/Crisis";
+import {DefenseManager} from "../managers/Defense";
 import {ExpansionManager} from "../managers/Expansion";
+import {HarassManager} from "../managers/Harass";
+import {HaulingManager} from "../managers/Hauling";
+import {IntelManager} from "../managers/Intel";
+import {InterfaceManager} from "../managers/Interface";
+import {LabManager} from "../managers/Lab";
+import {LinkManager} from "../managers/Link";
+import {LogisticsManager} from "../managers/Logistics";
+import {MaintainenceManager} from "../managers/Maintainence";
+import {MarketManager} from "../managers/Market";
+import {MemoryManager} from "../managers/Memory";
+import {MilitaryManager} from "../managers/Military";
+import {MineralManager} from "../managers/Mineral";
+import {MiningManager} from "../managers/Mining";
+import {OperationManager} from "../managers/Operation";
+import {OutpostManager} from "../managers/Outpost";
+import {PoachingManager} from "../managers/Poaching";
+import {PowerManager} from "../managers/Power";
+import {PraiseroomManager} from "../managers/Praiseroom";
+import {RoadManager} from "../managers/Road";
 import {RoomlevelManager} from "../managers/Roomlevel";
 import {ScoutingManager} from "../managers/Scouting";
-import {OutpostManager} from "../managers/Outpost";
-import {MineralManager} from "../managers/Mineral";
-import {DefenseManager} from "../managers/Defense";
-import {WallManager} from "../managers/Wall";
-import {BoostManager} from "../managers/Boost";
-import {OperationManager} from "../managers/Operation";
-import {PraiseroomManager} from "../managers/Praiseroom";
-import {MilitaryManager} from "../managers/Military";
-import {MarketManager} from "../managers/Market";
-import {CrisisManager} from "../managers/Crisis";
-import {LinkManager} from "../managers/Link";
 import {SpawnManager} from "../managers/Spawn";
-import {HaulingManager} from "../managers/Hauling";
-import {MiningManager} from "../managers/Mining";
-import {PowerManager} from "../managers/Power";
 import {TradeManager} from "../managers/Trade";
-import {BuildManager} from "../managers/Build";
-import {MaintainenceManager} from "../managers/Maintainence";
-import {RoadManager} from "../managers/Road";
-import {LabManager} from "../managers/Lab";
-import {PoachingManager} from "../managers/Poaching";
-import {HarassManager} from "../managers/Harass";
+import {UpgradeManager} from "../managers/Upgrade";
+import {WallManager} from "../managers/Wall";
 
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
@@ -44,7 +44,6 @@ import {RoomService} from "../services/Room";
 import * as Stats from "../utilities/Stats";
 
 import * as SegmentRepository from "../repository/Segment";
-
 
 export function run() {
 
@@ -72,11 +71,11 @@ export function run() {
     let roomService = new RoomService();
 
     for (let room of roomService.getMyRooms()) {
-        Memory.stats['room.' + room.name + '.energyHarvested'] = 0;
-        Memory.stats['room.' + room.name + '.energyUpgraded'] = 0;
-        Memory.stats['room.' + room.name + '.wallsRepaired'] = 0;
-        Memory.stats['room.' + room.name + '.creepCpu'] = 0;
-        Memory.stats['room.' + room.name + '.creepCost'] = 0;
+        Memory.stats["room." + room.name + ".energyHarvested"] = 0;
+        Memory.stats["room." + room.name + ".energyUpgraded"] = 0;
+        Memory.stats["room." + room.name + ".wallsRepaired"] = 0;
+        Memory.stats["room." + room.name + ".creepCpu"] = 0;
+        Memory.stats["room." + room.name + ".creepCost"] = 0;
     }
 
     let cpuLimit = getCpuLimit();
@@ -109,7 +108,7 @@ export function run() {
         new LabManager(roomService),
         new WallManager(roomService, creepService),
         new PoachingManager(roomService, creepService),
-        new HarassManager(roomService, creepService)
+        new HarassManager(roomService, creepService),
     ];
     let spawnManager = new SpawnManager(roomService);
 
@@ -159,7 +158,7 @@ export function run() {
 
     logUsedCpu(spawnManager, "SpawnManager", ManagerPriority.Critical);
 
-    Memory.stats['cpu.level'] = level;
+    Memory.stats["cpu.level"] = level;
     if (Memory.settings.bot !== true) {
         logUsedCpu(Stats.recordStats, "Stats", ManagerPriority.Critical, roomService.getMyRooms());
         SegmentRepository.saveStats();
@@ -207,11 +206,11 @@ function logUsedCpu(func: Function | Manager, name: string, pri: ManagerPriority
         result = func(... args);
     }
     let usedCpu = Game.cpu.getUsed() - cpuUsed;
-    Memory.stats['cpu.manager.' + name + "." + pri] = usedCpu;
-    if (Memory.stats['cpu.manager.' + name + ".total"] === undefined) {
-        Memory.stats['cpu.manager.' + name + ".total"] = usedCpu;
+    Memory.stats["cpu.manager." + name + "." + pri] = usedCpu;
+    if (Memory.stats["cpu.manager." + name + ".total"] === undefined) {
+        Memory.stats["cpu.manager." + name + ".total"] = usedCpu;
     } else {
-        Memory.stats['cpu.manager.' + name + ".total"] += usedCpu;
+        Memory.stats["cpu.manager." + name + ".total"] += usedCpu;
     }
     return result;
 }

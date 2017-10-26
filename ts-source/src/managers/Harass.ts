@@ -3,14 +3,14 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
-import * as MilitaryLib from "../lib/military";
 import * as HarassLib from "../lib/harass";
 import * as IntelLib from "../lib/intel";
+import * as MilitaryLib from "../lib/military";
 
 import * as RoomRepository from "../repository/Room";
 
-import {RoomLevel} from "../enums/roomlevel";
 import {HarassType} from "../enums/harasstype";
+import {RoomLevel} from "../enums/roomlevel";
 
 import {log} from "../tools/Logger";
 
@@ -44,7 +44,7 @@ export class HarassManager extends Manager {
                         }
                         let attackType = this.findHarassType(room, targetRoom);
                         this.orderAttackType(room, targetRoom, attackType);
-                        log.alert("Room " + room.name + " won the lottery and is allowed to harass " + targetRoom + " with " + HarassType[attackType] +"!", room.name);
+                        log.alert("Room " + room.name + " won the lottery and is allowed to harass " + targetRoom + " with " + HarassType[attackType] + "!", room.name);
 
                     }
                 }
@@ -53,7 +53,7 @@ export class HarassManager extends Manager {
         }
     }
 
-    private roomShouldTryToHarass(room: Room):boolean {
+    private roomShouldTryToHarass(room: Room): boolean {
         return _.random(1, 10) === 10 && RoomRepository.getRoomLevel(room) >= RoomLevel.SimpleColony &&
             (room.memory.orders === undefined || room.memory.orders.length < 3) &&
             ((room.storage !== undefined && room.storage.store[RESOURCE_ENERGY] > 50000) ||
@@ -61,7 +61,7 @@ export class HarassManager extends Manager {
     }
 
     private orderAttackType(room: Room, target: string, type: HarassType) {
-        switch(type) {
+        switch (type) {
             case HarassType.T3BoostedWreckerTeam:
                 let boostedT3 = HarassLib.getT3BoostedWreckerTeamTierForRoom(room, target);
                 if (boostedT3 !== undefined) {

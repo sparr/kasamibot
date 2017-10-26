@@ -34,7 +34,7 @@ export function getKitingRoomCallback(roomName: string): CostMatrix {
     room.find(FIND_HOSTILE_CREEPS, {
         filter: function(c: Creep) {
             return c.getActiveBodyparts(ATTACK) > 0 || c.getActiveBodyparts(RANGED_ATTACK) > 0 || c.getActiveBodyparts(HEAL) > 0;
-        }
+        },
     }).forEach(function(hostileCreep: Creep) {
         for (let x = -3; x < 4; x++) {
             for (let y = -3; y < 4; y++) {
@@ -90,7 +90,6 @@ export function getRoadPathBetween(pos1: RoomPosition, pos2: RoomPosition, allow
     }
     return path;
 }
-
 
 function findRoadPath(origin: {pos: RoomPosition}, destination: {pos: RoomPosition}, cMatrix: (roomName: string) => CostMatrix | boolean): RoomPosition[] | undefined {
     let options = {
@@ -163,10 +162,10 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
 
     if (!room) {
         return costs;
-    };
+    ;
 
     if (allowSK === true) {
-        room.find(FIND_HOSTILE_STRUCTURES, {filter: function(s: StructureKeeperLair) { return s.structureType === STRUCTURE_KEEPER_LAIR;}}).forEach(function (lair: Structure) {
+        room.find(FIND_HOSTILE_STRUCTURES, {filter: function(s: StructureKeeperLair) { return s.structureType === STRUCTURE_KEEPER_LAIR; }}).forEach(function (lair: Structure) {
             let x: number, y: number, t: string;
             for (x = -2; x < 3; x++) {
                 for (y = -2; y < 3; y++) {
@@ -283,7 +282,6 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
 
     return costs;
 }
-
 
 export function getRoomCallbackForRoadbuildingSKallowed(roomName: string): CostMatrix {
     return getRoomCallbackForRoadbuilding(roomName, true);

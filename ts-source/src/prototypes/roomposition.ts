@@ -6,8 +6,8 @@ RoomPosition.prototype.hasFreeSpaceAround = function(): boolean {
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
         let position = new RoomPosition(this.x + x, this.y + y, this.roomName);
-            let terrainAtPositon = Game.map.getTerrainAt(position);
-            if (terrainAtPositon !== "swamp" && terrainAtPositon !== "plain") {
+        let terrainAtPositon = Game.map.getTerrainAt(position);
+        if (terrainAtPositon !== "swamp" && terrainAtPositon !== "plain") {
                 return false;
             }
         }
@@ -15,14 +15,13 @@ RoomPosition.prototype.hasFreeSpaceAround = function(): boolean {
     return true;
 };
 
-
 RoomPosition.prototype.getFreeSpaceAround = function(): number {
     let c = 0;
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
         let position = new RoomPosition(this.x + x, this.y + y, this.roomName);
-            let terrainAtPositon = Game.map.getTerrainAt(position);
-            if (terrainAtPositon === "swamp" || terrainAtPositon === "plain") {
+        let terrainAtPositon = Game.map.getTerrainAt(position);
+        if (terrainAtPositon === "swamp" || terrainAtPositon === "plain") {
                 c++;
             }
         }
@@ -45,7 +44,7 @@ RoomPosition.prototype.hasBuildingType = function (structureType: string): boole
         }
     }
     return false;
-}
+};
 
 RoomPosition.prototype.getPositionInDirection = function (direction: number): RoomPosition {
     switch (direction) {
@@ -68,4 +67,4 @@ RoomPosition.prototype.getPositionInDirection = function (direction: number): Ro
         default:
             return new RoomPosition(this.x, this.y, this.roomName);
     }
-}
+};

@@ -1,8 +1,8 @@
-import * as OperationHaul from "../operations/Haul";
 import * as OperationGuard from "../operations/Guard";
+import * as OperationHaul from "../operations/Haul";
 
-import {IOperationData} from "../operations/_OperationData";
 import {OperationType} from "../enums/operationtypes";
+import {IOperationData} from "../operations/_OperationData";
 
 function addOperation(operation: IOperationData) {
     if (Memory.operations === undefined) {
@@ -72,7 +72,7 @@ export function createCrisisHaulOperation(roomName: string, allRooms: Room[]): b
     op.victoryCondition = OperationHaul.VictoryCondition.Gametime;
     op.victoryValue = Game.time + 5000;
     addOperation(op);
-    console.log("Starting a crisisconvoy from room " + provider + " to room " + roomName+", supplying 20 energy a tick.");
+    console.log("Starting a crisisconvoy from room " + provider + " to room " + roomName + ", supplying 20 energy a tick.");
     return true;
 }
 

@@ -13,16 +13,16 @@
  *   DefendingBankroom - Defending bankroom from enemies
  */
 
+import * as _BankRobbers from "../rolelib/bankrobbers";
 import * as _Military from "../rolelib/military";
 import * as _Targeting from "../rolelib/targeting";
-import * as _BankRobbers from "../rolelib/bankrobbers";
 
 import {log} from "../tools/Logger";
 
 enum State {
     MovingToBank = 1,
     AttackingBank = 2,
-    DefendingBankroom = 3
+    DefendingBankroom = 3,
 }
 
 export function run(creep: Creep) {
@@ -32,7 +32,7 @@ export function run(creep: Creep) {
         creep.setState(State.MovingToBank);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToBank:
             runMoveToBank(creep);
             break;

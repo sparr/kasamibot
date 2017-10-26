@@ -8,10 +8,10 @@
  *
  */
 
-import {ManagerPriority} from "../managers/_Manager";
 import {OperationType} from "../enums/operationtypes";
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
+import {ManagerPriority} from "../managers/_Manager";
 
 import {IOperationData} from "../operations/_OperationData";
 
@@ -24,7 +24,7 @@ import {Order} from "../classes/Order";
 import * as ProfileUtilities from "../utilities/Profiles";
 
 export enum VictoryCondition {
-    Gametime = 1
+    Gametime = 1,
 }
 
 export class Data implements IOperationData {
@@ -55,7 +55,7 @@ export function run(operation: Data, creepService: CreepService, pri: ManagerPri
 }
 
 export function victoryConditionReached(operation: Data): boolean {
-    switch(operation.victoryCondition) {
+    switch (operation.victoryCondition) {
         case VictoryCondition.Gametime:
             if (Game.time > operation.victoryValue + 10000) {
                 operation.active = false;
@@ -149,7 +149,7 @@ function orderRanger(spawnRoom: Room, targetRoom: string) {
 }
 
 function orderPaladin(spawnRoom: Room, targetRoom: string) {
-    
+
     let maxTier = ProfileUtilities.getMaxTierPaladin(spawnRoom.energyCapacityAvailable);
     let order = new Order();
     order.body = ProfileUtilities.getPaladinBody(maxTier);

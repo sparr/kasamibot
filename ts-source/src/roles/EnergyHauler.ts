@@ -17,13 +17,13 @@
  */
 
 import * as EnergyLib from "../lib/energy";
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as _Common from "../rolelib/common";
+import * as PathfindingUtilities from "../utilities/Pathfinding";
 
 enum State {
     Idle = 1,
     Tanking = 2,
-    Dumping = 3
+    Dumping = 3,
 }
 
 export function run(creep: Creep) {
@@ -47,7 +47,7 @@ export function run(creep: Creep) {
         creep.setState(State.Idle);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Idle:
             runIdle(creep);
             break;
@@ -66,7 +66,7 @@ export function run(creep: Creep) {
 
 function runIdle(creep: Creep) {
     if (creep.memory.sleepUntil !== undefined && creep.memory.sleepUntil > Game.time) {
-        _Common.moveOffRoad(creep)
+        _Common.moveOffRoad(creep);
         return;
     }
 
@@ -87,7 +87,7 @@ function runTanking(creep: Creep) {
         return;
     }
 
-    if(_Common.targetRoomHasInvaders(creep, creep.memory.containerPos.roomName)) {
+    if (_Common.targetRoomHasInvaders(creep, creep.memory.containerPos.roomName)) {
         return;
     }
 
@@ -189,7 +189,6 @@ function canTravelToSource(creep: Creep, sourceId: string): boolean {
     }
     return true;
 }
-
 
 function getSourceIdForEnergyHauler(roomName: string, creep: Creep): string | undefined {
     if (Game.rooms[roomName] === undefined) {

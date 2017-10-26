@@ -1,18 +1,18 @@
+import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as ProfileUtilities from "../utilities/Profiles";
 import * as ScoutingUtilities from "../utilities/Scouting";
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 
-import * as RoomRepository from "../repository/Room";
 import * as OrdersRepository from "../repository/Orders";
+import * as RoomRepository from "../repository/Room";
 
-import * as OutpostReserver from "../roles/OutpostReserver";
 import * as OutpostDefender from "../roles/OutpostDefender";
+import * as OutpostReserver from "../roles/OutpostReserver";
 import * as OutpostSupporter from "../roles/OutpostSupporter";
 import * as OutpostWarrior from "../roles/OutpostWarrior";
 
 import * as IntelLib from "../lib/intel";
-import * as RoomLib from "../lib/room";
 import * as OperationLib from "../lib/operation";
+import * as RoomLib from "../lib/room";
 
 import {Order} from "../classes/Order";
 
@@ -21,10 +21,9 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
-
 
 export class OutpostManager extends Manager {
 
@@ -101,7 +100,7 @@ export class OutpostManager extends Manager {
                 if (outpostRoom !== undefined) {
                     let roadcount = outpostRoom.find(FIND_MY_CONSTRUCTION_SITES).length;
                     if (roadcount > 0) {
-                        let neededTiers = Math.ceil(roadcount/6);
+                        let neededTiers = Math.ceil(roadcount / 6);
                         this.orderJanitor(room, neededTiers);
                     }
                 }
@@ -112,9 +111,9 @@ export class OutpostManager extends Manager {
             if (IntelLib.hasIntel(outpost) && !IntelLib.hasInvaders(outpost)) {
                 let outpostRoom = Game.rooms[outpost];
                 if (outpostRoom !== undefined) {
-                    let roadcount = outpostRoom.find(FIND_MY_CONSTRUCTION_SITES).length
+                    let roadcount = outpostRoom.find(FIND_MY_CONSTRUCTION_SITES).length;
                     if (roadcount > 0) {
-                        let neededTiers = Math.ceil(roadcount/6);
+                        let neededTiers = Math.ceil(roadcount / 6);
                         this.orderJanitor(room, neededTiers);
                     }
                 }
@@ -424,7 +423,7 @@ export class OutpostManager extends Manager {
 
         potOutposts = _.filter(potOutposts, (o) => !IntelLib.isOwnedByMe(o));
 
-        let values: {roomName: string, value: number | undefined}[] = [];
+        let values: Array<{roomName: string, value: number | undefined}> = [];
         for (let o of potOutposts) {
             values.push({roomName: o, value: getOutpostValue(roomName, o)});
         }
@@ -436,7 +435,6 @@ export class OutpostManager extends Manager {
         }
     }
 }
-
 
 export function listNextOutposts(roomName: string) {
     let neighbours: string[] = ScoutingUtilities.getRoomsOneAway(roomName);
@@ -450,14 +448,14 @@ export function listNextOutposts(roomName: string) {
         potOutposts = _.filter(_.uniq(neighbours), (o) => o !== roomName);
     }
 
-    let values: {roomName: string, value: number | undefined}[] = [];
+    let values: Array<{roomName: string, value: number | undefined}> = [];
     for (let o of potOutposts) {
         values.push({roomName: o, value: getOutpostValue(roomName, o)});
     }
 
     values = _(_.filter(_.sortBy(values, "value"), (o) => o["value"] !== undefined)).reverse().value();
 
-    console.log("Room " + roomName + " outpost-values (best first)")
+    console.log("Room " + roomName + " outpost-values (best first)");
     for (let o of values) {
         console.log(o["roomName"] + ": " + o["value"]);
     }
@@ -467,12 +465,12 @@ export function evaluateOutposts(roomName: string) {
     let closeRooms =
         ScoutingUtilities.getRoomsOneAway(roomName).concat(
         ScoutingUtilities.getRoomsTwoAway(roomName),
-        ScoutingUtilities.getRoomsThreeAway(roomName)
+        ScoutingUtilities.getRoomsThreeAway(roomName),
     );
 
-    let potOutposts = _.filter(closeRooms, function (r: string) { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r)});
+    let potOutposts = _.filter(closeRooms, function (r: string) { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r); });
 
-    let values: {roomName: string, value: number | undefined}[] = [];
+    let values: Array<{roomName: string, value: number | undefined}> = [];
     for (let o of potOutposts) {
         values.push({roomName: o, value: getOutpostValue(roomName, o)});
     }

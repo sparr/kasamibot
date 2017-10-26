@@ -22,7 +22,6 @@ export function run(creep: Creep) {
         }
     }
 
-
     if (creep.ticksToLive < 20 && creep.room.storage instanceof StructureStorage) {
         creep.moveTo(creep.room.storage);
         creep.transfer(creep.room.storage, RESOURCE_ENERGY);
@@ -80,7 +79,7 @@ export function run(creep: Creep) {
         }
     } else
     if (dropofBuilding !== null) {
-        let response = creep.transfer(dropofBuilding, RESOURCE_ENERGY)
+        let response = creep.transfer(dropofBuilding, RESOURCE_ENERGY);
         if (response === ERR_NOT_IN_RANGE) {
             creep.moveTo(dropofBuilding);
             transferEnergyToNearbyExtensions(creep);
@@ -117,7 +116,7 @@ function parkMe(creep: Creep) {
     let parkingPos: RoomPosition;
     let basePos = RoomRepository.getBasePosition(creep.room);
     if (basePos !== undefined) {
-        parkingPos = new RoomPosition(basePos.x, basePos.y - 1, basePos.roomName)
+        parkingPos = new RoomPosition(basePos.x, basePos.y - 1, basePos.roomName);
     } else {
         parkingPos = creep.pos;
     }
@@ -271,7 +270,6 @@ function findDropofBuilding(creep: Creep, exceptId: string | null = null) {
         creep.memory.dropofBuilding = powerspawn.id;
         return;
     }
-
 
     if (creep.room.storage !== undefined && creep.room.terminal !== undefined &&
     creep.room.storage.store[RESOURCE_ENERGY] < 5000 && creep.room.terminal.store[RESOURCE_ENERGY] > 20000) {

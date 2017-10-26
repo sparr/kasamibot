@@ -24,7 +24,7 @@ enum State {
     MovingToTarget = 2,
     Wrecking = 3,
     MoveToStartPosition = 4,
-    Guarding = 5
+    Guarding = 5,
 }
 
 export function run(creep: Creep) {
@@ -36,7 +36,7 @@ export function run(creep: Creep) {
 
     shootHostileCreeps(creep);
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runWaiting(creep);
             break;
@@ -93,7 +93,7 @@ function runMoveToStartPosition(creep: Creep): void {
             RouteTravel.travelByRoute(creep, {allowSK: true});
         }
     } else {
-        creep.setState(State.MovingToTarget)
+        creep.setState(State.MovingToTarget);
         runMovingToTarget(creep);
     }
 }
@@ -138,7 +138,7 @@ function runWrecking(creep: Creep): void {
         targetToDismantle = getNewTargetToDismantle(creep);
         if (targetToDismantle !== null) {
             creep.memory.targetToDismantle = targetToDismantle.id;
-            moveAndDismantle(creep,targetToDismantle);
+            moveAndDismantle(creep, targetToDismantle);
         } else {
             let targetRoom = getNextTargetRoom(creep);
             log.info("TeamWrecker " + creep.name + " is moving to a new target room: " + targetRoom, creep.room.name);
@@ -157,7 +157,7 @@ function runGuarding(creep: Creep): void {
         targetToDismantle = getNewTargetToDismantle(creep);
         if (targetToDismantle !== null) {
             creep.memory.targetToDismantle = targetToDismantle.id;
-            moveAndDismantle(creep,targetToDismantle);
+            moveAndDismantle(creep, targetToDismantle);
         }
     }
 }
@@ -165,7 +165,7 @@ function runGuarding(creep: Creep): void {
 function destroyWallInPath(creep: Creep): boolean {
     if (creep.memory._travel !== undefined && creep.memory._travel.stuck !== undefined && creep.memory._travel.stuck === 1 &&
     creep.memory._travel.path !== undefined && creep.memory._travel.path.length > 0) {
-        let position = PositionLib.positionAtDirection(creep.pos, creep.memory._travel.path.substr(0,1));
+        let position = PositionLib.positionAtDirection(creep.pos, creep.memory._travel.path.substr(0, 1));
         if (position !== undefined && creep.pos.getRangeTo(position) === 1) {
             let atPos = position.lookFor(LOOK_STRUCTURES) as Structure[];
             for (let s of atPos) {
@@ -211,7 +211,7 @@ function shootHostileCreeps(creep: Creep) {
             }
         }
         return true;
-    })
+    });
 
     if (closeDangerousCreepsNotOnRamparts.length > 0) {
         creep.rangedAttack(closeDangerousCreepsNotOnRamparts[0]);
@@ -328,7 +328,7 @@ function findWallToDestroy(creep: Creep, targetToDismantle: Structure) {
     let path = PathFinder.search(
         creep.pos,
         {pos: targetToDismantle.pos, range: 1},
-        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction
+        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction,
     }).path;
     for (let roomPos of path) {
         let structures = roomPos.lookFor(LOOK_STRUCTURES) as Structure[];

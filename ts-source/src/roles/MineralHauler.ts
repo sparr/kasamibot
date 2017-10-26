@@ -95,7 +95,7 @@ export function run(creep: Creep) {
         if (response === OK) {
             let container = Game.getObjectById(creep.memory.container) as Container;
             if (container instanceof StructureContainer) {
-                creep.travelTo(container)
+                creep.travelTo(container);
             } else {
                 creep.travelToRoom(creep.memory.targetRoom);
             }

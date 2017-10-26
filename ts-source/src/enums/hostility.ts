@@ -4,5 +4,5 @@ export enum Hostility {
     Invaders = 2,
     Hostiles = 3,
     Reserved = 4,
-    Controlled = 5
+    Controlled = 5,
 }

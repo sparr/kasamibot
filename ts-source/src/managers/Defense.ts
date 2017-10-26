@@ -5,10 +5,10 @@ import * as _Targeting from "../rolelib/targeting";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
+import * as BaseRanger from "../roles/BaseRanger";
+import * as RampartDefender from "../roles/RampartDefender";
 import * as SKGuard from "../roles/SKGuard";
 import * as SKHealer from "../roles/SKHealer";
-import * as RampartDefender from "../roles/RampartDefender";
-import * as BaseRanger from "../roles/BaseRanger";
 
 import * as ProfileUtilities from "../utilities/Profiles";
 
@@ -23,8 +23,8 @@ import {Order} from "../classes/Order";
 
 import {log} from "../tools/Logger";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 export class DefenseManager extends Manager {
@@ -110,7 +110,6 @@ export class DefenseManager extends Manager {
             return;
         }
 
-
         let maxTier = ProfileUtilities.getMaxTierPaladin(room.energyCapacityAvailable);
 
         let order = new Order();
@@ -165,7 +164,7 @@ export class DefenseManager extends Manager {
         // TODO: Spawn according to hostile creeppower in the room, and based on room level
         let threat = room.memory.threat as Threat;
         if (threat === undefined) {
-            console.log("Somehow running defcon ordering without having a threat? Room "+ room.name + " - DefCon " + defcon);
+            console.log("Somehow running defcon ordering without having a threat? Room " + room.name + " - DefCon " + defcon);
             return;
         }
         if (defcon === 1 && room.storage !== undefined && room.storage.store[RESOURCE_ENERGY] > 50000) {
@@ -245,7 +244,7 @@ export class DefenseManager extends Manager {
         let order = new Order();
         order.body = ProfileUtilities.getProtectorBody(maxTier);
         order.priority = Priority.Standard;
-        order.memory = {role: Role.Protector, target: room.name, tier: maxTier, boost: boost};
+        order.memory = {role: Role.Protector, target: room.name, tier: maxTier, boost};
 
         OrdersRepository.orderCreep(room, order);
     }
@@ -263,7 +262,7 @@ function safemodeCheck(room: Room) {
         for (let c of enemies) {
             if (c.pos.getRangeTo(middlePos) < 4) {
                 room.controller.activateSafeMode();
-                Game.notify("Room " + room.name + " was set in safe mode because enemies are inside the base.")
+                Game.notify("Room " + room.name + " was set in safe mode because enemies are inside the base.");
                 log.alert("The room was set in safe mode because enemies are inside the base.", room.name);
             }
         }
@@ -304,7 +303,6 @@ function creepHasFreePathToStorage(creep: Creep): boolean {
     }
     return true;
 }
-
 
 function setDefConLevelToAtLeast(room: Room, level: number) {
     if (room.memory.defcon === undefined || room.memory.defcon < level) {
@@ -395,7 +393,6 @@ function controlTowers(room: Room) {
         room.memory.towerSleep = Game.time + 10;
     }
 }
-
 
 function setThreatLevels(room: Room) {
     let hostiles = _Targeting.findHostileCreepsInRoom(room);

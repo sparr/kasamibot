@@ -26,7 +26,7 @@ export function run(creep: Creep) {
             Memory.rooms[creep.memory.target].inaccessible = Game.time;
             creep.memory.target = undefined;
         }
-        if (creep.pos.x === 0 || creep.pos.x === 49 ||creep.pos.y === 0 || creep.pos.y === 49) {
+        if (creep.pos.x === 0 || creep.pos.x === 49 || creep.pos.y === 0 || creep.pos.y === 49) {
             IntelLib.saveIntelForRoom(creep.room);
         }
         return;
@@ -34,8 +34,6 @@ export function run(creep: Creep) {
     IntelLib.saveIntelForRoom(creep.room);
     creep.memory.target = undefined;
 };
-
-
 
 function getScoutingTarget(creep: Creep, roomName: string): string | undefined {
     let room = Game.rooms[roomName];

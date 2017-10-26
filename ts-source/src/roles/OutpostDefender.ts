@@ -9,9 +9,9 @@ import * as _Common from "../rolelib/common";
 import * as _Military from "../rolelib/military";
 import * as _Targeting from "../rolelib/targeting";
 
-import * as PositionLib from "../lib/position";
-import * as IntelLib from "../lib/intel";
 import * as DamageLib from "../lib/damage";
+import * as IntelLib from "../lib/intel";
+import * as PositionLib from "../lib/position";
 
 import {log} from "../tools/Logger";
 
@@ -21,7 +21,7 @@ export enum State {
     Defending = 3,
     WaitingForSupport = 4,
     RunHomeForHeal = 5,
-    WaitingForWarrior = 6
+    WaitingForWarrior = 6,
 }
 
 export function run(creep: Creep) {
@@ -33,7 +33,7 @@ export function run(creep: Creep) {
 
     let hasHealed = healIfNeeded(creep);
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Standby:
             runStandby(creep);
             break;
@@ -296,7 +296,6 @@ function getSupporter(creep: Creep): Creep | undefined {
     }
     return supporter;
 }
-
 
 function getWarrior(creep: Creep): Creep | undefined {
     let warrior = Game.getObjectById(creep.memory.warrior) as Creep;

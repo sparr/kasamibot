@@ -1,6 +1,5 @@
-import * as SourceUtilities from "../utilities/Source";
 import * as ProfileUtilities from "../utilities/Profiles";
-
+import * as SourceUtilities from "../utilities/Source";
 
 import * as ContainerHauler from "../roles/ContainerHauler";
 import * as EnergyHauler from "../roles/EnergyHauler";
@@ -8,8 +7,8 @@ import * as EnergyHauler from "../roles/EnergyHauler";
 import * as OrdersRepository from "../repository/Orders";
 import * as RoomRepository from "../repository/Room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 import {Order} from "../classes/Order";

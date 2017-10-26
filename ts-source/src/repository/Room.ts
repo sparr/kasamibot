@@ -17,8 +17,8 @@ import {RoomLevel} from "../enums/roomlevel";
 
 import {Roomtype} from "../enums/roomtype";
 
-import * as SpawnLib from "../lib/spawn";
 import * as IntelLib from "../lib/intel";
+import * as SpawnLib from "../lib/spawn";
 
 export function getBasePosition(room: Room): RoomPosition | undefined {
     if (room.memory.b !== undefined) {
@@ -73,7 +73,7 @@ export function hasOutpost(room: Room, outpost: string) {
 
 export function getAllOutposts(room: Room): string[] {
     if (room.memory.outposts === undefined) {
-        return []
+        return [];
     }
     return room.memory.outposts;
 }
@@ -119,7 +119,7 @@ export function getBasicOutposts(room: Room): string[] {
     if (room.memory.outposts === undefined) {
         return outposts;
     }
-    for(let s of room.memory.outposts) {
+    for (let s of room.memory.outposts) {
         if (!isMiddleRoom(s)) {
             outposts.push(s);
         }
@@ -132,7 +132,7 @@ export function getLairOutposts(room: Room): string[] {
     if (room.memory.outposts === undefined) {
         return outposts;
     }
-    for(let s of room.memory.outposts) {
+    for (let s of room.memory.outposts) {
         if (isMiddleRoom(s)) {
             outposts.push(s);
         }
@@ -143,7 +143,7 @@ export function getLairOutposts(room: Room): string[] {
 export function getLastIndex(): number {
     let last = 1;
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey]
+        let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true && room.memory.index !== undefined) {
             if (last < room.memory.index) {
                 last = room.memory.index;
@@ -153,10 +153,9 @@ export function getLastIndex(): number {
     return last;
 }
 
-
 export function getRoomForIndex(index: number): Room | undefined {
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey]
+        let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true && room.memory.index === index) {
             return room;
         }
@@ -171,14 +170,14 @@ export function getIndex(room: Room): number {
 
     let rooms: Room[] = [];
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey]
+        let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true) {
             rooms.push(room);
         }
     }
     let used = _.map(rooms, (r: Room) => r.memory.index);
     let counter = 1;
-    while(counter < 100) {
+    while (counter < 100) {
         if (!_.contains(used, counter)) {
             room.memory.index = counter;
             return counter;
@@ -189,7 +188,6 @@ export function getIndex(room: Room): number {
     log.error("Error assigning roomindex to room.", room.name);
     return 0;
 }
-
 
 /** Utils */
 

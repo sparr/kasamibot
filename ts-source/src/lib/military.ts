@@ -2,8 +2,8 @@ import * as ProfileUtilities from "../utilities/Profiles";
 
 import * as OrdersRepository from "../repository/Orders";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 
 import {Order} from "../classes/Order";
 
@@ -16,7 +16,7 @@ export function orderWrecker(room: Room, route: string[]): void {
         role: Role.Wrecker,
         target: undefined,
         tier: maxTier,
-        route: route
+        route,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -30,8 +30,8 @@ export function orderDrainer(room: Room, tier: number, route: string[]): void {
     order.memory = {
         role: Role.Drainer,
         target: undefined,
-        tier: tier,
-        route: route
+        tier,
+        route,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -46,7 +46,7 @@ export function orderPaladin(room: Room, route: string[]): void {
         role: Role.Paladin,
         target: undefined,
         tier: maxTier,
-        route: route
+        route,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -61,7 +61,7 @@ export function orderRanger(room: Room, route: string[]): void {
         role: Role.Ranger,
         target: undefined,
         tier: maxTier,
-        route: route
+        route,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -74,8 +74,8 @@ export function orderHarasser(room: Room, target: string): void {
     order.priority = Priority.Standard;
     order.memory = {
         role: Role.Harasser,
-        target: target,
-        tier: maxTier
+        target,
+        tier: maxTier,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -91,9 +91,9 @@ export function orderTagger(room: Room, target: string): void {
         claimerOrder.priority = Priority.Critical;
         claimerOrder.memory = {
             role: Role.RoomClaimer,
-            target: target,
-            tier: 1
-        }
+            target,
+            tier: 1,
+        };
         OrdersRepository.orderCreep(room, claimerOrder);
     }
 
@@ -102,8 +102,8 @@ export function orderTagger(room: Room, target: string): void {
     order.priority = Priority.Important;
     order.memory = {
         role: Role.Tagger,
-        target: target,
-        tier: 1
+        target,
+        tier: 1,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -115,8 +115,8 @@ export function orderDeclarer(room: Room, route: string[]): void {
     order.priority = Priority.Trivial;
     order.memory = {
         role: Role.Declarer,
-        route: route,
-        tier: 1
+        route,
+        tier: 1,
     };
 
     OrdersRepository.orderCreep(room, order);
@@ -128,8 +128,8 @@ export function orderTeamWrecker(room: Room, tier: number, route: string[], targ
     healerorder.memory = {
         role: Role.TeamHealer,
         target: undefined,
-        tier: tier};
-    switch(boostLevel) {
+        tier};
+    switch (boostLevel) {
         case 0:
             healerorder.body = ProfileUtilities.getB0TeamHealerBody(tier);
             break;
@@ -152,25 +152,25 @@ export function orderTeamWrecker(room: Room, tier: number, route: string[], targ
     wreckerorder.memory = {
         role: Role.TeamWrecker,
         target: undefined,
-        tier: tier,
-        route: route,
-        targets: targets
+        tier,
+        route,
+        targets,
     };
-    switch(boostLevel) {
+    switch (boostLevel) {
         case 0:
             wreckerorder.body = ProfileUtilities.getB0TeamWreckerBody(tier);
             break;
         case 1:
             wreckerorder.body = ProfileUtilities.getB1TeamWreckerBody(tier);
-            wreckerorder.memory.boost = [RESOURCE_GHODIUM_OXIDE, RESOURCE_ZYNTHIUM_HYDRIDE, RESOURCE_KEANIUM_OXIDE, RESOURCE_ZYNTHIUM_OXIDE]
+            wreckerorder.memory.boost = [RESOURCE_GHODIUM_OXIDE, RESOURCE_ZYNTHIUM_HYDRIDE, RESOURCE_KEANIUM_OXIDE, RESOURCE_ZYNTHIUM_OXIDE];
             break;
         case 2:
             wreckerorder.body = ProfileUtilities.getB2TeamWreckerBody(tier);
-            wreckerorder.memory.boost = [RESOURCE_GHODIUM_ALKALIDE, RESOURCE_ZYNTHIUM_ACID, RESOURCE_KEANIUM_ALKALIDE, RESOURCE_ZYNTHIUM_ALKALIDE]
+            wreckerorder.memory.boost = [RESOURCE_GHODIUM_ALKALIDE, RESOURCE_ZYNTHIUM_ACID, RESOURCE_KEANIUM_ALKALIDE, RESOURCE_ZYNTHIUM_ALKALIDE];
             break;
         case 3:
             wreckerorder.body = ProfileUtilities.getB3TeamWreckerBody(tier);
-            wreckerorder.memory.boost = [RESOURCE_CATALYZED_GHODIUM_ALKALIDE, RESOURCE_CATALYZED_ZYNTHIUM_ACID, RESOURCE_CATALYZED_KEANIUM_ALKALIDE, RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE]
+            wreckerorder.memory.boost = [RESOURCE_CATALYZED_GHODIUM_ALKALIDE, RESOURCE_CATALYZED_ZYNTHIUM_ACID, RESOURCE_CATALYZED_KEANIUM_ALKALIDE, RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE];
             break;
     }
 

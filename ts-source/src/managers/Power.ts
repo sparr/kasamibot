@@ -2,8 +2,8 @@ import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as ProfileUtilities from "../utilities/Profiles";
 
 import * as BankAttacker from "../roles/BankAttacker";
-import * as BankHealer from "../roles/BankHealer";
 import * as BankHauler from "../roles/BankHauler";
+import * as BankHealer from "../roles/BankHealer";
 import * as BankRanger from "../roles/BankRanger";
 
 import * as PowerConfig from "../config/power";
@@ -13,8 +13,8 @@ import * as RoomRepository from "../repository/Room";
 
 import {Order} from "../classes/Order";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
@@ -146,7 +146,6 @@ function orderPowerBankTeam(room: Room, bank: BankInfo) {
     rangerorder.priority = Priority.Critical;
     rangerorder.memory = {role: Role.BankRanger, target: bank.id, tier: 1};
 
-
     OrdersRepository.orderCreep(room, attackerorder);
     OrdersRepository.orderCreep(room, healerorder);
 
@@ -158,11 +157,9 @@ function orderPowerBankTeam(room: Room, bank: BankInfo) {
     }
 }
 
-
 function orderExtraPowerBankTeam(room: Room, bank: BankInfo) {
     log.info("Sending reinforcements to bank by room" + room.name + " (" + bank.power + " power)", bank.position.roomName);
     let maxTierHealer = ProfileUtilities.getMaxTierHealer(room.energyCapacityAvailable);
-
 
     let attackerorder = new Order();
     attackerorder.body = ProfileUtilities.getBankAttacker();
@@ -318,7 +315,7 @@ class BankInfo {
     public position: {
         x: number,
         y: number,
-        roomName: string
+        roomName: string,
     };
 }
 

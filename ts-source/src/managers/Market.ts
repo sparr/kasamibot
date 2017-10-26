@@ -38,7 +38,7 @@ export function getResourceBuyPrice(resource: string): number | undefined {
 function updateMarketPrices() {
     Memory.marketBuy = {};
     Memory.marketSell = {};
-    let myActiveOrderIds = _.map(getMyActiveOrders(), function (o) {return o.id;});
+    let myActiveOrderIds = _.map(getMyActiveOrders(), function (o) {return o.id; });
     for (let o of Game.market.getAllOrders()) {
         if (o.amount >= 1000 && !_.contains(myActiveOrderIds, o.id)) {
             if (o.type === ORDER_SELL && (Memory.marketSell[o.resourceType] === undefined || Memory.marketSell[o.resourceType] > o.price)) {
@@ -53,7 +53,7 @@ function updateMarketPrices() {
 }
 
 function getMyActiveOrders(): Order[] {
-    return _.filter(Game.market.orders, function (o) {return o.active;});
+    return _.filter(Game.market.orders, function (o) {return o.active; });
 }
 
 /*

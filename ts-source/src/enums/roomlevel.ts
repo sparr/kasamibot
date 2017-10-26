@@ -102,5 +102,5 @@ export enum RoomLevel {
      * - 60 extensions built
      * - 3 spawns built
      */
-    Metropolis = 14
+    Metropolis = 14,
 }

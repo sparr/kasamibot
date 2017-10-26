@@ -153,7 +153,6 @@ export function getT3BoostedWreckerTeamTierForRoom(room: Room, target: string): 
     }
 }
 
-
 export function getT2BoostedWreckerTeamTierForRoom(room: Room, target: string): number | undefined {
     let targetLevel = IntelLib.roomLevel(target);
     if (targetLevel === undefined || room.controller === undefined || targetLevel < 4) {

@@ -22,13 +22,13 @@ export function getConstructionPointsInRoom(room: Room): number {
 
 export function getBuildingCount(room: Room, structureType: string): number {
     return room.find(FIND_STRUCTURES, {filter:
-        function(s: Structure) { return s.structureType === structureType; }
+        function(s: Structure) { return s.structureType === structureType; },
     }).length;
 }
 
 export function getConstructionSiteCount(room: Room, structureType: string): number {
     return room.find(FIND_CONSTRUCTION_SITES, {filter:
-        function(s: Structure) { return s.structureType === structureType; }
+        function(s: Structure) { return s.structureType === structureType; },
     }).length;
 }
 
@@ -39,7 +39,7 @@ export function roomHasConstructionSites(room: Room): boolean {
 }
 
 export function buildIfNotPresent(structureType: string, spawnPos: RoomPosition, offsetX: number, offsetY: number,
-        keepRoad: boolean = false, destroyOtherStructures: boolean = false): boolean {
+                                  keepRoad: boolean = false, destroyOtherStructures: boolean = false): boolean {
     let pos = new RoomPosition(spawnPos.x + offsetX, spawnPos.y + offsetY, spawnPos.roomName);
 
     if (PositionLib.positionIsBorder(pos)) {

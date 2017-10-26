@@ -1,17 +1,17 @@
 let version = "1.0.0";
 
+import {config} from "./config";
 import * as Core from "./managers/Core";
 import {command} from "./tools/Command";
-import {config} from "./config";
 
 try {
 
     if (config !== undefined) {
         if (Memory.settings === undefined) {
             Memory.settings = {};
-            console.log("* * * * * * * * * * * * *")
-            console.log(" Loading KasamiBot " + version + " ")
-            console.log("* * * * * * * * * * * * *")
+            console.log("* * * * * * * * * * * * *");
+            console.log(" Loading KasamiBot " + version + " ");
+            console.log("* * * * * * * * * * * * *");
         }
 
         if (config.bot !== undefined) {
@@ -48,7 +48,6 @@ try {
 }
 catch (e) {
 }
-
 
 export function loop() {
     Core.run();

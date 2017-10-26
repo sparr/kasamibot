@@ -9,8 +9,8 @@
  *   targetToAttack - id for structure or creep to attack
  */
 
-import * as _Targeting from "../rolelib/targeting";
 import * as _Military from "../rolelib/military";
+import * as _Targeting from "../rolelib/targeting";
 
 import * as PositionLib from "../lib/position";
 
@@ -20,7 +20,7 @@ enum State {
     Waiting = 1,
     MovingToTarget = 2,
     Attacking = 3,
-    Sleep = 4
+    Sleep = 4,
 }
 
 export function run(creep: Creep) {
@@ -32,7 +32,7 @@ export function run(creep: Creep) {
 
     healIfNeeded(creep);
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runWaiting(creep);
             break;
@@ -133,7 +133,7 @@ function getNewTargetToAttack(creep: Creep): Structure | Creep | null {
         let claimers: Creep[] = [];
         for (let c of allCreeps) {
             if (c.getActiveBodyparts(CLAIM) > 0) {
-                claimers.push(c)
+                claimers.push(c);
             }
             if (c.getActiveBodyparts(ATTACK) > 0 || c.getActiveBodyparts(RANGED_ATTACK) > 0 || c.getActiveBodyparts(HEAL) > 0) {
                 dangerous.push(c);
@@ -193,7 +193,7 @@ function findWallToDestroy(creep: Creep, targetToAttack: Structure  | Creep) {
     let path = PathFinder.search(
         creep.pos,
         {pos: targetToAttack.pos, range: 1},
-        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction
+        {maxRooms: 1, roomCallback: getRoomCallbackForWallDestruction,
     }).path;
     for (let roomPos of path) {
         let structures = roomPos.lookFor(LOOK_STRUCTURES) as Structure[];

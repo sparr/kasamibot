@@ -6,35 +6,35 @@ import {traveler} from "../utilities/Traveler";
 
 Creep.prototype.hasState = function() {
     return this.memory.state !== undefined;
-}
+};
 
 Creep.prototype.getState = function() {
     return this.memory.state;
-}
+};
 
 Creep.prototype.setState = function(state: number) {
     this.memory.state = state;
-}
+};
 
 Creep.prototype.getHomeroom = function (): string {
     return this.memory.homeroom;
-}
+};
 
 Creep.prototype.isInHomeroom = function (): boolean {
     return this.memory.homeroom === this.room.name;
-}
+};
 
 Creep.prototype.isPrioritized = function (): boolean {
     return this.memory.prioritized === true;
-}
+};
 
 Creep.prototype.setPrioritized = function (): void {
     this.memory.prioritized = true;
-}
+};
 
 Creep.prototype.setNotPrioritized = function (): void {
     this.memory.prioritized = false;
-}
+};
 
 Creep.prototype.travelTo = function(destination: {pos: RoomPosition}, options?: any, enemyCheck?: boolean) {
     if (options) {
@@ -45,7 +45,7 @@ Creep.prototype.travelTo = function(destination: {pos: RoomPosition}, options?: 
             options.maxOps = 10000;
         }
     } else {
-        options = {allowHostile: true, maxOps: 10000}
+        options = {allowHostile: true, maxOps: 10000};
     }
     return traveler.travelTo(this, destination, options, enemyCheck);
 };
@@ -54,7 +54,7 @@ Creep.prototype.travelToRoom = function(roomName: string, options?: any, enemyCh
     if (options) {
         options.range = 20;
     } else {
-        options = {range: 20}
+        options = {range: 20};
     }
     return this.travelTo({pos: new RoomPosition(25, 25, roomName)}, options, enemyCheck);
 };
@@ -62,7 +62,6 @@ Creep.prototype.travelToRoom = function(roomName: string, options?: any, enemyCh
 Creep.prototype.missingHits = function(): number {
   return this.hitsMax - this.hits;
 };
-
 
 Creep.prototype.isHurt = function(): boolean {
   return this.hits < this.hitsMax;
@@ -130,7 +129,7 @@ Creep.prototype.stopTanking = function(): void {
 
 Creep.prototype.getWorkerParts = function(): number {
   return this.getActiveBodyparts(WORK);
-}
+};
 
 Creep.prototype.isDisabled = function(): boolean {
   return this.memory.disabled;
@@ -146,4 +145,4 @@ Creep.prototype.enable = function(): void {
 
 Creep.prototype.isAtBorder = function(): boolean {
   return this.pos.x === 0 || this.pos.x === 49 || this.pos.y === 0 || this.pos.y === 49;
-}
+};

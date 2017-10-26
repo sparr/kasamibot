@@ -1,7 +1,7 @@
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
-import * as ProfileUtilities from "../utilities/Profiles";
 import * as PathfindingUtilities from "../utilities/Pathfinding";
+import * as ProfileUtilities from "../utilities/Profiles";
 
 import * as Upgrader from "../roles/Upgrader";
 import * as UpgraderHauler from "../roles/UpgraderHauler";
@@ -16,8 +16,8 @@ import {Order} from "../classes/Order";
 
 import * as EnergyLib from "../lib/energy";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 import {RoomLevel} from "../enums/roomlevel";
 
 export class UpgradeManager extends Manager {
@@ -205,7 +205,7 @@ export class UpgradeManager extends Manager {
             if (active > 3) {
                 order.priority = Priority.Low;
             }
-            order.memory = {role: Role.Upgrader, target: controller.id, tier: usedTier, boost: boost};
+            order.memory = {role: Role.Upgrader, target: controller.id, tier: usedTier, boost};
 
             OrdersRepository.orderCreep(controller.room, order);
         }

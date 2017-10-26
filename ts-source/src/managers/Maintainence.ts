@@ -11,8 +11,8 @@ import {Order} from "../classes/Order";
 
 import * as RoomLib from "../lib/room";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 
 import * as Janitor from "../roles/Janitor";
 
@@ -37,19 +37,19 @@ export class MaintainenceManager extends Manager {
             let lastRun = this.getValue(this.MEMORY_LASTRUN);
             if (lastRun === undefined || lastRun + 100 < Game.time) {
             let rooms = this.roomService.getNormalRoomsNotAbandoned();
-                for (let room of rooms) {
+            for (let room of rooms) {
                     if (RoomLib.roomShouldHaveJanitors(room)) {
                         this.orderJanitor(room);
                     }
                 }
-                this.setValue(this.MEMORY_LASTRUN, Game.time);
+            this.setValue(this.MEMORY_LASTRUN, Game.time);
             }
         }
     }
 
     private orderJanitor(room: Room): void {
         let ordered = OrdersRepository.getNumberOfTiersInQueue(room, Role.Janitor, room.name);
-        let spawned = this.creepService.getNumberOfTiers(Role.Janitor, room.name)
+        let spawned = this.creepService.getNumberOfTiers(Role.Janitor, room.name);
         if (ordered + spawned > 0) {
             return;
         }
@@ -64,5 +64,3 @@ export class MaintainenceManager extends Manager {
         OrdersRepository.orderCreep(room, order);
     }
 }
-
-

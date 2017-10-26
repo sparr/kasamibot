@@ -3,17 +3,17 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
 
-import * as TeamHealer from "../roles/TeamHealer";
-import * as TeamWrecker from "../roles/TeamWrecker";
-import * as Wrecker from "../roles/Wrecker";
 import * as Drainer from "../roles/Drainer";
 import * as Harasser from "../roles/Harasser";
 import * as Paladin from "../roles/Paladin";
 import * as Ranger from "../roles/Ranger";
+import * as TeamHealer from "../roles/TeamHealer";
+import * as TeamWrecker from "../roles/TeamWrecker";
+import * as Wrecker from "../roles/Wrecker";
 
+import * as Declarer from "../roles/Declarer";
 import * as Signer from "../roles/Signer";
 import * as Tagger from "../roles/Tagger";
-import * as Declarer from "../roles/Declarer";
 
 import * as CommandLib from "../lib/command";
 import * as MilitaryLib from "../lib/military";
@@ -61,7 +61,7 @@ function processCommandOrders() {
         if (CommandLib.commandOrderIsValid(order)) {
             switch (order.role) {
                 case Role.TeamWrecker:
-                    MilitaryLib.orderTeamWrecker(Game.rooms[order.room], order.tier, order.route as string[], order.targets as string[], 3)
+                    MilitaryLib.orderTeamWrecker(Game.rooms[order.room], order.tier, order.route as string[], order.targets as string[], 3);
                     break;
                 case Role.Wrecker:
                     MilitaryLib.orderWrecker(Game.rooms[order.room], order.route as string[]);
@@ -143,8 +143,6 @@ B2T3 Healer - 6720 E, 12 TOUGH, 24 HEAL, 12 MOVE
 
 B1T1 Wrecker - 3400 E, 10 TOUGH, 16 WORK, 6 RANGED_ATTACK, 16 MOVE
 B1T1 Healer - 5300 E, 10 TOUGH, 18 HEAL, 14 MOVE
-
-
 
 SNIPER - should be able to use unknown amount of longbows, and similar
 amount of healers, only TOUGH and MOVE on longbows are boosted

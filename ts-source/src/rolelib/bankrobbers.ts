@@ -7,7 +7,7 @@ export function roomHasBankHaulers(room: Room, bank: PowerBank) {
     let creeps = room.find(FIND_MY_CREEPS) as Creep[];
     for (let c of creeps) {
         if (c.memory.role === Role.BankHauler) {
-            numb++
+            numb++;
         }
     }
     let wantedHaulers = Math.floor(bank.power / 1600) - 1;
@@ -29,7 +29,7 @@ export function getBankPosition(creep: Creep): RoomPosition {
         setBankPostionInMemory(creep);
     }
     if (creep.memory.bankPosition === undefined || creep.memory.bankPosition.x === undefined) {
-        log.error(creep.name+" is missing bankposition for PowerBank: " + creep.memory.target, creep.room.name);
+        log.error(creep.name + " is missing bankposition for PowerBank: " + creep.memory.target, creep.room.name);
         return creep.pos;
     }
     let bankPosition = new RoomPosition(creep.memory.bankPosition.x, creep.memory.bankPosition.y, creep.memory.bankPosition.roomName);

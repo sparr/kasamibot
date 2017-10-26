@@ -50,10 +50,10 @@ export function run(creep: Creep) {
                 creep.travelTo({pos: sourcePos});
             } else
             if (response === OK) {
-                if (Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] === undefined) {
-                    Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] = 0;
+                if (Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] === undefined) {
+                    Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] = 0;
                 }
-                Memory.stats['room.' + creep.memory.homeroom + '.energyHarvested'] += creep.getWorkerParts() * 2;
+                Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] += creep.getWorkerParts() * 2;
             }
         }
     }

@@ -4,12 +4,12 @@ export enum ManagerPriority {
     Low = 3,
     Trivial = 4,
     Overflow = 5,
-    None = 6
+    None = 6,
 }
 
 export abstract class Manager {
 
-    private name:string;
+    private name: string;
 
     constructor(name: string) {
         this.name = name;

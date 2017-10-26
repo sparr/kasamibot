@@ -22,7 +22,7 @@ import {log} from "../tools/Logger";
 enum State {
     Waiting = 1,
     MovingToPosition = 2,
-    Attacking = 3
+    Attacking = 3,
 }
 
 export function run(creep: Creep) {
@@ -35,7 +35,7 @@ export function run(creep: Creep) {
         setBoosting(creep);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.Waiting:
             runWaiting(creep);
             break;
@@ -154,7 +154,7 @@ function getCreepInPosition(pos: RoomPosition): Creep | undefined {
     if (creep.length > 0) {
         return creep[0];
     }
-    return undefined
+    return undefined;
 }
 
 function findRampartNextToEnemy(enemy: Creep): StructureRampart | undefined {

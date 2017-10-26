@@ -13,5 +13,5 @@ export enum Roomtype {
     NormalWithPraiseroom = 107,
     BeingAbandoned = 108,
     NormalNotAbandoned = 109,
-    NormalUnderSiege = 110
+    NormalUnderSiege = 110,
 }

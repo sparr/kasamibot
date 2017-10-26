@@ -1,14 +1,14 @@
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
-import {RoomService} from "../services/Room";
 import {CreepService} from "../services/Creep";
+import {RoomService} from "../services/Room";
 
 import {RoomLevel} from "../enums/roomlevel";
 
 import * as Protector from "../roles/Protector";
 
-import * as BuildLib from "../lib/build";
 import * as BaseLib from "../lib/base";
+import * as BuildLib from "../lib/build";
 import * as WallLib from "../lib/wall";
 
 import * as ProfileUtilities from "../utilities/Profiles";
@@ -18,8 +18,8 @@ import * as RoomRepository from "../repository/Room";
 
 import {Order} from "../classes/Order";
 
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 
 export class WallManager extends Manager {
 
@@ -46,23 +46,23 @@ export class WallManager extends Manager {
             let lastRunBaseBuilder = this.getValue(this.MEMORY_LASTRUN_BASEBUILDER);
             if (lastRunBaseBuilder === undefined || (lastRunBaseBuilder + 300) < Game.time) {
             let rooms = this.roomService.getNormalRooms();
-                for (let room of rooms) {
+            for (let room of rooms) {
                     let needed = roomNeedsBaseBuilder(room);
                     if (needed > 0) {
                         this.orderBaseBuilder(room, needed);
                     }
                 }
-                this.setValue(this.MEMORY_LASTRUN_BASEBUILDER, Game.time);
+            this.setValue(this.MEMORY_LASTRUN_BASEBUILDER, Game.time);
             }
             let lastRunProtector = this.getValue(this.MEMORY_LASTRUN_PROTECTOR);
             if (lastRunProtector === undefined || (lastRunProtector + 1000) < Game.time) {
             let rooms = this.roomService.getNormalRooms();
-                for (let room of rooms) {
+            for (let room of rooms) {
                     if (roomNeedsProtector(room)) {
                         this.orderProtector(room);
                     }
                 }
-                this.setValue(this.MEMORY_LASTRUN_PROTECTOR, Game.time);
+            this.setValue(this.MEMORY_LASTRUN_PROTECTOR, Game.time);
             }
         } else
         if (pri === ManagerPriority.Trivial) {
@@ -148,7 +148,6 @@ export class WallManager extends Manager {
         OrdersRepository.orderCreep(room, order);
     }
 
-
     private buildBorderWall(room: Room) {
         if (WallLib.wallConstructionLimitReached() || room.find(FIND_MY_CONSTRUCTION_SITES).length > 0) {
             return;
@@ -176,9 +175,9 @@ export class WallManager extends Manager {
             for (let y of [-1, 0, 1]) {
                 if (controllerPos.x + x > 0 && controllerPos.x + x < 49 && controllerPos.y + y > 0 && controllerPos.y + y < 49
                 && (x !== 0 || y !== 0)) {
-                    let pos = new RoomPosition(controllerPos.x + x, controllerPos.y + y, controllerPos.roomName)
+                    let pos = new RoomPosition(controllerPos.x + x, controllerPos.y + y, controllerPos.roomName);
                     let terrain = Game.map.getTerrainAt(pos);
-                    if (terrain === 'plain' || terrain === 'swamp') {
+                    if (terrain === "plain" || terrain === "swamp") {
                         BuildLib.buildIfNotPresent(STRUCTURE_RAMPART, pos, 0, 0, true, false);
                     }
                 }
@@ -333,7 +332,7 @@ function calculateBorderwall(room: Room): RoomPosition[] {
         return [];
     }
     let positions: RoomPosition[] = [];
-    for (let x of [1,2, 47, 48]) {
+    for (let x of [1, 2, 47, 48]) {
         for (let y of _.range(1, 49)) {
             let pos = new RoomPosition(x, y, room.name);
             if (posShouldBeBorderWall(pos)) {
@@ -341,7 +340,7 @@ function calculateBorderwall(room: Room): RoomPosition[] {
             }
         }
     }
-    for (let y of [1,2, 47, 48]) {
+    for (let y of [1, 2, 47, 48]) {
         for (let x of _.range(3, 47)) {
             let pos = new RoomPosition(x, y, room.name);
             if (posShouldBeBorderWall(pos)) {
@@ -377,7 +376,7 @@ function makeRampartListForBorderwall(neededPositions: RoomPosition[]): boolean[
         let posIdInt = parseInt(posId);
         let structs = neededPositions[posIdInt].lookFor(LOOK_STRUCTURES) as Structure[];
         if (structs.length > 0) {
-            for(let s of structs) {
+            for (let s of structs) {
                 if (s.structureType === STRUCTURE_WALL) {
                     ramparts[posIdInt] = false;
                 } else
@@ -422,9 +421,9 @@ function makeRampartListForBorderwall(neededPositions: RoomPosition[]): boolean[
 }
 
 function makeWallpositionsFromPath(path: RoomPosition[]): RoomPosition[] {
-    let positions: RoomPosition[] = []
+    let positions: RoomPosition[] = [];
     for (let i of _.range(0, path.length)) {
-        positions.push(path[i])
+        positions.push(path[i]);
         if (path[i].x !== path[(i + 1) % path.length].x &&
             path[i].y !== path[(i + 1) % path.length].y) {
                 if (Game.map.getTerrainAt(path[(i + 1) % path.length].x, path[i].y, path[i].roomName) !== "wall") {
@@ -466,7 +465,7 @@ function getOuterWallRoomCallback(room: Room, basePos: RoomPosition, withHorizon
                 costs.set(x, y, 1);
             } else
             if (x < 2 || x > 47 || y < 2 || y > 47) {
-                costs.set(x, y, 0xff)
+                costs.set(x, y, 0xff);
             } else {
                 costs.set(x, y, 5);
             }

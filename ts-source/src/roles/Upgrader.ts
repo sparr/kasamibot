@@ -24,13 +24,13 @@ export function run(creep: Creep) {
 
     let response = creep.upgradeController(controller);
     if (response === OK || creep.memory.pos !== undefined) {
-        if (Memory.stats['room.' + creep.room.name + '.energyUpgraded'] === undefined) {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] = 0;
+        if (Memory.stats["room." + creep.room.name + ".energyUpgraded"] === undefined) {
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] = 0;
         }
         if (creep.body[0].boost === RESOURCE_CATALYZED_GHODIUM_ACID) {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += (creep.getActiveBodyparts(WORK) * 2);
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] += (creep.getActiveBodyparts(WORK) * 2);
         } else {
-            Memory.stats['room.' + creep.room.name + '.energyUpgraded'] += creep.getActiveBodyparts(WORK);
+            Memory.stats["room." + creep.room.name + ".energyUpgraded"] += creep.getActiveBodyparts(WORK);
         }
         if (Game.time % 10 === 0) {
             // Todo: Make better...

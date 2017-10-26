@@ -1,5 +1,5 @@
-import {RoomLevel} from "../enums/roomlevel";
 import {Labstatus} from "../enums/labstatus";
+import {RoomLevel} from "../enums/roomlevel";
 
 import * as RoomRepository from "../repository/Room";
 
@@ -47,7 +47,7 @@ export function run(creep: Creep) {
         creep.memory.sleepUntil = Game.time + 10;
     }
 
-    switch(creep.memory.task) {
+    switch (creep.memory.task) {
         case CourierTask.PowerDelivery:
             deliverPower(creep);
             break;
@@ -118,7 +118,7 @@ function getTask(creep: Creep) {
         return;
     }
 
-    let nuker = creep.room.getNuker()
+    let nuker = creep.room.getNuker();
     if (creep.carry[RESOURCE_ENERGY] === 0 && nuker !== undefined && nuker.ghodium < nuker.ghodiumCapacity &&
     (creep.room.terminal !== undefined && creep.room.terminal.store[RESOURCE_GHODIUM] > 3000)) {
         creep.memory.task = CourierTask.SupplyNuker;
@@ -162,7 +162,7 @@ function parkMe(creep: Creep) {
 
     let basePos = RoomRepository.getBasePosition(creep.room);
     if (basePos !== undefined) {
-        parkingPos = new RoomPosition(basePos.x, basePos.y + 4, basePos.roomName)
+        parkingPos = new RoomPosition(basePos.x, basePos.y + 4, basePos.roomName);
     } else {
         parkingPos = creep.pos;
     }
@@ -205,7 +205,7 @@ function moveMineralsFromLab(creep: Creep) {
             creep.moveTo(terminal);
         } else {
             for (let res of Object.keys(creep.carry)) {
-                creep.transfer(terminal, res)
+                creep.transfer(terminal, res);
             }
         }
     } else {
@@ -218,7 +218,7 @@ function moveMineralsFromLab(creep: Creep) {
                     creep.moveTo(terminal);
                 } else {
                     for (let res of Object.keys(creep.carry)) {
-                        creep.transfer(terminal, res)
+                        creep.transfer(terminal, res);
                     }
                 }
             } else {
@@ -234,7 +234,6 @@ function moveMineralsFromLab(creep: Creep) {
 
 }
 
-
 function moveMineralsFromAllLab(creep: Creep) {
     if (creep.room.memory.lab === undefined || creep.room.terminal === undefined) {
         creep.memory.task = undefined;
@@ -246,7 +245,7 @@ function moveMineralsFromAllLab(creep: Creep) {
             creep.moveTo(terminal);
         } else {
             for (let res of Object.keys(creep.carry)) {
-                creep.transfer(terminal, res)
+                creep.transfer(terminal, res);
             }
         }
     } else {
@@ -259,7 +258,7 @@ function moveMineralsFromAllLab(creep: Creep) {
                     creep.moveTo(terminal);
                 } else {
                     for (let res of Object.keys(creep.carry)) {
-                        creep.transfer(terminal, res)
+                        creep.transfer(terminal, res);
                     }
                 }
             } else {
@@ -308,7 +307,7 @@ function moveMineralToLab(creep: Creep, mineral: string, amount: number, lab: La
                 creep.moveTo(creep.room.terminal);
             } else {
                 for (let res of Object.keys(creep.carry)) {
-                    creep.transfer(creep.room.terminal, res)
+                    creep.transfer(creep.room.terminal, res);
                 }
             }
         } else {
@@ -388,7 +387,6 @@ function movePowerToTerminal(creep: Creep) {
         }
     }
 }
-
 
 function movePowerFromTerminal(creep: Creep) {
     if (creep.carry[RESOURCE_POWER] === undefined && (creep.room.storage === undefined ||

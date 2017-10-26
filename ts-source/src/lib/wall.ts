@@ -29,7 +29,6 @@ export function desiredWallHitsForRoom(room: Room) {
     return 0;
 }
 
-
 export function desiredFortressHitsForRoom(room: Room) {
     let roomlevel = RoomRepository.getRoomLevel(room);
     if (Memory.settings.lowWalls === true || room.memory.lowWalls === true) {
@@ -64,7 +63,7 @@ export function desiredFortressHitsForRoom(room: Room) {
 export function getBorderwallRoomCallback(wallPositions: RoomPosition[]): CostMatrix {
     let costs = new PathFinder.CostMatrix;
 
-    for(let p of wallPositions) {
+    for (let p of wallPositions) {
         costs.set(p.x, p.y, 0xfe);
     }
     return costs;

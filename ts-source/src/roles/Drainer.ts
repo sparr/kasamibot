@@ -21,12 +21,11 @@ import {log} from "../tools/Logger";
 enum State {
     MovingToTarget = 1,
     MovingToDrainingPosition = 2,
-    Draining = 3
+    Draining = 3,
 }
 
 export function run(creep: Creep) {
     creep.notifyWhenAttacked(false);
-
 
     shootHostileCreeps(creep);
 
@@ -34,7 +33,7 @@ export function run(creep: Creep) {
         creep.setState(State.MovingToTarget);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToTarget:
             runMovingToTarget(creep);
             break;
@@ -93,7 +92,6 @@ function runMovingToTarget(creep: Creep) {
         creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true});
     }
 }
-
 
 function roomIsDrainable(creep: Creep): boolean {
     // Should check if the room has hostile turrets
@@ -174,7 +172,7 @@ function shootHostileCreeps(creep: Creep) {
             }
         }
         return true;
-    })
+    });
 
     if (closeDangerousCreepsNotOnRamparts.length > 0) {
         creep.rangedAttack(closeDangerousCreepsNotOnRamparts[0]);
@@ -186,8 +184,6 @@ function shootHostileCreeps(creep: Creep) {
         }
     }
 }
-
-
 
 /**
 

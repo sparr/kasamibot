@@ -10,10 +10,10 @@
 
 import {CreepService} from "../services/Creep";
 
-import {ManagerPriority} from "../managers/_Manager";
 import {OperationType} from "../enums/operationtypes";
-import {Role} from "../enums/role";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
+import {ManagerPriority} from "../managers/_Manager";
 
 import * as OrdersRepository from "../repository/Orders";
 
@@ -27,11 +27,11 @@ enum MoveState {
     Waiting = 1,
     Preparing = 2,
     Moving = 3,
-    Finished = 4
+    Finished = 4,
 }
 
 export enum VictoryCondition {
-    Spawnmoved = 1
+    Spawnmoved = 1,
 }
 
 export class Data implements IOperationData {

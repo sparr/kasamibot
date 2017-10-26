@@ -32,7 +32,7 @@ export interface TravelToOptions {
     allowHostile?: boolean;
     allowSK?: boolean;
     range?: number;
-    obstacles?: {pos: RoomPosition}[];
+    obstacles?: Array<{pos: RoomPosition}>;
     roomCallback?: (roomName: string, ignoreCreeps: boolean) => CostMatrix | boolean;
     routeCallback?: (roomName: string) => number;
     returnData?: { nextPos?: RoomPosition; };
@@ -55,7 +55,7 @@ const DEFAULT_STUCK_VALUE = 3;
 export class Traveler {
 
     private memory: {
-        hostileRooms: {[roomName: string]: number | undefined}
+        hostileRooms: {[roomName: string]: number | undefined},
     };
     private structureMatrixCache: {[roomName: string]: CostMatrix};
     private creepMatrixCache: {[roomName: string]: CostMatrix};
@@ -399,7 +399,6 @@ export class Traveler {
         }
         return matrix;
     }
-
 
     public static serializePath(startPos: RoomPosition, path: RoomPosition[]): string {
         let serializedPath = "";

@@ -5,8 +5,8 @@
  */
 
 import * as PositionLib from "../lib/position";
-import * as PathfindingUtilities from "../utilities/Pathfinding";
 import * as OrdersRepository from "../repository/Orders";
+import * as PathfindingUtilities from "../utilities/Pathfinding";
 
 import {Order} from "../classes/Order";
 
@@ -16,7 +16,7 @@ enum State {
     MoveToRoom = 1,
     Waiting = 2,
     Fighting = 3,
-    Healing = 4
+    Healing = 4,
 }
 
 export function run(creep: Creep) {
@@ -29,7 +29,7 @@ export function run(creep: Creep) {
         orderMyCopy(creep);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MoveToRoom:
             runMoveToRoom(creep);
             break;
@@ -210,7 +210,7 @@ function setOrderCopyTick(creep: Creep) {
 }
 
 function orderMyCopy(creep: Creep) {
-    if(Game.rooms[creep.memory.homeroom] === undefined || Game.rooms[creep.memory.homeroom].isAbandoned() || Game.rooms[creep.memory.homeroom].isUnderSiege() ||
+    if (Game.rooms[creep.memory.homeroom] === undefined || Game.rooms[creep.memory.homeroom].isAbandoned() || Game.rooms[creep.memory.homeroom].isUnderSiege() ||
         !_.contains(Game.rooms[creep.memory.homeroom].memory.poaching, creep.memory.target)) {
         return;
     }

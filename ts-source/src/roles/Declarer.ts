@@ -16,7 +16,7 @@ import {log} from "../tools/Logger";
 
 enum State {
     MovingToTarget = 1,
-    Declaring = 2
+    Declaring = 2,
 }
 
 export function run(creep: Creep) {
@@ -24,7 +24,7 @@ export function run(creep: Creep) {
         creep.setState(State.MovingToTarget);
     }
 
-    switch(creep.getState()) {
+    switch (creep.getState()) {
         case State.MovingToTarget:
             runMovingToTarget(creep);
             break;
@@ -63,7 +63,7 @@ function runDeclaring(creep: Creep): void {
         if (creep.pos.roomName !== creep.room.name || creep.pos.getRangeTo(targetController) > 1) {
             creep.travelTo(targetController);
         } else {
-            let quote = "This room is property of the AYCE alliance. Stay away from this and neighbouring rooms."
+            let quote = "This room is property of the AYCE alliance. Stay away from this and neighbouring rooms.";
             creep.signController(targetController, quote);
             creep.memory.target = undefined;
         }

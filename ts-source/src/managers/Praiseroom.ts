@@ -1,26 +1,26 @@
 import {Manager, ManagerPriority} from "../managers/_Manager";
 
+import {Roomtype} from "../enums/roomtype";
 import {CreepService} from "../services/Creep";
 import {RoomService} from "../services/Room";
-import {Roomtype} from "../enums/roomtype";
 
 import * as Praiser from "../roles/Praiser";
 import * as PraiserHauler from "../roles/PraiserHauler";
 import * as PraiserLeader from "../roles/PraiserLeader";
 
-import * as ProfileUtilities from "../utilities/Profiles";
 import * as PathfindingUtilities from "../utilities/Pathfinding";
+import * as ProfileUtilities from "../utilities/Profiles";
 
-import * as PrayerLib from "../lib/prayer";
 import * as BuildLib from "../lib/build";
+import * as PrayerLib from "../lib/prayer";
 
 import * as OrdersRepository from "../repository/Orders";
 
 import {Order} from "../classes/Order";
 
-import {Role} from "../enums/role";
 import {PraiseStatus} from "../enums/praisestatus";
 import {Priority} from "../enums/priority";
+import {Role} from "../enums/role";
 
 import {log} from "../tools/Logger";
 
@@ -145,7 +145,6 @@ export class PraiseroomManager extends Manager {
         let creepInHealingPos = this.getHealingPraiser(praiseRoom, storage.pos);
         let nextCreepInHealingPos = this.getNextHealingPraiser(praiseRoom, storage.pos);
 
-
         if (praiseRoom.memory.rotationDone) {
             this.boostPraisersIfShouldAndCan(praiseRoom);
             praiseRoom.memory.rotationDone = undefined;
@@ -269,7 +268,7 @@ export class PraiseroomManager extends Manager {
     }
 
     private getHealingPraiser(room: Room, storagePos: RoomPosition): Creep | undefined {
-        let healPos = PrayerLib.getHealCreepPos(room, storagePos)
+        let healPos = PrayerLib.getHealCreepPos(room, storagePos);
         let atPos = healPos.lookFor<Creep>(LOOK_CREEPS);
         if (atPos.length > 0) {
             return atPos[0];
@@ -278,7 +277,7 @@ export class PraiseroomManager extends Manager {
     }
 
     private getHealingSupporter(room: Room, storagePos: RoomPosition): Creep | undefined {
-        let healPos = PrayerLib.getHealSupporterPos(room, storagePos)
+        let healPos = PrayerLib.getHealSupporterPos(room, storagePos);
         let atPos = healPos.lookFor<Creep>(LOOK_CREEPS);
         if (atPos.length > 0) {
             return atPos[0];
@@ -380,7 +379,7 @@ export class PraiseroomManager extends Manager {
     }
 
     private getWantedPraiserCount(praiseRoom: Room): number {
-        switch(praiseRoom.memory.praiseStatus) {
+        switch (praiseRoom.memory.praiseStatus) {
             case PraiseStatus.Establishing:
                 return 3;
             case PraiseStatus.Reestablishing:
@@ -440,7 +439,6 @@ export class PraiseroomManager extends Manager {
             }
         }
     }
-
 
     private orderRoomClaimer(room: Room, targetRoom: string): void {
         let maxTier = ProfileUtilities.getMaxTierClaimer(room.energyCapacityAvailable);
@@ -563,8 +561,6 @@ function buildRampartsOnImportantBuildings(room: Room) {
         BuildLib.buildIfNotPresent(STRUCTURE_RAMPART, spawn2.pos, 0, 0, true, false);
     }
 }
-
-
 
 /**
 The PraiseManager is responsive for rooms used to praise GCL (energy -> GCL).

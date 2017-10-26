@@ -4,5 +4,5 @@ export enum HarassType {
     T1BoostedWreckerTeam = 2,
     Harasser = 3,
     Wrecker = 4,
-    Drainer = 5
+    Drainer = 5,
 }

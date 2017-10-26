@@ -31,7 +31,7 @@ for (let ingredient1 in REACTIONS) {
         ingredientsForCompound[compound] = ingredients;
     }
 }*/
-const ingredientsForCompound: {[key: string]: [string, string]} = {"OH":["O","H"],"LH":["L","H"],"KH":["K","H"],"UH":["U","H"],"ZH":["Z","H"],"GH":["G","H"],"LO":["L","O"],"KO":["K","O"],"UO":["U","O"],"ZO":["Z","O"],"GO":["G","O"],"ZK":["K","Z"],"UL":["U","L"],"UH2O":["UH","OH"],"UHO2":["UO","OH"],"ZH2O":["ZH","OH"],"ZHO2":["ZO","OH"],"KH2O":["KH","OH"],"KHO2":["KO","OH"],"LH2O":["LH","OH"],"LHO2":["LO","OH"],"GH2O":["GH","OH"],"GHO2":["GO","OH"],"XUH2O":["UH2O","X"],"XUHO2":["UHO2","X"],"XLH2O":["LH2O","X"],"XLHO2":["LHO2","X"],"XKH2O":["KH2O","X"],"XKHO2":["KHO2","X"],"XZH2O":["ZH2O","X"],"XZHO2":["ZHO2","X"],"XGH2O":["GH2O","X"],"XGHO2":["GHO2","X"],"G":["UL","ZK"]}
+const ingredientsForCompound: {[key: string]: [string, string]} = {"OH": ["O", "H"], "LH": ["L", "H"], "KH": ["K", "H"], "UH": ["U", "H"], "ZH": ["Z", "H"], "GH": ["G", "H"], "LO": ["L", "O"], "KO": ["K", "O"], "UO": ["U", "O"], "ZO": ["Z", "O"], "GO": ["G", "O"], "ZK": ["K", "Z"], "UL": ["U", "L"], "UH2O": ["UH", "OH"], "UHO2": ["UO", "OH"], "ZH2O": ["ZH", "OH"], "ZHO2": ["ZO", "OH"], "KH2O": ["KH", "OH"], "KHO2": ["KO", "OH"], "LH2O": ["LH", "OH"], "LHO2": ["LO", "OH"], "GH2O": ["GH", "OH"], "GHO2": ["GO", "OH"], "XUH2O": ["UH2O", "X"], "XUHO2": ["UHO2", "X"], "XLH2O": ["LH2O", "X"], "XLHO2": ["LHO2", "X"], "XKH2O": ["KH2O", "X"], "XKHO2": ["KHO2", "X"], "XZH2O": ["ZH2O", "X"], "XZHO2": ["ZHO2", "X"], "XGH2O": ["GH2O", "X"], "XGHO2": ["GHO2", "X"], "G": ["UL", "ZK"]};
 
 /*
 The priorityStock is used to make sure we have basic boosts for wreckerteams and active defense
@@ -74,7 +74,7 @@ const wantedStock: {[key: string]: number} = {
     LH: 2000, // (+50 % build and repair)
     XUHO2: 2000, // For harvest
     XKH2O: 2000, // For carry
-    XGH2O: 12000 // For upgraders at rcl 8 - for 1 upgrader with 15 workparts, we need 450 (7 labs will produce it in ~750 ticks)
+    XGH2O: 12000, // For upgraders at rcl 8 - for 1 upgrader with 15 workparts, we need 450 (7 labs will produce it in ~750 ticks)
 };
 
 import {Manager, ManagerPriority} from "../managers/_Manager";
@@ -103,7 +103,7 @@ export class LabManager extends Manager {
 }
 
 function labOperationStatus(room: Room) {
-    switch(room.memory.lab.labstatus) {
+    switch (room.memory.lab.labstatus) {
         case Labstatus.Inactive:
             checkIfWeShouldRunLabs(room);
             break;
@@ -300,11 +300,11 @@ function checkIfWeShouldRunLabs(room: Room) {
 
     let missingPriorityStock = false;
 
-    for(let mineral in priorityStock) {
+    for (let mineral in priorityStock) {
         if (room.terminal.store[mineral] === undefined || room.terminal.store[mineral] < priorityStock[mineral]) {
             missingPriorityStock = true;
             room.memory.lab.batchSize = 1000;
-            let missing = checkHowManyMineralsAreMissingForFinalProduct(room, mineral)
+            let missing = checkHowManyMineralsAreMissingForFinalProduct(room, mineral);
             if (missing === 0) {
                 room.memory.lab.mineralQueue = buildReactionQueueForMineral(mineral);
                 room.memory.lab.activeMineral = room.memory.lab.mineralQueue.shift();
@@ -320,10 +320,10 @@ function checkIfWeShouldRunLabs(room: Room) {
     }
 
     if (!missingPriorityStock) {
-        for(let mineral in wantedStock) {
+        for (let mineral in wantedStock) {
             if (room.terminal.store[mineral] === undefined || room.terminal.store[mineral] < wantedStock[mineral]) {
                 room.memory.lab.batchSize = 2000;
-                let missing = checkHowManyMineralsAreMissingForFinalProduct(room, mineral)
+                let missing = checkHowManyMineralsAreMissingForFinalProduct(room, mineral);
                 if (missing === 0) {
                     room.memory.lab.mineralQueue = buildReactionQueueForMineral(mineral);
                     room.memory.lab.activeMineral = room.memory.lab.mineralQueue.shift();
@@ -352,7 +352,7 @@ function checkHowManyMineralsAreMissingForFinalProduct(room: Room, mineral: stri
     let count = 0;
     for (let m of Object.keys(req)) {
         if (room.terminal.store[m] === undefined || room.terminal.store[m] < (req[m] * room.memory.lab.batchSize)) {
-            count++
+            count++;
         }
     }
     return count;
