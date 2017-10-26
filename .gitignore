@@ -1,5 +1,6 @@
 /ts-source/dist
 /ts-source/node_modules
 /ts-source/config.json
+/ts-source/ting
 
 npm-debug.log
