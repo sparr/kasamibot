@@ -2,9 +2,9 @@ let version = "1.0.0";
 
 import * as Core from "./managers/Core";
 import {command} from "./tools/Command";
+import {config} from "./config";
 
 try {
-    var config = require("config");
 
     if (config !== undefined) {
         if (Memory.settings === undefined) {

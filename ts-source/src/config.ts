@@ -23,14 +23,14 @@
 \* * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 "use strict";
-var config = {};
+export const config = {
 
 /**
  * config.bot: boolean (default: true)
  * Used to turn on and of bot-functionality. Should stay true.
  * Turning this of will stop autoexpand and a lot of other features.
  */
-config.bot = true;
+bot: true,
 
 
 /**
@@ -40,7 +40,7 @@ config.bot = true;
  *
  * Set this option to true to prevent the bot from attacking you.
  */
-config.passive = false;
+passive: false,
 
 
 /**
@@ -51,7 +51,7 @@ config.passive = false;
  *
  * Set this option to true to slow the bot progress down.
  */
-config.slow = false;
+slow: false,
 
 
 /**
@@ -62,7 +62,7 @@ config.slow = false;
  *
  * Set this option to the credit amount you want the bot to keep before spending.
  */
-config.creditsToMaintain = 250000;
+creditsToMaintain: 250000,
 
 
 /**
@@ -73,6 +73,5 @@ config.creditsToMaintain = 250000;
  *
  * Set this option to make the bot prioritize power processing over upgrading
  */
-config.powerfocus = false;
-
-module.exports = config;
+powerfocus: false,
+};
