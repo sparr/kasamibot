@@ -45,8 +45,7 @@ export function run(creep: Creep) {
             if (creep.pos.getRangeTo(healer) === 1) {
                 healer.moveTo(creep, {ignoreCreeps: true});
             }
-        } else
-        {
+        } else {
             creep.travelToRoom(targetRoom, {allowSK: true});
             if (creep.pos.getRangeTo(healer) === 1) {
                 healer.moveTo(creep, {ignoreCreeps: true});
@@ -109,9 +108,11 @@ export function run(creep: Creep) {
 
 function getBorderCallback(roomName: string): CostMatrix {
     let room = Game.rooms[roomName];
-    if (!room) return new PathFinder.CostMatrix;
+    if (!room) {
+        return new PathFinder.CostMatrix();
+    }
 
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
     for (let c = 0; c < 50; c++) {
         costs.set(c, 0, 20);
@@ -122,7 +123,7 @@ function getBorderCallback(roomName: string): CostMatrix {
         }
     }
 
-    room.find(FIND_CREEPS).forEach(function(creep: Creep) {
+    room.find(FIND_CREEPS).forEach((creep: Creep) => {
         costs.set(creep.pos.x, creep.pos.y, 0xff);
     });
 
@@ -143,8 +144,7 @@ function getKeeperTarget(creep: Creep): Creep | null {
         creep.memory.targetKeeper = closestDangerousCreep.id;
         creep.memory.targetPos = closestDangerousCreep.pos;
         return closestDangerousCreep;
-    }
-    else {
+    } else {
         creep.memory.targetKeeper = undefined;
         return null;
     }
@@ -152,7 +152,7 @@ function getKeeperTarget(creep: Creep): Creep | null {
 
 function getNextLairSpawning(creep: Creep): StructureKeeperLair | null {
     let allSpawningLairs = creep.room.find(FIND_HOSTILE_STRUCTURES, {
-        filter: function (s: StructureKeeperLair) {
+        filter: (s: StructureKeeperLair) => {
             return s.structureType === STRUCTURE_KEEPER_LAIR && s.ticksToSpawn !== undefined && s.ticksToSpawn > 0;
         },
     }) as StructureKeeperLair[];
@@ -164,8 +164,7 @@ function getNextLairSpawning(creep: Creep): StructureKeeperLair | null {
     let lair = allSpawningLairs[0];
     for (let l of allSpawningLairs) {
         if (lair.ticksToSpawn !== undefined && l.ticksToSpawn !== undefined &&
-            l.ticksToSpawn < lair.ticksToSpawn)
-        {
+            l.ticksToSpawn < lair.ticksToSpawn) {
             lair = l;
         }
     }

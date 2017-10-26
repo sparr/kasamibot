@@ -28,22 +28,22 @@ export enum VictoryCondition {
 }
 
 export class Data implements IOperationData {
-    operationtype: OperationType = OperationType.Guard;
+    public operationtype: OperationType = OperationType.Guard;
     /** Is the operation currenty active TODO: use this with pauseconditions? */
-    active: boolean = true;
+    public active: boolean = true;
     /** Victory-condition for operation */
-    victoryCondition: VictoryCondition;
+    public victoryCondition: VictoryCondition;
     /** Victory-condition value */
-    victoryValue: any;
+    public victoryValue: any;
     /** Room used to spawn guards */
-    room: string;
+    public room: string;
     /** Room to guard */
-    targetRoom: string;
+    public targetRoom: string;
 
     /* Last tick we ordered a guard */
-    lastOrder: number | undefined;
+    public lastOrder: number | undefined;
     /* Unittype to use for guarding */
-    unitType: Role;
+    public unitType: Role;
 }
 
 export function run(operation: Data, creepService: CreepService, pri: ManagerPriority): void {
@@ -61,6 +61,9 @@ export function victoryConditionReached(operation: Data): boolean {
                 operation.active = false;
                 return true;
             }
+            break;
+        default:
+            break;
     }
     return false;
 }

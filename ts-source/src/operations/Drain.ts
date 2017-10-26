@@ -32,23 +32,23 @@ export enum VictoryCondition {
 }
 
 export class Data implements IOperationData {
-    operationtype: OperationType = OperationType.Drain;
+    public operationtype: OperationType = OperationType.Drain;
     /** Is the operation currenty active TODO: use this with pauseconditions? */
-    active: boolean = true;
+    public active: boolean = true;
     /** Victory-condition for operation */
-    victoryCondition: VictoryCondition;
+    public victoryCondition: VictoryCondition;
     /** Victory-condition value */
-    victoryValue: any;
+    public victoryValue: any;
     /** Room to spawn units */
-    spawnRoom: string;
+    public spawnRoom: string;
     /** Toom to drain */
-    targetRoom: string;
+    public targetRoom: string;
     /** Route to room to drain */
-    targetRoute: string[];
+    public targetRoute: string[];
     /** What tier of drainers to use */
-    tier: number;
+    public tier: number;
 
-    distanceToTargetRoom?: number; // TODO: Not implemented usage
+    public distanceToTargetRoom?: number; // TODO: Not implemented usage
 }
 
 export function run(operation: Data, creepService: CreepService, pri: ManagerPriority): void {
@@ -79,6 +79,9 @@ export function victoryConditionReached(operation: Data): boolean {
                 operation.active = false;
                 return true;
             }
+            break;
+        default:
+            break;
     }
     return false;
 }

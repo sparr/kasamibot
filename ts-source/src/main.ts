@@ -45,8 +45,8 @@ try {
             }
         }
     }
-}
-catch (e) {
+} catch (e) {
+    console.log(`Exception while loading config: ${e}\n${e.stack}`);
 }
 
 export function loop() {

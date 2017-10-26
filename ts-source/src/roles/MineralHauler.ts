@@ -55,7 +55,7 @@ export function run(creep: Creep) {
         }
 
         let resource = mineral.mineralType;
-        if (container == null) {
+        if (container === null) {
             return;
         }
         if (container.store[RESOURCE_ENERGY] > 0) {

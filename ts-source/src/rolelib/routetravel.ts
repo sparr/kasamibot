@@ -19,7 +19,7 @@ export function travelByRoute(creep: Creep, options?: any, enemyCheck?: boolean)
             }
             creep.travelTo(portal, options, enemyCheck);
         } else
-        if (creep.memory.routeTarget !== undefined){
+        if (creep.memory.routeTarget !== undefined) {
             if (Game.map.getRoomLinearDistance(creep.room.name, creep.memory.routeTarget, false) < 10) {
                 creep.travelToRoom(routeTarget, options, enemyCheck);
             }

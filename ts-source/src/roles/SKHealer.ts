@@ -44,7 +44,7 @@ function healIfNeeded(creep: Creep, target: Creep) {
 }
 
 function findTargetToHeal(creep: Creep): Creep | null {
-    let targetsToHeal = creep.room.find(FIND_MY_CREEPS, {filter: function(c: Creep) {
+    let targetsToHeal = creep.room.find(FIND_MY_CREEPS, {filter: (c: Creep) => {
         return c.memory.role === Role.SKGuard && c.memory.healer === undefined && c.memory.token === creep.memory.token;
     }}) as Creep[];
     if (targetsToHeal.length > 0) {

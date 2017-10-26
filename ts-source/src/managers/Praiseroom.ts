@@ -29,7 +29,7 @@ export class PraiseroomManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("PraiseroomManager");
@@ -37,7 +37,7 @@ export class PraiseroomManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Critical) {
             this.creepService.runCreeps(Role.PraiserWithBoost, Praiser.run);
         } else
@@ -155,8 +155,7 @@ export class PraiseroomManager extends Manager {
 
         if ((Game.time % 366 === 0 && (creepInHealingPos === undefined || (creepInHealingPos !== undefined && creepInHealingPos.ticksToLive >= 1470))) ||
             (creepInHealingPos !== undefined && creepInHealingPos.ticksToLive >= 1485 &&
-            (nextCreepInHealingPos === undefined || (nextCreepInHealingPos !== undefined && nextCreepInHealingPos.ticksToLive < 100))))
-        {
+            (nextCreepInHealingPos === undefined || (nextCreepInHealingPos !== undefined && nextCreepInHealingPos.ticksToLive < 100)))) {
             this.assignPositionsToPraisers(praiseRoom, storage);
             log.info("Rotating praisers in praiserroom", praiseRoom.name);
             praiseRoom.memory.rotationDone = true;
@@ -233,7 +232,7 @@ export class PraiseroomManager extends Manager {
     private getPraisersSortedByTicksToLive(praiseRoom: Room): Creep[] {
         let praisers = this.creepService.getCreeps(Role.Praiser, praiseRoom.name) as Creep[];
         return praisers.sort(
-            function(a: Creep, b: Creep) {
+            (a: Creep, b: Creep) => {
                 return (a.ticksToLive > b.ticksToLive) ? 1 : ((b.ticksToLive > a.ticksToLive) ? -1 : 0);
             });
     }
@@ -253,7 +252,7 @@ export class PraiseroomManager extends Manager {
     private getSupportersSortedByTicksToLive(praiseRoom: Room): Creep[] {
         let praisers = this.creepService.getCreeps(Role.PraiserSupport, praiseRoom.name) as Creep[];
         return praisers.sort(
-            function(a: Creep, b: Creep) {
+            (a: Creep, b: Creep) => {
                 return (a.ticksToLive > b.ticksToLive) ? 1 : ((b.ticksToLive > a.ticksToLive) ? -1 : 0);
             });
     }
@@ -323,7 +322,7 @@ export class PraiseroomManager extends Manager {
         if (praiseRoom.controller === undefined || !praiseRoom.controller.my) {
             return;
         } else
-        if (praiseRoom.memory.praiseStatus == PraiseStatus.PreparingHibernate) {
+        if (praiseRoom.memory.praiseStatus === PraiseStatus.PreparingHibernate) {
             if (this.creepService.getCreeps(Role.Praiser, praiseRoom.name).length === 0) {
                 praiseRoom.controller.unclaim();
                 praiseRoom.memory.praiseStatus = PraiseStatus.Hiberate;
@@ -563,34 +562,34 @@ function buildRampartsOnImportantBuildings(room: Room) {
 }
 
 /**
-The PraiseManager is responsive for rooms used to praise GCL (energy -> GCL).
-
-Phases:
-- Establishing
-  Pushes the room up to RCL 6, and builds a spawn, terminal, lab and storage.
-  Also establishes defenses, towers and ramparts on all buildings and along the border.
-  Uses a container up to lvl 4, and then the storage. Energy is hauled from a neighbouring room. (RCL 8)
-  Builders are built in the neighbouring room.
-- Praising
-  Uses 7 max size upgraders and a single hauler for moving energy
-  RCL 1-5: Also uses haulers to move energy into the room
-  RCL 6-7: Energy is sent by the terminal
-- Preparing reset
-  Upgraders are dismissed, and energy is maxed in storage and terminal.
-  When the room is full of energy (1250 000), the room is unclaimed.
-- Reestablishing
-  Claims the room, and sends upgraders, hauler etc
-
-  Energy needed (only RCL) for
-  lvl 4 (storage): 180 000
-  lvl 6 (terminal): 1800 000
-  lvl 8 (reestablishing): 16 380 000 (about double if we boost)
-
-Praise per tick: 36*7 = 252 (504 with boost)
-Price for upgraders: 4150 (3 per tick), 20 per tick for all
-
-Ticks to get to lvl 4: 800 ticks
-Ticks to get to lvl 6: 8000 ticks
-Ticks before reestablishing: 75 000 ticks (4-5 days)
-
+ * The PraiseManager is responsive for rooms used to praise GCL (energy -> GCL).
+ *
+ * Phases:
+ * - Establishing
+ *   Pushes the room up to RCL 6, and builds a spawn, terminal, lab and storage.
+ *   Also establishes defenses, towers and ramparts on all buildings and along the border.
+ *   Uses a container up to lvl 4, and then the storage. Energy is hauled from a neighbouring room. (RCL 8)
+ *   Builders are built in the neighbouring room.
+ * - Praising
+ *   Uses 7 max size upgraders and a single hauler for moving energy
+ *   RCL 1-5: Also uses haulers to move energy into the room
+ *   RCL 6-7: Energy is sent by the terminal
+ * - Preparing reset
+ *   Upgraders are dismissed, and energy is maxed in storage and terminal.
+ *   When the room is full of energy (1250 000), the room is unclaimed.
+ * - Reestablishing
+ *   Claims the room, and sends upgraders, hauler etc
+ *
+ *   Energy needed (only RCL) for
+ *   lvl 4 (storage): 180 000
+ *   lvl 6 (terminal): 1800 000
+ *   lvl 8 (reestablishing): 16 380 000 (about double if we boost)
+ *
+ * Praise per tick: 36*7 = 252 (504 with boost)
+ * Price for upgraders: 4150 (3 per tick), 20 per tick for all
+ *
+ * Ticks to get to lvl 4: 800 ticks
+ * Ticks to get to lvl 6: 8000 ticks
+ * Ticks before reestablishing: 75 000 ticks (4-5 days)
+ *
  */

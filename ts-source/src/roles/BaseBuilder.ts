@@ -249,7 +249,7 @@ function findNewTargetConstructionSite(creep: Creep): ConstructionSite | null {
 }
 
 function findNewTargetWallSite(creep: Creep): Structure | null {
-    let walls = creep.room.find(FIND_STRUCTURES, {filter: function(s: Structure) {
+    let walls = creep.room.find(FIND_STRUCTURES, {filter: (s: Structure) => {
         return (s.structureType === STRUCTURE_RAMPART || s.structureType === STRUCTURE_WALL);
     }}) as Structure[];
 

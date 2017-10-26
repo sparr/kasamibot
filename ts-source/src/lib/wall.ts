@@ -61,7 +61,7 @@ export function desiredFortressHitsForRoom(room: Room) {
 }
 
 export function getBorderwallRoomCallback(wallPositions: RoomPosition[]): CostMatrix {
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
     for (let p of wallPositions) {
         costs.set(p.x, p.y, 0xfe);

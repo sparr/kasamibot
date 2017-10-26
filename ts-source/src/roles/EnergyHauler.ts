@@ -139,8 +139,7 @@ function runDumping(creep: Creep) {
         } else
         if (range > 1) {
             creep.moveTo(storage);
-        }
-         else{
+        } else {
             creep.transfer(storage, RESOURCE_ENERGY);
             creep.memory.dropof = undefined;
         }

@@ -64,9 +64,9 @@ export function getB3TeamHealerBody(tier: number): string[] {
 /**
  * TeamWrecker is a special role for attacking bases, working together with TeamHealer.
  * Has WORK for deconstruct and RANGED_ATTACK for defense. All parts T2 boosted.
-B2T1 Wrecker - 2280 E, 12 TOUGH, 13 WORK, 2 RANGED_ATTACK, 9 MOVE
-B2T2 Wrecker - 2570 E, 12 TOUGH, 15 WORK, 3 RANGED_ATTACK, 10 MOVE
-B2T3 Wrecker - 3320 E, 12 TOUGH, 20 WORK, 4 RANGED_ATTACK, 12 MOVE
+ * B2T1 Wrecker - 2280 E, 12 TOUGH, 13 WORK, 2 RANGED_ATTACK, 9 MOVE
+ * B2T2 Wrecker - 2570 E, 12 TOUGH, 15 WORK, 3 RANGED_ATTACK, 10 MOVE
+ * B2T3 Wrecker - 3320 E, 12 TOUGH, 20 WORK, 4 RANGED_ATTACK, 12 MOVE
  */
 export function getB2TeamWreckerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
@@ -96,12 +96,12 @@ export function getB2TeamWreckerBody(tier: number): string[] {
 }
 
 /**
-* TeamHealer is a special role for support in teams, working together with other teammembers.
-* Has HEAL for healing. All parts boosted with T2 Boosts.
-B2T1 Healer - 2240 E, 4 TOUGH, 8 HEAL, 4 MOVE
-B2T2 Healer - 5120 E, 12 TOUGH, 18 HEAL, 10 MOVE
-B2T3 Healer - 6720 E, 12 TOUGH, 24 HEAL, 12 MOVE
-*/
+ * TeamHealer is a special role for support in teams, working together with other teammembers.
+ * Has HEAL for healing. All parts boosted with T2 Boosts.
+ * B2T1 Healer - 2240 E, 4 TOUGH, 8 HEAL, 4 MOVE
+ * B2T2 Healer - 5120 E, 12 TOUGH, 18 HEAL, 10 MOVE
+ * B2T3 Healer - 6720 E, 12 TOUGH, 24 HEAL, 12 MOVE
+ */
 export function getB2TeamHealerBody(tier: number): string[] {
     if (tier > 3) { tier = 3; }
     let body: string[] = [];
@@ -133,7 +133,7 @@ export function getB2TeamHealerBody(tier: number): string[] {
 /**
  * TeamWrecker is a special role for attacking bases, working together with TeamHealer.
  * Has WORK for deconstruct and RANGED_ATTACK for defense. All parts T2 boosted.
-B1T1 Wrecker - 3400 E, 10 TOUGH, 16 WORK, 6 RANGED_ATTACK, 16 MOVE
+ * B1T1 Wrecker - 3400 E, 10 TOUGH, 16 WORK, 6 RANGED_ATTACK, 16 MOVE
  */
 export function getB1TeamWreckerBody(tier: number): string[] {
     if (tier > 1) { tier = 1; }
@@ -148,10 +148,10 @@ export function getB1TeamWreckerBody(tier: number): string[] {
 }
 
 /**
-* TeamHealer is a special role for support in teams, working together with other teammembers.
-* Has HEAL for healing. All parts boosted with T2 Boosts.
-B1T1 Healer - 5300 E, 10 TOUGH, 18 HEAL, 14 MOVE
-*/
+ * TeamHealer is a special role for support in teams, working together with other teammembers.
+ * Has HEAL for healing. All parts boosted with T2 Boosts.
+ * B1T1 Healer - 5300 E, 10 TOUGH, 18 HEAL, 14 MOVE
+ */
 export function getB1TeamHealerBody(tier: number): string[] {
     if (tier > 1) { tier = 1; }
     let body: string[] = [];
@@ -580,19 +580,20 @@ export function getMaxTierBaseRanger(energy: number): number {
 
 /**
  * Rangers are able to move each tick without roads, and is a ranged attacker with healing.
-  * T1 - 200 E, 1 MOVE, 1 RANGED_ATTACK
-  * T2 - 400 E, 2 MOVE, 2 RANGED_ATTACK
-  * T3 - 700 E, 3 MOVE, 2 RANGED_ATTACK, 1 HEAL
-  * T4 - 1100 E, 5 MOVE, 4 RANGED_ATTACK, 1 HEAL
-  * T5 - 1600 E, 7 MOVE, 5 RANGED_ATTACK, 2 HEAL
-  * T6 - 2200 E, 9 MOVE, 6 RANGED_ATTACK, 3 HEAL
-  * T7 - 4500 E, 20 MOVE, 15 RANGED_ATTACK, 5 HEAL
-  * T8 - 5800 E, 25 MOVE, 17 RANGED_ATTACK, 8 HEAL
+ * T1 - 200 E, 1 MOVE, 1 RANGED_ATTACK
+ * T2 - 400 E, 2 MOVE, 2 RANGED_ATTACK
+ * T3 - 700 E, 3 MOVE, 2 RANGED_ATTACK, 1 HEAL
+ * T4 - 1100 E, 5 MOVE, 4 RANGED_ATTACK, 1 HEAL
+ * T5 - 1600 E, 7 MOVE, 5 RANGED_ATTACK, 2 HEAL
+ * T6 - 2200 E, 9 MOVE, 6 RANGED_ATTACK, 3 HEAL
+ * T7 - 4500 E, 20 MOVE, 15 RANGED_ATTACK, 5 HEAL
+ * T8 - 5800 E, 25 MOVE, 17 RANGED_ATTACK, 8 HEAL
  */
 export function getRangerBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
   switch (tier) {
+    default:
     case 1:
     case 2:
       body = addToBody(body, tier, [RANGED_ATTACK, MOVE]);
@@ -641,6 +642,7 @@ export function getSupporterBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
   switch (tier) {
+    default:
     case 1:
       body = addToBody(body, 1, [HEAL, MOVE]);
       break;
@@ -688,19 +690,20 @@ export function getMaxTierSupporter(energy: number): number {
 
 /**
  * Paladins are able to move each tick without roads, and is a close combat warrior with healing.
-  * T1 - 130 E, 1 MOVE, 1 ATTACK
-  * T2 - 390 E, 3 MOVE, 3 ATTACK
-  * T3 - 690 E, 4 MOVE, 3 ATTACK, 1 HEAL
-  * T4 - 1080 E, 7 MOVE, 6 ATTACK, 1 HEAL
-  * T5 - 1640 E, 10 MOVE, 8 ATTACK, 2 HEAL
-  * T6 - 2200 E, 13 MOVE, 10 ATTACK, 3 HEAL
-  * T7 - 4100 E, 25 MOVE, 20 ATTACK, 5 HEAL
-  * T8 - 4100 E, 25 MOVE, 20 ATTACK, 5 HEAL
+ * T1 - 130 E, 1 MOVE, 1 ATTACK
+ * T2 - 390 E, 3 MOVE, 3 ATTACK
+ * T3 - 690 E, 4 MOVE, 3 ATTACK, 1 HEAL
+ * T4 - 1080 E, 7 MOVE, 6 ATTACK, 1 HEAL
+ * T5 - 1640 E, 10 MOVE, 8 ATTACK, 2 HEAL
+ * T6 - 2200 E, 13 MOVE, 10 ATTACK, 3 HEAL
+ * T7 - 4100 E, 25 MOVE, 20 ATTACK, 5 HEAL
+ * T8 - 4100 E, 25 MOVE, 20 ATTACK, 5 HEAL
  */
 export function getPaladinBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
   switch (tier) {
+    default:
     case 1:
     case 2:
       body = addToBody(body, tier, [MOVE, ATTACK]);
@@ -745,6 +748,7 @@ export function getDrainerBody(tier: number): string[] {
   if (tier > 8) { tier = 8; }
   let body: string[] = [];
   switch (tier) {
+    default:
     case 1:
       body = addToBody(body, 1, [HEAL, MOVE]);
       break;

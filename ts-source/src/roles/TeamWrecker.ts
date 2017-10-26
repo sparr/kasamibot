@@ -140,7 +140,7 @@ function runWrecking(creep: Creep): void {
             creep.memory.targetToDismantle = targetToDismantle.id;
             moveAndDismantle(creep, targetToDismantle);
         } else {
-            let targetRoom = getNextTargetRoom(creep);
+            targetRoom = getNextTargetRoom(creep);
             log.info("TeamWrecker " + creep.name + " is moving to a new target room: " + targetRoom, creep.room.name);
             creep.setState(State.MovingToTarget);
             runMovingToTarget(creep);
@@ -203,7 +203,7 @@ function needToWaitForHealer(creep: Creep, healer: Creep): boolean {
 function shootHostileCreeps(creep: Creep) {
     let closeDangerousCreeps = _Targeting.findHostileCreepsInRangedRange(creep.pos);
 
-    let closeDangerousCreepsNotOnRamparts = _.filter(closeDangerousCreeps, function(c: Creep) {
+    let closeDangerousCreepsNotOnRamparts = _.filter(closeDangerousCreeps, (c: Creep) => {
         let atPos = c.pos.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let sAtPos of atPos) {
             if (sAtPos.structureType === STRUCTURE_RAMPART) {
@@ -215,8 +215,7 @@ function shootHostileCreeps(creep: Creep) {
 
     if (closeDangerousCreepsNotOnRamparts.length > 0) {
         creep.rangedAttack(closeDangerousCreepsNotOnRamparts[0]);
-    } else
-    {
+    } else {
         let targetToDismantle: Structure | null = Game.getObjectById(creep.memory.targetToDismantle) as Structure;
         if (targetToDismantle instanceof Structure && creep.pos.getRangeTo(targetToDismantle) < 4) {
             creep.rangedAttack(targetToDismantle);
@@ -263,7 +262,7 @@ function getNewTargetToDismantle(creep: Creep): Structure | null {
 }
 function moveAndDismantle(creep: Creep, targetToDismantle: Structure) {
 
-    //let closestCreep = _Targeting.findClosestHostileCreepsInRoom(creep.pos);
+    // let closestCreep = _Targeting.findClosestHostileCreepsInRoom(creep.pos);
     let shouldIMove = true;
     /*if (closestCreep && creep.pos.getRangeTo(closestCreep.pos) < 3 && !PositionLib.positionIsBorderOrNextToBorder(creep.pos)) {
         shouldIMove = Game.time % 2 === 0;
@@ -346,10 +345,12 @@ function findWallToDestroy(creep: Creep, targetToDismantle: Structure) {
 }
 function getRoomCallbackForWallDestruction(roomName: string): CostMatrix {
     let room = Game.rooms[roomName];
-    if (!room) return new PathFinder.CostMatrix;
+    if (!room) {
+        return new PathFinder.CostMatrix();
+    }
 
-    let costs = new PathFinder.CostMatrix;
-    room.find(FIND_STRUCTURES).forEach(function(structure: Structure) {
+    let costs = new PathFinder.CostMatrix();
+    room.find(FIND_STRUCTURES).forEach((structure: Structure) => {
         if (structure.structureType === STRUCTURE_WALL || structure.structureType === STRUCTURE_RAMPART) {
             costs.set(structure.pos.x, structure.pos.y, Math.min(250, structure.hits / 100000));
         }

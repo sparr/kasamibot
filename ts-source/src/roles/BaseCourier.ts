@@ -16,9 +16,9 @@ enum CourierTask {
 }
 
 class SupplyJob {
-    lab: string;
-    mineral: string;
-    amount: number;
+    public lab: string;
+    public mineral: string;
+    public amount: number;
 }
 
 export function run(creep: Creep) {
@@ -209,7 +209,7 @@ function moveMineralsFromLab(creep: Creep) {
             }
         }
     } else {
-        let labs = _.filter(creep.room.getProcessingLabs(), function(l: Lab) {
+        let labs = _.filter(creep.room.getProcessingLabs(), (l: Lab) => {
             return l.mineralAmount > 0;
         });
         if (labs.length === 0) {
@@ -249,7 +249,7 @@ function moveMineralsFromAllLab(creep: Creep) {
             }
         }
     } else {
-        let labs = _.filter(creep.room.getProcessingLabs().concat(creep.room.getSupplyingLabs()), function(l: Lab) {
+        let labs = _.filter(creep.room.getProcessingLabs().concat(creep.room.getSupplyingLabs()), (l: Lab) => {
             return l.mineralAmount > 0;
         });
         if (labs.length === 0) {
@@ -415,7 +415,7 @@ function deliverGhodium(creep: Creep) {
     let nuker = creep.room.getNuker();
     if (nuker === undefined || creep.room.terminal === undefined || (creep.carry[RESOURCE_GHODIUM] === undefined &&
     (creep.room.terminal === undefined || creep.room.terminal.store[RESOURCE_GHODIUM] === undefined || creep.room.terminal.store[RESOURCE_GHODIUM] < 3000))) {
-        creep.memory.task === undefined;
+        creep.memory.task = undefined;
         return;
     }
     if (creep.carry[RESOURCE_GHODIUM] === undefined) {
@@ -441,7 +441,7 @@ function deliverPower(creep: Creep) {
     let powerspawn = creep.room.getPowerSpawn();
     if (creep.room.storage === undefined || powerspawn === undefined || (creep.carry[RESOURCE_POWER] === undefined && creep.room.storage.store[RESOURCE_POWER] === undefined &&
     (creep.room.terminal === undefined || creep.room.terminal.store[RESOURCE_POWER] === undefined))) {
-        creep.memory.task === undefined;
+        creep.memory.task = undefined;
         return;
     }
     let pickupStructure: StructureStorage | StructureTerminal = creep.room.storage;

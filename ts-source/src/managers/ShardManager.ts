@@ -8,7 +8,7 @@ export class UpgradeManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("UpgradeManager");
@@ -16,9 +16,9 @@ export class UpgradeManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Standard) {
-            //this.creepService.runCreeps(Role.UpgraderWithBoost, Upgrader.run);
+            // this.creepService.runCreeps(Role.UpgraderWithBoost, Upgrader.run);
         } else
         if (pri === ManagerPriority.Low) {
 

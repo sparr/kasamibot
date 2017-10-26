@@ -52,7 +52,7 @@ export function isCloseToSourceKeeper(creep: Creep, time: number = 10, distance:
     if (nearby.length > 0) {
         return true;
     }
-    let lairSpawningSoon = creep.pos.findInRange(FIND_HOSTILE_STRUCTURES, distance, {filter: function (l: StructureKeeperLair) {
+    let lairSpawningSoon = creep.pos.findInRange(FIND_HOSTILE_STRUCTURES, distance, {filter: (l: StructureKeeperLair) => {
         return l.structureType === STRUCTURE_KEEPER_LAIR && (l.ticksToSpawn !== undefined && l.ticksToSpawn < time);
     }}) as StructureKeeperLair[];
     if (lairSpawningSoon.length > 0) {
@@ -69,7 +69,7 @@ export function positionIsCloseToSourceKeeper(position: RoomPosition, time: numb
     if (nearby.length > 0) {
         return true;
     }
-    let lairSpawningSoon = position.findInRange(FIND_HOSTILE_STRUCTURES, distance, {filter: function (l: StructureKeeperLair) {
+    let lairSpawningSoon = position.findInRange(FIND_HOSTILE_STRUCTURES, distance, {filter: (l: StructureKeeperLair) => {
         return l.structureType === STRUCTURE_KEEPER_LAIR && (l.ticksToSpawn !== undefined && l.ticksToSpawn < time);
     }}) as StructureKeeperLair[];
     if (lairSpawningSoon.length > 0) {
@@ -92,7 +92,7 @@ export function stayAwayFromSourceKeeper(creep: Creep, time: number = 10, distan
         }
         return true;
     }
-    let lairSpawningSoon = creep.pos.findInRange(FIND_HOSTILE_STRUCTURES, distance, {filter: function (l: StructureKeeperLair) {
+    let lairSpawningSoon = creep.pos.findInRange(FIND_HOSTILE_STRUCTURES, distance, {filter: (l: StructureKeeperLair) => {
         return l.structureType === STRUCTURE_KEEPER_LAIR && (l.ticksToSpawn !== undefined && l.ticksToSpawn < time);
     }}) as StructureKeeperLair[];
     if (lairSpawningSoon.length > 0) {

@@ -1,5 +1,5 @@
 export function recordStats(rooms: Room[]): void {
-    if (Memory.stats == undefined) {
+    if (Memory.stats === undefined) {
         Memory.stats = {};
     }
 
@@ -64,12 +64,14 @@ export function recordStats(rooms: Room[]): void {
                 Memory.stats["energy.stored"] += room.storage.store[RESOURCE_ENERGY];
                 storedEnergy = room.storage.store[RESOURCE_ENERGY];
                 for (let m of basicMinerals) {
-                    if (room.storage.store[m] !== undefined && room.storage.store[m] > 0)
-                    Memory.stats["minerals." + m] += room.storage.store[m];
+                    if (room.storage.store[m] !== undefined && room.storage.store[m] > 0) {
+                        Memory.stats["minerals." + m] += room.storage.store[m];
+                    }
                 }
                 for (let m of boostMinerals) {
-                    if (room.storage.store[m] !== undefined && room.storage.store[m] > 0)
-                    Memory.stats["boostminerals." + m] += room.storage.store[m];
+                    if (room.storage.store[m] !== undefined && room.storage.store[m] > 0) {
+                        Memory.stats["boostminerals." + m] += room.storage.store[m];
+                    }
                 }
             }
 
@@ -77,12 +79,14 @@ export function recordStats(rooms: Room[]): void {
                 Memory.stats["energy.stored"] += room.terminal.store[RESOURCE_ENERGY];
                 storedEnergy += room.terminal.store[RESOURCE_ENERGY];
                 for (let m of basicMinerals) {
-                    if (room.terminal.store[m] !== undefined && room.terminal.store[m] > 0)
-                    Memory.stats["minerals." + m] += room.terminal.store[m];
+                    if (room.terminal.store[m] !== undefined && room.terminal.store[m] > 0) {
+                        Memory.stats["minerals." + m] += room.terminal.store[m];
+                    }
                 }
                 for (let m of boostMinerals) {
-                    if (room.terminal.store[m] !== undefined && room.terminal.store[m] > 0)
-                    Memory.stats["boostminerals." + m] += room.terminal.store[m];
+                    if (room.terminal.store[m] !== undefined && room.terminal.store[m] > 0) {
+                        Memory.stats["boostminerals." + m] += room.terminal.store[m];
+                    }
                 }
             }
 

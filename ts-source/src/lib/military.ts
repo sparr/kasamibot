@@ -23,7 +23,7 @@ export function orderWrecker(room: Room, route: string[]): void {
 }
 
 export function orderDrainer(room: Room, tier: number, route: string[]): void {
-    //let maxTier = ProfileUtilities.getMaxTierOffroadWorkOnly(room.energyCapacityAvailable);
+    // let maxTier = ProfileUtilities.getMaxTierOffroadWorkOnly(room.energyCapacityAvailable);
     let order = new Order();
     order.body = ProfileUtilities.getDrainerBody(tier);
     order.priority = Priority.Important;
@@ -130,6 +130,7 @@ export function orderTeamWrecker(room: Room, tier: number, route: string[], targ
         target: undefined,
         tier};
     switch (boostLevel) {
+        default:
         case 0:
             healerorder.body = ProfileUtilities.getB0TeamHealerBody(tier);
             break;
@@ -157,6 +158,7 @@ export function orderTeamWrecker(room: Room, tier: number, route: string[], targ
         targets,
     };
     switch (boostLevel) {
+        default:
         case 0:
             wreckerorder.body = ProfileUtilities.getB0TeamWreckerBody(tier);
             break;

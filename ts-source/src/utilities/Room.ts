@@ -34,13 +34,15 @@ export function getMinerals(): {string: number} {
     let minerals: any = {};
     let rooms = getAllControlledRooms();
     for (let room of rooms) {
-        let mineral = room.getMineral();
-        if (mineral instanceof Mineral) {
-            if (minerals[mineral.mineralType] !== undefined) {
-                minerals[mineral.mineralType]++;
-            } else {
-                minerals[mineral.mineralType] = 1;
-            }
+        {
+                let mineral = room.getMineral();
+                if (mineral instanceof Mineral) {
+                    if (minerals[mineral.mineralType] !== undefined) {
+                        minerals[mineral.mineralType]++;
+                    } else {
+                        minerals[mineral.mineralType] = 1;
+                    }
+                }
         }
         if (room.memory.praiseroom !== undefined && !room.memory.praiseroomHibernated) {
             let praiseroom = room.memory.praiseroom;

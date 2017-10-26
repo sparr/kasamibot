@@ -42,7 +42,7 @@ export function getTiersRequiredForDistanceMining(source: Source, spawn: Spawn, 
 export function getWorkerPartsRequiredForContainerMining(tier: number /*, sourcePos: RoomPosition, homeRoom: Room*/): number {
     let energyPerTick = 10; // TODO: Fix for actual number (source.energyCapacity / 300);
     let workerpartsNeeded = (energyPerTick / 2); // energy per tick / 2 mined per tick - I add 2 for making sure I have enough when traveling and dumping.
-    let possibleMiningPositions = 3; //TODO: Fix for actual number source.getContainerMiningPositions().length;
+    let possibleMiningPositions = 3; // TODO: Fix for actual number source.getContainerMiningPositions().length;
     let possibleWorkerpartsWithTier = possibleMiningPositions * tier;
     let workerpartsPossbleAtSource = Math.min(workerpartsNeeded, possibleWorkerpartsWithTier);
     return workerpartsPossbleAtSource;
@@ -177,8 +177,8 @@ export function getNumberOfPossibleMiningPositions(source: Source): number {
  */
 export function getAllMinedSources(rooms: Room[]): Source[] {
     let minedSources: Source[] = [];
-    for (let i = 0; i < rooms.length; i++) {
-        minedSources = minedSources.concat(getAllSourcesInRoom(rooms[i]));
+    for (const room of rooms) {
+        minedSources = minedSources.concat(getAllSourcesInRoom(room));
     }
     return minedSources;
 }
@@ -251,5 +251,5 @@ export function getSourcesNeedingHauling(room: Room): string[] {
         }
     }
 
-    return _.shuffle(_.map(sources, function (c: Source) {return c.id; }));
+    return _.shuffle(_.map(sources, (c: Source) => c.id));
 }

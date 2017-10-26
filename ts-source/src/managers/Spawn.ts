@@ -28,7 +28,7 @@ export class SpawnManager extends Manager {
     public run (): void {
         let rooms = this.roomService.getNormalRooms();
         for (let room of rooms) {
-            let spawns = _.filter(room.getSpawns(), function (s: Spawn) { return !s.spawning; });
+            let spawns = _.filter(room.getSpawns(), (s: Spawn) => { return !s.spawning; });
 
             if (spawns.length > 0) {
                 this.processQueue(room, spawns);
@@ -50,7 +50,7 @@ export class SpawnManager extends Manager {
         }
 
         room.memory.orders.sort(
-            function(a: Order, b: Order) {
+            (a: Order, b: Order) => {
                 return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0);
             });
 
@@ -65,7 +65,7 @@ export class SpawnManager extends Manager {
             let name = OrdersUtilities.makeRoleName(order.twinOrder.memory.role) + "-" + "T" + order.twinOrder.memory.tier + "-" + OrdersUtilities.makeRandomCreepId();
 
             let response = twinSpawn.spawnCreep(order.twinOrder.body, name, {memory: order.twinOrder.memory, energyStructures: this.getEnergyStructures(room)});
-            //let response = twinSpawn.createCreep(order.twinOrder.body, name, order.twinOrder.memory);
+            // let response = twinSpawn.createCreep(order.twinOrder.body, name, order.twinOrder.memory);
 
             if (response < 0) {
                 room.memory.orders.unshift(order);
@@ -87,7 +87,7 @@ export class SpawnManager extends Manager {
             order.memory.homeroom = room.name;
         }
         let response = spawn.spawnCreep(order.body, name, {memory: order.memory, energyStructures: this.getEnergyStructures(room)});
-        //let response = spawn.createCreep(order.body, name, order.memory);
+        // let response = spawn.createCreep(order.body, name, order.memory);
 
         if (response < 0) {
             room.memory.orders.unshift(order);

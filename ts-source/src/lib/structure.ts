@@ -1,5 +1,5 @@
 export function removeAllWalls(room: Room): void {
-    let walls = room.find(FIND_STRUCTURES, {filter: function (x: Structure) { return x.structureType === STRUCTURE_WALL; }}) as StructureWall[];
+    let walls = room.find(FIND_STRUCTURES, {filter: (x: Structure) => { return x.structureType === STRUCTURE_WALL; }}) as StructureWall[];
 
     for (let wall of walls) {
         wall.destroy();
@@ -43,7 +43,7 @@ export function removeAllFriendlyStructures(room: Room, saveEnergyBuildings: boo
 }
 
 export function getVitalBuildings(room: Room): Structure[] {
-    return room.find(FIND_MY_STRUCTURES, {filter: function(s: Structure) {
+    return room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => {
         return s.structureType === STRUCTURE_SPAWN || s.structureType === STRUCTURE_TOWER ||
                s.structureType === STRUCTURE_TERMINAL || s.structureType === STRUCTURE_STORAGE ||
                s.structureType === STRUCTURE_NUKER || s.structureType === STRUCTURE_POWER_SPAWN;

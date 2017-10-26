@@ -160,7 +160,7 @@ function checkIfOutdated(creep: Creep): boolean {
         return false;
     }
     if (creep.memory.outdatedTick > creep.ticksToLive) {
-        //console.log("ContainerHauler " + creep.name + " dismissed because a trip takes " + creep.memory.outdatedTick + " ticks and it only has " + creep.ticksToLive + " left. " + creep.name + " " + creep.room.name + "(" + creep.memory.container + ")");
+        // console.log("ContainerHauler " + creep.name + " dismissed because a trip takes " + creep.memory.outdatedTick + " ticks and it only has " + creep.ticksToLive + " left. " + creep.name + " " + creep.room.name + "(" + creep.memory.container + ")");
         creep.suicide();
         return true;
     }

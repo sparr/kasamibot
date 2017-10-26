@@ -146,7 +146,7 @@ function setBoosting(creep: Creep) {
 function shootHostileCreeps(creep: Creep) {
     let closeDangerousCreeps = _Targeting.findHostileCreepsInRangedRange(creep.pos);
 
-    let closeDangerousCreepsNotOnRamparts = _.filter(closeDangerousCreeps, function(c: Creep) {
+    let closeDangerousCreepsNotOnRamparts = _.filter(closeDangerousCreeps, (c: Creep) => {
         let atPos = c.pos.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let sAtPos of atPos) {
             if (sAtPos.structureType === STRUCTURE_RAMPART) {

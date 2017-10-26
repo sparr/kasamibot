@@ -29,7 +29,7 @@ export class PowerManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("PowerManager");
@@ -51,8 +51,7 @@ export class PowerManager extends Manager {
                 for (let room of rooms) {
                     if (RoomRepository.getRoomLevel(room) >= RoomLevel.Metropolis && room.hasFreeSpawnCapacity() &&
                     room.storage !== undefined && room.storage.store[RESOURCE_ENERGY] > PowerConfig.energyInStorageBeforeRobbing &&
-                    (room.storage.store[RESOURCE_POWER] < PowerConfig.powerInStorageBeforeStoppingRobbing || room.storage.store[RESOURCE_POWER] === undefined))
-                    {
+                    (room.storage.store[RESOURCE_POWER] < PowerConfig.powerInStorageBeforeStoppingRobbing || room.storage.store[RESOURCE_POWER] === undefined)) {
                         let bank = getFreePowerbank(room);
                         if (bank !== undefined) {
                             orderPowerBankTeam(room, bank);

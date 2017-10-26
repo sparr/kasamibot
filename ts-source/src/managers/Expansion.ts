@@ -32,18 +32,18 @@ export class ExpansionManager extends Manager {
 
     private hasRun = false;
 
-    readonly MEMORY_EXPANSIONGOING = "expansionGoing";
-    readonly MEMORY_EXPANSIONSTARTED = "expansionStarted";
-    readonly MEMORY_LASTRUN = "lastRun";
-    readonly MEMORY_LASTRUN_BOT_EVAL = "lastRunBotEval";
-    readonly MEMORY_LASTRUN_BOT_EXPAND = "lastRunBotExpand";
+    public readonly MEMORY_EXPANSIONGOING = "expansionGoing";
+    public readonly MEMORY_EXPANSIONSTARTED = "expansionStarted";
+    public readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN_BOT_EVAL = "lastRunBotEval";
+    public readonly MEMORY_LASTRUN_BOT_EXPAND = "lastRunBotExpand";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("ExpansionManager");
         this.roomService = roomService;
         this.creepService = creepService;
     }
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Standard) {
             this.creepService.runCreeps(Role.RoomClaimer, RoomClaimer.run);
             this.creepService.runCreeps(Role.ExpansionWorker, ExpansionWorker.run);
@@ -188,7 +188,7 @@ export class ExpansionManager extends Manager {
                     continue;
                 }
 
-                if (IntelLib.roomHostility(t) > 1){
+                if (IntelLib.roomHostility(t) > 1) {
                     continue;
                 }
                 let tooClose = false;
@@ -387,7 +387,7 @@ export class ExpansionManager extends Manager {
 }
 
 function buildSpawnForExpansion(expansion: Room) {
-    let spawnFlag = expansion.find(FIND_FLAGS, {filter: function(f: Flag) {return f.name === "Spawn"; }}) as Flag[];
+    let spawnFlag = expansion.find(FIND_FLAGS, {filter: (f: Flag) => {return f.name === "Spawn"; }}) as Flag[];
     if (spawnFlag !== undefined && spawnFlag.length === 1 && Object.keys(Game.constructionSites).length < 95) {
         spawnFlag[0].pos.createConstructionSite(STRUCTURE_SPAWN);
         spawnFlag[0].remove();
@@ -505,7 +505,7 @@ export function getOutpostsValue(roomName: string): number | undefined {
         count = 4;
     }
 
-    let potOutposts = _.filter(closeRooms, function (r: string) { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r); });
+    let potOutposts = _.filter(closeRooms, (r: string) => { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r); });
 
     let values: Array<{roomName: string, value: number | undefined}> = [];
     for (let o of potOutposts) {
@@ -546,34 +546,34 @@ function getOutpostValue(outpost: string, distance: number): number | undefined 
 }
 
 /**
-
-Math for using CLAIM to speed up downgrade
-
-1 extra per tick: 5 CLAIM, 5 MOVE - 3250
-Estimated effect: 400 ticks
-Cost: ~8 energy per tick
-
-Cost for double downgrade-speed for lvl 8: 75 000 -> 600 000 energy
-Cost for double downgrade-speed for lvl 7: 50 000 -> 400 000 energy
-Cost for double downgrade-speed for lvl 6: 30 000 -> 240 000 energy
-Cost for double downgrade-speed for lvl 5: 20 000 -> 160 000 energy
-Cost for double downgrade-speed for lvl 4: 10 000 -> 80 000 energy
-Cost for double downgrade-speed for lvl 3:   5000 -> 40 000 energy
-Cost for double downgrade-speed for lvl 2:   2500 -> 20 000 energy
-Cost for double downgrade-speed for lvl 1: 10 000 -> 80 000 energy
-
-Full downgrade from lvl 8 costs: ~1 500 000 energy
-Takes normally 400 000 ticks, 21 days.
-For 1.5M energy you can reduce it to ~11 days.
-
-Largest downgrader possible at RCL 7 is 1.
-Largest downgrader possible at RCL 8 is 3.
-
-For RCL 8 with 15 CLAIM-downgrader:
-Costs about 6M and reduces time to ~6 days.
-
-Conclusion: Not worth it unless you really need the room.
-
-Can be useful to block upgrading.
-
+ *
+ * Math for using CLAIM to speed up downgrade
+ *
+ * 1 extra per tick: 5 CLAIM, 5 MOVE - 3250
+ * Estimated effect: 400 ticks
+ * Cost: ~8 energy per tick
+ *
+ * Cost for double downgrade-speed for lvl 8: 75 000 -> 600 000 energy
+ * Cost for double downgrade-speed for lvl 7: 50 000 -> 400 000 energy
+ * Cost for double downgrade-speed for lvl 6: 30 000 -> 240 000 energy
+ * Cost for double downgrade-speed for lvl 5: 20 000 -> 160 000 energy
+ * Cost for double downgrade-speed for lvl 4: 10 000 -> 80 000 energy
+ * Cost for double downgrade-speed for lvl 3:   5000 -> 40 000 energy
+ * Cost for double downgrade-speed for lvl 2:   2500 -> 20 000 energy
+ * Cost for double downgrade-speed for lvl 1: 10 000 -> 80 000 energy
+ *
+ * Full downgrade from lvl 8 costs: ~1 500 000 energy
+ * Takes normally 400 000 ticks, 21 days.
+ * For 1.5M energy you can reduce it to ~11 days.
+ *
+ * Largest downgrader possible at RCL 7 is 1.
+ * Largest downgrader possible at RCL 8 is 3.
+ *
+ * For RCL 8 with 15 CLAIM-downgrader:
+ * Costs about 6M and reduces time to ~6 days.
+ *
+ * Conclusion: Not worth it unless you really need the room.
+ *
+ * Can be useful to block upgrading.
+ *
  */

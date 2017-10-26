@@ -105,7 +105,7 @@ function getTargetToHeal(creep: Creep): Creep | null {
         return Game.getObjectById(creep.memory.targetToHeal) as Creep;
     }
 
-    let targetToHeal = creep.pos.findClosestByPath(FIND_MY_CREEPS, {filter: function(c: Creep) {
+    let targetToHeal = creep.pos.findClosestByPath(FIND_MY_CREEPS, {filter: (c: Creep) => {
         return c.memory.role === Role.BankAttacker && c.memory.healerInPosition === undefined && c.ticksToLive > 300;
     }}) as Creep;
 

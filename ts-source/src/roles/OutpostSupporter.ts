@@ -53,7 +53,7 @@ function runFollowingDefender(creep: Creep): void {
         creep.setState(State.Standby);
         return;
     }
-    if (defender.getState() == DefenderState.Standby) {
+    if (defender.getState() === DefenderState.Standby) {
         creep.setState(State.Standby);
         return;
     }
@@ -149,7 +149,7 @@ function getTargetEnemy(defender: Creep): Creep | Structure | undefined {
 }
 
 function findDefenderToHeal(creep: Creep): Creep | undefined {
-    let defenders = creep.room.find(FIND_MY_CREEPS, {filter: function(c: Creep) {
+    let defenders = creep.room.find(FIND_MY_CREEPS, {filter: (c: Creep) => {
         return c.memory.role === Role.OutpostDefender && c.memory.supporter === undefined;
     }}) as Creep[];
     if (defenders.length > 0) {

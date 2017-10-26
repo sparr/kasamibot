@@ -115,7 +115,7 @@ function runDefending(creep: Creep): void {
 
     if (creep.getActiveBodyparts(RANGED_ATTACK) === 0) {
         if (getWarrior(creep) !== undefined) {
-            if (creep.room.name !== creep.getHomeroom()){
+            if (creep.room.name !== creep.getHomeroom()) {
                 creep.room.memory.undefendable = Game.time + 5000;
                 creep.memory.target = undefined;
                 log.alert("Defender tags room as undefendable", creep.room.name);

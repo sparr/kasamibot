@@ -113,7 +113,7 @@ function runReturnToBase(creep: Creep) {
 }
 
 function getPowerStackInRoom(creep: Creep): Resource | null {
-    let powerStacks = creep.room.find(FIND_DROPPED_RESOURCES, {filter: function(r: Resource) {
+    let powerStacks = creep.room.find(FIND_DROPPED_RESOURCES, {filter: (r: Resource) => {
         return r.resourceType === RESOURCE_POWER;
     }}) as Resource[];
     if (powerStacks !== undefined && powerStacks.length > 0) {

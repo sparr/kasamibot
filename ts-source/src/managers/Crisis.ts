@@ -28,7 +28,7 @@ export class CrisisManager extends Manager {
 
     private hasRun = false;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("CrisisManager");
@@ -133,7 +133,7 @@ export class CrisisManager extends Manager {
             }
         } else
         if (room.getBaseContainer() === undefined && (room.storage === undefined || !room.storage.isActive()) &&
-            (room.terminal === undefined || !room.terminal.isActive())){
+            (room.terminal === undefined || !room.terminal.isActive())) {
                 let expansionWorkers = this.creepService.getCreeps(Role.ExpansionWorker, null, room.name).length;
                 if (expansionWorkers < 2) {
                     this.requestExpansionWorker(room);

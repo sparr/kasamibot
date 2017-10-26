@@ -28,7 +28,7 @@ export abstract class Manager {
         return Memory.manager[this.name][name];
     }
     protected setValue(name: string, value: any): void {
-        //console.log("Saving value " + value + " for " + this.constructor.name + " in " + name);
+        // console.log("Saving value " + value + " for " + this.constructor.name + " in " + name);
         Memory.manager[this.name][name] = value;
     }
 }

@@ -82,14 +82,14 @@ export function getBuildingIdForDump(room: Room, creep: Creep): string {
 
     // Extension or spawn
     if (creep.room.name === room.name) {
-        let closestExtensionOrSpawn = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {filter: function (e: Extension | Spawn) {
+        let closestExtensionOrSpawn = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {filter: (e: Extension | Spawn) => {
             return (e.structureType === STRUCTURE_EXTENSION || e.structureType === STRUCTURE_SPAWN) && e.energy < e.energyCapacity;
         }}) as Extension | Spawn;
         if (closestExtensionOrSpawn !== undefined && closestExtensionOrSpawn !== null) {
             return closestExtensionOrSpawn.id;
         }
     } else {
-        let extensionsAndSpawns = room.find(FIND_MY_STRUCTURES, {filter: function (e: Extension | Spawn) {
+        let extensionsAndSpawns = room.find(FIND_MY_STRUCTURES, {filter: (e: Extension | Spawn) => {
             return (e.structureType === STRUCTURE_EXTENSION || e.structureType === STRUCTURE_SPAWN) && e.energy < e.energyCapacity;
         }}) as Structure[];
         if (extensionsAndSpawns.length > 0) {

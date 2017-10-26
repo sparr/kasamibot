@@ -23,8 +23,7 @@ import * as SpawnLib from "../lib/spawn";
 export function getBasePosition(room: Room): RoomPosition | undefined {
     if (room.memory.b !== undefined) {
         return longPos(room.memory.b, room.name);
-    }
-    else {
+    } else {
         // TODO: Change Spawnmove-operation to move spawn when storage is built
         if (Memory.settings.bot) {
             let basepos = SpawnLib.findSpawnLocation(room.name, true);
@@ -170,9 +169,9 @@ export function getIndex(room: Room): number {
 
     let rooms: Room[] = [];
     for (let roomKey in Game.rooms) {
-        let room = Game.rooms[roomKey];
+        let candidateRoom = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true) {
-            rooms.push(room);
+            rooms.push(candidateRoom);
         }
     }
     let used = _.map(rooms, (r: Room) => r.memory.index);

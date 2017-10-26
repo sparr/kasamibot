@@ -50,7 +50,7 @@ export function boostHaulerInPosition(creep: Creep, position: RoomPosition) {
 }
 
 export function removeWantedBoostTypeFromCreepMemory(creep: Creep, type: string) {
-    creep.memory.boost = _.filter(creep.memory.boost, function(t: string) {return t !== type; });
+    creep.memory.boost = _.filter(creep.memory.boost, (t: string) => {return t !== type; });
     if (creep.memory.boost.length === 0) {
         creep.memory.boost = undefined;
     }

@@ -25,7 +25,7 @@ export class UpgradeManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("UpgradeManager");
@@ -33,7 +33,7 @@ export class UpgradeManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Critical) {
             this.creepService.runCreeps(Role.UpgraderWithBoost, Upgrader.run);
         } else
@@ -57,7 +57,9 @@ export class UpgradeManager extends Manager {
             return;
         }
         for (let room of rooms) {
-            if (room.controller === undefined || room.isAbandoned() || room.isExpansion()) continue;
+            if (room.controller === undefined || room.isAbandoned() || room.isExpansion()) {
+                continue;
+            }
 
             if (room.controller.my && room.controller.level < 8 && room.storage !== undefined) {
                 if (room.storage.store[RESOURCE_ENERGY] > 300000 && room.memory.praiseBoost !== true) {
@@ -80,7 +82,9 @@ export class UpgradeManager extends Manager {
 
     private buildUpgradeStorage(rooms: Room[]) {
         for (let room of rooms) {
-            if (room.controller === undefined || room.isAbandoned()) continue;
+            if (room.controller === undefined || room.isAbandoned()) {
+                continue;
+            }
 
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.SimpleColonyReadyForExpansion && RoomRepository.getRoomLevel(room) < RoomLevel.AdvancedColony) {
                 room.controller.buildControllerContainer();
@@ -92,7 +96,9 @@ export class UpgradeManager extends Manager {
 
     private orderUpgradeUnits(rooms: Room[]) {
         for (let room of rooms) {
-            if (room.controller === undefined || room.isAbandoned() || room.isExpansion()) continue;
+            if (room.controller === undefined || room.isAbandoned() || room.isExpansion()) {
+                continue;
+            }
 
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.DefendedColony && (room.controller.hasContainer() || room.controller.hasLink())) {
                 this.orderUpgraders(room.controller);

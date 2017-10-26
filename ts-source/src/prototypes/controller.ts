@@ -1,6 +1,6 @@
 import * as PathfindingUtilities from "../utilities/Pathfinding";
 
-StructureController.prototype.getContainerPosition = function(): RoomPosition | undefined {
+StructureController.prototype.getContainerPosition = (): RoomPosition | undefined => {
     if (this.room.memory.controllerContainerPos !== undefined) {
         let pos = this.room.memory.controllerContainerPos;
         return new RoomPosition(pos.x, pos.y, pos.roomName);
@@ -28,19 +28,19 @@ StructureController.prototype.getContainerPosition = function(): RoomPosition | 
 
     let minDistanseId: string | undefined = undefined;
     for (let positionId in distanceToStorage) {
-        if (minDistanseId === undefined || distanceToStorage[parseInt(positionId)] < distanceToStorage[parseInt(minDistanseId)]) {
+        if (minDistanseId === undefined || distanceToStorage[parseInt(positionId, 10)] < distanceToStorage[parseInt(minDistanseId, 10)]) {
             minDistanseId = positionId;
         }
     }
 
     if (minDistanseId !== undefined) {
-        this.room.memory.controllerContainerPos = positions[parseInt(minDistanseId)];
-        return positions[parseInt(minDistanseId)];
+        this.room.memory.controllerContainerPos = positions[parseInt(minDistanseId, 10)];
+        return positions[parseInt(minDistanseId, 10)];
     }
     return undefined;
 };
 
-StructureController.prototype.getPossibleContainerPositions = function(): RoomPosition[] {
+StructureController.prototype.getPossibleContainerPositions = (): RoomPosition[] => {
     let positions: RoomPosition[] = [];
     for (let x = -2; x < 3; x++) {
         for (let y = -2; y < 3; y++) {
@@ -53,7 +53,7 @@ StructureController.prototype.getPossibleContainerPositions = function(): RoomPo
     return positions;
 };
 
-StructureController.prototype.getOkeyContainerPosition = function(): RoomPosition | undefined {
+StructureController.prototype.getOkeyContainerPosition = (): RoomPosition | undefined => {
     let bestPos: RoomPosition | undefined = undefined;
     let freeSpace = 0;
     for (let x = -2; x < 3; x++) {
@@ -71,7 +71,7 @@ StructureController.prototype.getOkeyContainerPosition = function(): RoomPositio
     return bestPos;
 };
 
-StructureController.prototype.buildControllerContainer = function(): void {
+StructureController.prototype.buildControllerContainer = (): void => {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
         return;
@@ -80,7 +80,7 @@ StructureController.prototype.buildControllerContainer = function(): void {
     containerpos.createConstructionSite(STRUCTURE_CONTAINER);
 };
 
-StructureController.prototype.buildControllerLink = function(): void {
+StructureController.prototype.buildControllerLink = (): void => {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
         return;
@@ -96,7 +96,7 @@ StructureController.prototype.buildControllerLink = function(): void {
     containerpos.createConstructionSite(STRUCTURE_LINK);
 };
 
-StructureController.prototype.hasContainer = function(): boolean {
+StructureController.prototype.hasContainer = (): boolean => {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
         return false;
@@ -112,7 +112,7 @@ StructureController.prototype.hasContainer = function(): boolean {
     return false;
 };
 
-StructureController.prototype.hasLink = function(): boolean {
+StructureController.prototype.hasLink = (): boolean => {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
         return false;
@@ -128,7 +128,7 @@ StructureController.prototype.hasLink = function(): boolean {
     return false;
 };
 
-StructureController.prototype.getContainer = function(): Container | undefined {
+StructureController.prototype.getContainer = (): Container | undefined => {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
         return undefined;
@@ -143,7 +143,7 @@ StructureController.prototype.getContainer = function(): Container | undefined {
     return undefined;
 };
 
-StructureController.prototype.getContainerOrLink = function(): Link | Container | undefined {
+StructureController.prototype.getContainerOrLink = (): Link | Container | undefined => {
     let containerpos = this.getContainerPosition() as RoomPosition;
     if (containerpos === undefined) {
         return undefined;

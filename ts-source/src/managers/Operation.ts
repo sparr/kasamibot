@@ -19,7 +19,7 @@ export class OperationManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_OPERATIONSMAINTAINENCE = "maintain";
+    public readonly MEMORY_OPERATIONSMAINTAINENCE = "maintain";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("OperationManager");
@@ -27,7 +27,7 @@ export class OperationManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Low) {
             this.creepService.runCreeps(Role.OperationHauler, OperationHauler.run);
         }
@@ -70,6 +70,9 @@ export class OperationManager extends Manager {
                     } else {
                         operation.active = false;
                     }
+                    break;
+                default:
+                    operation.active = false;
                     break;
             }
         }

@@ -107,7 +107,7 @@ export class RoomService {
                 console.log("Room with unknown type: " + room.name + ". Assuming it is a metropolis.");
                 room.memory.t = Roomtype.Normal;
             }
-            if (rooms[room.memory.t] === undefined){
+            if (rooms[room.memory.t] === undefined) {
                 rooms[room.memory.t] = [];
             }
             rooms[room.memory.t].push(room);

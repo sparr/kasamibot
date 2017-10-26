@@ -42,7 +42,7 @@ export function run(creep: Creep) {
                     let wantedPos = new RoomPosition(creep.memory.pos.x, creep.memory.pos.y, creep.memory.pos.roomName);
                     let creeps = wantedPos.lookFor(LOOK_CREEPS);
                     if (creeps.length > 0) {
-                        creep.memory.pos === undefined;
+                        creep.memory.pos = undefined;
                     } else {
                         creep.moveTo(wantedPos);
                     }
@@ -50,13 +50,13 @@ export function run(creep: Creep) {
             }
         }
     } else
-    if (response === ERR_NOT_IN_RANGE){
+    if (response === ERR_NOT_IN_RANGE) {
         if (creep.memory.pos !== undefined && creep.memory.pos.x !== undefined && creep.memory.pos.y !== undefined && creep.memory.pos.roomName !== undefined) {
             if (creep.pos.x !== creep.memory.pos.x || creep.pos.y !== creep.memory.pos.y) {
                 let wantedPos = new RoomPosition(creep.memory.pos.x, creep.memory.pos.y, creep.memory.pos.roomName);
                 let creeps = wantedPos.lookFor(LOOK_CREEPS);
                 if (creeps.length > 0) {
-                    creep.memory.pos === undefined;
+                    creep.memory.pos = undefined;
                 } else {
                     creep.moveTo(wantedPos);
                     return;

@@ -14,7 +14,7 @@ export function getOutpostRoads(index: string): any {
         let roadinfo = JSON.parse(RawMemory.segments[index + 50]);
         return roadinfo;
     }
-    console.log("Roadinfo " + RoomRepository.getRoomForIndex(parseInt(index)) + ": Not found or not loaded");
+    console.log("Roadinfo " + RoomRepository.getRoomForIndex(parseInt(index, 10)) + ": Not found or not loaded");
     return [];
 }
 

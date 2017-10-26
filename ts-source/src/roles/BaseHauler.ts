@@ -142,7 +142,7 @@ function transferEnergyToNearbyExtensions(creep: Creep) {
     }
 }
 
-function findTankingBuilding(creep: Creep) : Structure | null {
+function findTankingBuilding(creep: Creep): Structure | null {
     if (creep.room.storage !== undefined && creep.room.storage.store[RESOURCE_ENERGY] < 100000 &&
     creep.room.terminal !== undefined && creep.room.terminal.store[RESOURCE_ENERGY] > 60000) {
         creep.memory.tankingBuilding = creep.room.terminal.id;
@@ -222,7 +222,7 @@ function findDropofBuilding(creep: Creep, exceptId: string | null = null) {
 
     // Else other buildings
     let closestBuildingInNeed = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-        filter: function(structure: Structure) {
+        filter: (structure: Structure) => {
             return structure.id !== exceptId && ((structure instanceof StructureTower && structure.energy < structure.energyCapacity - 200) ||
             structure instanceof StructureLab) && structure.energy < structure.energyCapacity;
         },
@@ -234,8 +234,8 @@ function findDropofBuilding(creep: Creep, exceptId: string | null = null) {
 
     if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
         // Else other extensions/spawn
-        let closestBuildingInNeed = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-            filter: function(structure: Structure) {
+        closestBuildingInNeed = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+            filter: (structure: Structure) => {
                 return structure.id !== exceptId && (structure instanceof StructureSpawn ||
                 structure instanceof StructureExtension) && structure.energy < structure.energyCapacity;
             },
@@ -305,7 +305,7 @@ function lookForCloseStructureNeedingEnergy(creep: Creep, range: number, exceptI
     for (let x of _.range(-range, range + 1)) {
         for (let y of _.range(-range, range + 1)) {
             if (Math.abs(x) === range || Math.abs(y) === range) {
-                if (creep.pos.x + x > 0 && creep.pos.x + x < 49 && creep.pos.y + y > 0 && creep.pos.y + y < 49){
+                if (creep.pos.x + x > 0 && creep.pos.x + x < 49 && creep.pos.y + y > 0 && creep.pos.y + y < 49) {
                     let atPos = (new RoomPosition(creep.pos.x + x, creep.pos.y + y, creep.pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
                     for (let s of atPos) {
                         if ((s.structureType === STRUCTURE_EXTENSION || s.structureType === STRUCTURE_SPAWN ||

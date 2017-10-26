@@ -28,7 +28,7 @@ export class MineralManager extends Manager {
 
     private hasRun = false;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("MineralManager");
@@ -36,7 +36,7 @@ export class MineralManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Standard) {
             let lastRun = this.getValue(this.MEMORY_LASTRUN);
             if (lastRun === undefined || lastRun + 50 < Game.time) {
@@ -65,7 +65,7 @@ export class MineralManager extends Manager {
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.Town) {
                 if (room.memory.miningMinerals) {
                     let mineral = room.getMineral();
-                    if (mineral !== undefined && room.storage !== undefined && (room.storage.store[mineral.mineralType] == undefined || room.storage.store[mineral.mineralType] < 250000) &&
+                    if (mineral !== undefined && room.storage !== undefined && (room.storage.store[mineral.mineralType] === undefined || room.storage.store[mineral.mineralType] < 250000) &&
                         _.sum(room.storage.store) < (0.95 * room.storage.storeCapacity)) {
                         this.orderMineralMiner(room);
                         this.orderMineralHauler(room, mineral);
@@ -88,7 +88,7 @@ export class MineralManager extends Manager {
                     (outpostRoom.controller === undefined || outpostRoom.controller.level > 5)) {
                         let mineral = outpostRoom.getMineral();
                         if (mineral !== undefined && mineral.ticksToRegeneration === undefined &&
-                         room.storage !== undefined && (room.storage.store[mineral.mineralType] == undefined || room.storage.store[mineral.mineralType] < 250000) &&
+                         room.storage !== undefined && (room.storage.store[mineral.mineralType] === undefined || room.storage.store[mineral.mineralType] < 250000) &&
                          _.sum(room.storage.store) < (0.95 * room.storage.storeCapacity)) {
                             if (mineral.hasMiningContainer() && mineral.hasExtractor()) {
                                 this.orderSKMineralMiner(room, mineral);

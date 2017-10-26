@@ -16,6 +16,7 @@ interface Memory {
     playerthreat: {[name: string]: number};
 }
 
+// tslint:disable-next-line:class-name
 interface global {
     intel: {[roomName: string]: any};
 }

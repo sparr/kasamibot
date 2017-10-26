@@ -19,7 +19,7 @@ export class HarassManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN_LOTTERY = "lastRunLottery";
+    public readonly MEMORY_LASTRUN_LOTTERY = "lastRunLottery";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("HarassManager");
@@ -36,8 +36,7 @@ export class HarassManager extends Manager {
             if (lastRunLottery === undefined || lastRunLottery + 500 < Game.time) {
                 let rooms = this.roomService.getNormalAndNotExpansion();
                 for (let room of rooms) {
-                    if (this.roomShouldTryToHarass(room))
-                    {
+                    if (this.roomShouldTryToHarass(room)) {
                         let targetRoom = this.findHarassTarget(room);
                         if (targetRoom === undefined) {
                             continue;
@@ -85,6 +84,7 @@ export class HarassManager extends Manager {
                     MilitaryLib.orderDrainer(room, room.controller.level, [target]);
                 }
                 break;
+            default:
             case HarassType.Harasser:
                 MilitaryLib.orderHarasser(room, target);
                 break;

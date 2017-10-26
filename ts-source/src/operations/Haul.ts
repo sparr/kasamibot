@@ -32,27 +32,27 @@ export enum VictoryCondition {
 }
 
 export class Data implements IOperationData {
-    operationtype: OperationType = OperationType.Haul;
+    public operationtype: OperationType = OperationType.Haul;
     /** Is the operation currenty active TODO: use this with pauseconditions? */
-    active: boolean = true;
+    public active: boolean = true;
     /** Victory-condition for operation */
-    victoryCondition: VictoryCondition;
+    public victoryCondition: VictoryCondition;
     /** Victory-condition value */
-    victoryValue: any;
+    public victoryValue: any;
     /** Room to take energy from */
-    from: string;
+    public from: string;
     /** Room to provide energy to */
-    to: string;
+    public to: string;
     /** Amount of resource wanted hauled every tick (decides amount of haulers) */
-    amount: number;
+    public amount: number;
     /** StructureID used for picking up, if not given, storage is used */
-    fromID?: string; // Not implemented, using storage so far
+    public fromID?: string; // Not implemented, using storage so far
     /** StructureID used for dropping of, if not given, storage is used */
-    toID?: string; // Not implemented, using storage so far
+    public toID?: string; // Not implemented, using storage so far
     /** RESOURCE_TYPE or energy if not provided */
-    resourceType?: string; // Not implemented, using energy so far
+    public resourceType?: string; // Not implemented, using energy so far
 
-    haulersNeeded?: number;
+    public haulersNeeded?: number;
 }
 
 export function run(operation: Data, creepService: CreepService, pri: ManagerPriority): void {
@@ -80,6 +80,9 @@ export function victoryConditionReached(operation: Data): boolean {
                 operation.active = false;
                 return true;
             }
+            break;
+        default:
+            break;
     }
     return false;
 }

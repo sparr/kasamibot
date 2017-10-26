@@ -143,8 +143,7 @@ function runScavengeEnergy(creep: Creep) {
         if (creep.carry.energy > 0) {
             creep.setState(State.DecideWhatToDoWithEnergy);
             runDecideWhatToDoWithEnergy(creep);
-        }
-        else {
+        } else {
             creep.setState(State.DecideWhereToGetEnergy);
             runDecideWhereToGetEnergy(creep);
         }
@@ -172,8 +171,7 @@ function runGetEnergyFromStructure(creep: Creep) {
         if (creep.carry.energy > 0) {
             creep.setState(State.DecideWhatToDoWithEnergy);
             runDecideWhatToDoWithEnergy(creep);
-        }
-        else {
+        } else {
             creep.setState(State.DecideWhereToGetEnergy);
             runDecideWhereToGetEnergy(creep);
         }
@@ -203,7 +201,7 @@ function runDecideWhereToGetEnergy(creep: Creep) {
 
     // If there is any non-empty enemy structures (storage or terminal) with energy, grab it there
     let structuresWithEnergy = creep.room.find(FIND_HOSTILE_STRUCTURES, {
-        filter: function(c: Storage | Terminal) {
+        filter: (c: Storage | Terminal) => {
         return (c.structureType === STRUCTURE_STORAGE || c.structureType === STRUCTURE_TERMINAL) &&
             c.store[RESOURCE_ENERGY] > 1000; }}) as Structure[];
 
@@ -216,7 +214,7 @@ function runDecideWhereToGetEnergy(creep: Creep) {
 
     // Scavange for resources
     let pilesWithEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
-        filter: function(c: Resource) {
+        filter: (c: Resource) => {
         return c.resourceType === RESOURCE_ENERGY && c.amount > creep.carryCapacity / 3; }}) as Resource[];
 
     if (pilesWithEnergy.length > 0) {
@@ -320,7 +318,7 @@ function runDecideWhatToDoWithEnergy(creep: Creep) {
 
     // If there is any non-full extensions/spawns/towers, fill them
     let structuresNeedingEnergy = creep.room.find(FIND_MY_STRUCTURES, {
-        filter: function(c: Extension | Spawn | Tower) {
+        filter: (c: Extension | Spawn | Tower) => {
         return (c.structureType === STRUCTURE_SPAWN || c.structureType === STRUCTURE_EXTENSION || c.structureType === STRUCTURE_TOWER || c.structureType === STRUCTURE_STORAGE) &&
             c.energy < c.energyCapacity - 30; }}) as Structure[];
 
@@ -447,8 +445,7 @@ function runUpgrading(creep: Creep) {
         let range = creep.pos.getRangeTo(controller);
         if (range > 3) {
             creep.travelTo(controller);
-        } else
-        {
+        } else {
             if (range === 3) {
                 creep.travelTo(controller);
             }
@@ -588,7 +585,7 @@ function getCountOfWorkersForSource(sourceid: string, homeroom: Room): number {
         }
     }
 
-    for (let order of homeroom.memory.orders){
+    for (let order of homeroom.memory.orders) {
         if (order.memory.sourceId === sourceid &&
             order.memory.role === Role.ExpansionWorker) {
             count++;

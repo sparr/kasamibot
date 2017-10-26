@@ -14,7 +14,7 @@ export function run(creep: Creep) {
 
     if (Game.time % 2 === 0) {
         let mineral = Game.getObjectById(creep.memory.target);
-        if (!(mineral instanceof Mineral)){
+        if (!(mineral instanceof Mineral)) {
             _Common.moveOffRoad(creep);
             return;
         }
@@ -26,7 +26,7 @@ export function run(creep: Creep) {
     // Only harvest every 6. tick
     if (Game.time % 6 === 0) {
         let mineral = Game.getObjectById(creep.memory.target);
-        if (!(mineral instanceof Mineral)){
+        if (!(mineral instanceof Mineral)) {
             _Common.moveOffRoad(creep);
             return;
         }
@@ -86,7 +86,7 @@ function setMyContainer(creep: Creep) {
     }
     let container = mineral.getMiningContainer();
     if (!(container instanceof StructureContainer)) {
-        //console.log("MineralMiner without container! " + creep.name + " " + creep.room.name);
+        // console.log("MineralMiner without container! " + creep.name + " " + creep.room.name);
         return;
     }
     creep.memory.container = container.id;

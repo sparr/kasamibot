@@ -22,7 +22,7 @@ export class LogisticsManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     public constructor(roomService: RoomService, creepService: CreepService) {
         super("LogisticsManager");
@@ -30,7 +30,7 @@ export class LogisticsManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Critical) {
             this.creepService.runCreeps(Role.BaseHauler, BaseHauler.run);
             this.creepService.runCreeps(Role.BaseCourier, BaseCourier.run);
@@ -124,8 +124,7 @@ export class LogisticsManager extends Manager {
         } else
         if (room.storage === undefined) {
             order.priority = Priority.Low;
-        }
-        else {
+        } else {
             order.priority = Priority.Blocker;
         }
         order.memory =  {role: Role.BaseHauler, target: room.name, tier: usedTier};

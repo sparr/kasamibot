@@ -17,8 +17,7 @@ export function roomHasBankHaulers(room: Room, bank: PowerBank) {
 export function setBankPostionInMemory(creep: Creep) {
     let homeroom = Game.rooms[creep.memory.homeroom];
     if (homeroom !== undefined && homeroom.memory.powerbanks !== undefined &&
-        homeroom.memory.powerbanks[creep.memory.target] !== undefined)
-    {
+        homeroom.memory.powerbanks[creep.memory.target] !== undefined) {
         let bankinfo = homeroom.memory.powerbanks[creep.memory.target];
         creep.memory.bankPosition = {x: bankinfo.position.x, y: bankinfo.position.y, roomName: bankinfo.position.roomName};
     }

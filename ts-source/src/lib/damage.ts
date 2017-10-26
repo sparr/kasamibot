@@ -31,6 +31,8 @@ export function getStatsForCreep(creep: Creep): {mpt: number, rpt: number, hpt: 
             case WORK:
                 stats.dpt += (DISMANTLE_POWER * boost);
                 break;
+            default:
+                break;
         }
     }
     /*console.log("Stats for creep: " + creep.name + " in room "+ creep.pos.roomName);
@@ -58,6 +60,8 @@ export function getStatsForCreepBody(body: string[]): {mpt: number, rpt: number,
                 break;
             case WORK:
                 stats.dpt += (DISMANTLE_POWER * boost);
+                break;
+            default:
                 break;
         }
     }

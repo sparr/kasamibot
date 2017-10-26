@@ -15,11 +15,13 @@ export function getKitingRoomCallback(roomName: string): CostMatrix {
     let room = Game.rooms[roomName];
     // In this example `room` will always exist, but since PathFinder
     // supports searches which span multiple rooms you should be careful!
-    if (!room) return new PathFinder.CostMatrix;
+    if (!room) {
+        return new PathFinder.CostMatrix();
+    }
 
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
-    room.find(FIND_STRUCTURES).forEach(function(structure: Structure) {
+    room.find(FIND_STRUCTURES).forEach((structure: Structure) => {
         if (structure.structureType === STRUCTURE_ROAD) {
             costs.set(structure.pos.x, structure.pos.y, 2);
         } else
@@ -32,10 +34,10 @@ export function getKitingRoomCallback(roomName: string): CostMatrix {
     });
 
     room.find(FIND_HOSTILE_CREEPS, {
-        filter: function(c: Creep) {
+        filter: (c: Creep) => {
             return c.getActiveBodyparts(ATTACK) > 0 || c.getActiveBodyparts(RANGED_ATTACK) > 0 || c.getActiveBodyparts(HEAL) > 0;
         },
-    }).forEach(function(hostileCreep: Creep) {
+    }).forEach((hostileCreep: Creep) => {
         for (let x = -3; x < 4; x++) {
             for (let y = -3; y < 4; y++) {
                 costs.set(hostileCreep.pos.x, hostileCreep.pos.y, 10);
@@ -46,7 +48,7 @@ export function getKitingRoomCallback(roomName: string): CostMatrix {
         }
     });
 
-    room.find(FIND_CREEPS).forEach(function(creep: Creep) {
+    room.find(FIND_CREEPS).forEach((creep: Creep) => {
         costs.set(creep.pos.x, creep.pos.y, 0xff);
     });
     return costs;
@@ -56,11 +58,13 @@ export function getOffroadRoomCallback(roomName: string): CostMatrix {
     let room = Game.rooms[roomName];
     // In this example `room` will always exist, but since PathFinder
     // supports searches which span multiple rooms you should be careful!
-    if (!room) return new PathFinder.CostMatrix;
+    if (!room) {
+        return new PathFinder.CostMatrix();
+    }
 
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
-    room.find(FIND_STRUCTURES).forEach(function(structure: Structure) {
+    room.find(FIND_STRUCTURES).forEach((structure: Structure) => {
         if (structure.structureType === STRUCTURE_ROAD) {
             costs.set(structure.pos.x, structure.pos.y, 20);
         } else
@@ -72,7 +76,7 @@ export function getOffroadRoomCallback(roomName: string): CostMatrix {
         }
     });
 
-    room.find(FIND_CREEPS).forEach(function(creep: Creep) {
+    room.find(FIND_CREEPS).forEach((creep: Creep) => {
         costs.set(creep.pos.x, creep.pos.y, 0xff);
     });
     return costs;
@@ -124,7 +128,7 @@ function findRoadPath(origin: {pos: RoomPosition}, destination: {pos: RoomPositi
 export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolean = false): CostMatrix {
     let room = Game.rooms[roomName];
 
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
     if (allowSK !== true) {
         let parsed = /^[WE]([0-9]+)[NS]([0-9]+)$/.exec(roomName) as any;
@@ -147,10 +151,9 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
         }
     }
 
-    let x: number, y: number, t: string;
-    for (x = 0; x < 50; x++) {
-        for (y = 0; y < 50; y++) {
-            t = Game.map.getTerrainAt(x, y, roomName);
+    for (let x = 0; x < 50; x++) {
+        for (let y = 0; y < 50; y++) {
+            const t = Game.map.getTerrainAt(x, y, roomName);
             if (t === "plain") {
                 costs.set(x, y, 2);
             } else
@@ -162,14 +165,13 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
 
     if (!room) {
         return costs;
-    ;
+    }
 
     if (allowSK === true) {
-        room.find(FIND_HOSTILE_STRUCTURES, {filter: function(s: StructureKeeperLair) { return s.structureType === STRUCTURE_KEEPER_LAIR; }}).forEach(function (lair: Structure) {
-            let x: number, y: number, t: string;
-            for (x = -2; x < 3; x++) {
-                for (y = -2; y < 3; y++) {
-                    t = Game.map.getTerrainAt(lair.pos.x + x, lair.pos.y + y, roomName);
+        room.find(FIND_HOSTILE_STRUCTURES, {filter: (s: StructureKeeperLair) => { return s.structureType === STRUCTURE_KEEPER_LAIR; }}).forEach((lair: Structure) => {
+            for (let x = -2; x < 3; x++) {
+                for (let y = -2; y < 3; y++) {
+                    const t = Game.map.getTerrainAt(lair.pos.x + x, lair.pos.y + y, roomName);
                     if (t === "plain" || t === "swamp") {
                         costs.set(lair.pos.x + x, lair.pos.y + y, 12);
                     }
@@ -178,7 +180,7 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
         });
     }
 
-    room.find(FIND_SOURCES).forEach(function (source: Source) {
+    room.find(FIND_SOURCES).forEach((source: Source) => {
         let pos = source.pos;
         let containerpos = source.getContainerPosition();
         if (containerpos !== undefined) {
@@ -194,7 +196,7 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
             }
         }
     });
-    room.find(FIND_MINERALS).forEach(function (mineral: Mineral) {
+    room.find(FIND_MINERALS).forEach((mineral: Mineral) => {
         let pos = mineral.pos;
         let containerpos = mineral.getContainerPosition();
         if (containerpos !== undefined) {
@@ -210,7 +212,7 @@ export function getRoomCallbackForRoadbuilding(roomName: string, allowSK: boolea
             }
         }
     });
-    room.find(FIND_STRUCTURES).forEach(function(structure: Structure) {
+    room.find(FIND_STRUCTURES).forEach((structure: Structure) => {
         if (structure.structureType === STRUCTURE_ROAD) {
         // Favor existing roads over building new ones
             costs.set(structure.pos.x, structure.pos.y, 1);

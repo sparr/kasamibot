@@ -24,13 +24,13 @@ res - ticks left of reservation, if it is mine and reserved
 export class IntelManager extends Manager {
     private hasRun = false;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor() {
         super("IntelManager");
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Standard) {
             let lastRun = this.getValue(this.MEMORY_LASTRUN);
             if (lastRun === undefined || lastRun + 8 < Game.time) {
@@ -54,7 +54,7 @@ export class IntelManager extends Manager {
                     }
                 }
                 this.setValue(this.MEMORY_LASTRUN, Game.time);
-            ;
+            }
         }
     }
 }

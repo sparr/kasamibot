@@ -9,14 +9,14 @@ export function getCloseHighways(baseroom: string): string[] {
         getRoomsSixAway(baseroom),
     );
 
-    return _.filter(potentialHighways, function (r: string) { return RoomLib.roomIsHighway(r); });
+    return _.filter(potentialHighways, (r: string) => RoomLib.roomIsHighway(r));
 }
 
 export function getRoomsOneAway(baseroom: string): string[] {
     let roomsOneAway: string[] = [];
 
     let exits = Game.map.describeExits(baseroom);
-    _.forEach(exits, function(room: string | undefined): void {
+    _.forEach(exits, (room: string | undefined): void => {
         if (room !== undefined) {
             roomsOneAway.push(room);
         }
@@ -33,7 +33,7 @@ export function getRoomsTwoAway(baseroom: string): string[] {
     for (let neighbour of roomsOneAway) {
         let neighbourExits = Game.map.describeExits(neighbour);
 
-        _.forEach(neighbourExits, function(room: string | undefined): void {
+        _.forEach(neighbourExits, (room: string | undefined): void => {
             if (room !== undefined) {
                 roomsTwoAway.push(room);
             }
@@ -59,7 +59,7 @@ export function getRoomsThreeAway(baseroom: string): string[] {
     for (let neighbour of roomsTwoAway) {
         let neighbourExits = Game.map.describeExits(neighbour);
 
-        _.forEach(neighbourExits, function(room: string | undefined): void {
+        _.forEach(neighbourExits, (room: string | undefined): void => {
             if (room !== undefined) {
                 roomsThreeAway.push(room);
             }
@@ -89,7 +89,7 @@ export function getRoomsFourAway(baseroom: string): string[] {
     for (let neighbour of roomsThreeAway) {
         let neighbourExits = Game.map.describeExits(neighbour);
 
-        _.forEach(neighbourExits, function(room: string | undefined): void {
+        _.forEach(neighbourExits, (room: string | undefined): void => {
             if (room !== undefined) {
                 roomsFourAway.push(room);
             }
@@ -123,7 +123,7 @@ export function getRoomsFiveAway(baseroom: string): string[] {
     for (let neighbour of roomsFourAway) {
         let neighbourExits = Game.map.describeExits(neighbour);
 
-        _.forEach(neighbourExits, function(room: string | undefined): void {
+        _.forEach(neighbourExits, (room: string | undefined): void => {
             if (room !== undefined) {
                 roomsFiveAway.push(room);
             }
@@ -161,7 +161,7 @@ export function getRoomsSixAway(baseroom: string): string[] {
     for (let neighbour of roomsFiveAway) {
         let neighbourExits = Game.map.describeExits(neighbour);
 
-        _.forEach(neighbourExits, function(room: string | undefined): void {
+        _.forEach(neighbourExits, (room: string | undefined): void => {
             if (room !== undefined) {
                 roomsSixAway.push(room);
             }
@@ -203,7 +203,7 @@ export function getRoomsSevenAway(baseroom: string): string[] {
         for (let neighbour of roomsSixAway) {
             let neighbourExits = Game.map.describeExits(neighbour);
 
-            _.forEach(neighbourExits, function(room: string | undefined): void {
+            _.forEach(neighbourExits, (room: string | undefined): void => {
                 if (room !== undefined) {
                     roomsSevenAway.push(room);
                 }

@@ -5,7 +5,7 @@ export function getConstructionPointsInRoom(room: Room): number {
     if (cs.length > 0) {
         return _.sum(
             _.map(cs,
-                function(c: ConstructionSite) {
+                (c: ConstructionSite) => {
                     return c.progressTotal - c.progress;
                 }));
     }
@@ -13,7 +13,7 @@ export function getConstructionPointsInRoom(room: Room): number {
     if (enemySitesNeedingBuilding.length > 0 && room.controller !== undefined && room.controller.level > 5 && room.controller.my) {
         return _.sum(
             _.map(enemySitesNeedingBuilding,
-                function(c: ConstructionSite) {
+                (c: ConstructionSite) => {
                     return c.progressTotal - c.progress;
                 }));
     }
@@ -22,13 +22,13 @@ export function getConstructionPointsInRoom(room: Room): number {
 
 export function getBuildingCount(room: Room, structureType: string): number {
     return room.find(FIND_STRUCTURES, {filter:
-        function(s: Structure) { return s.structureType === structureType; },
+        (s: Structure) => { return s.structureType === structureType; },
     }).length;
 }
 
 export function getConstructionSiteCount(room: Room, structureType: string): number {
     return room.find(FIND_CONSTRUCTION_SITES, {filter:
-        function(s: Structure) { return s.structureType === structureType; },
+        (s: Structure) => { return s.structureType === structureType; },
     }).length;
 }
 

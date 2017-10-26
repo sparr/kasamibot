@@ -26,7 +26,7 @@ export class MiningManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("MiningManager");
@@ -70,7 +70,6 @@ export class MiningManager extends Manager {
         if ((room.storage !== undefined && _.sum(room.storage.store) > (STORAGE_CAPACITY * 0.95))) {
             return;
         }
-        let sources = SourceUtilities.getAllSourcesInRoom(room);
         if (roomlevel === undefined || roomlevel < RoomLevel.DefendedColony) {
             let sources = room.getSources();
             let outposts = RoomRepository.getBasicOutposts(room);
@@ -91,6 +90,7 @@ export class MiningManager extends Manager {
                 }
             }
         } else {
+            let sources = SourceUtilities.getAllSourcesInRoom(room);
             for (let source of sources) {
                 this.orderContainerMiners(room, source.id, source.room.name);
                 if (roomlevel < RoomLevel.City) {

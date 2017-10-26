@@ -30,8 +30,8 @@ export class OutpostManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
-    readonly MEMORY_LASTRUN_OUTPOSTLIST = "lastRunOutpostList";
+    public readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN_OUTPOSTLIST = "lastRunOutpostList";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("OutpostManager");
@@ -39,7 +39,7 @@ export class OutpostManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Standard) {
 
             this.creepService.runCreeps(Role.OutpostReserver, OutpostReserver.run);
@@ -140,7 +140,7 @@ export class OutpostManager extends Manager {
         let currentTiers = this.creepService.getNumberOfTiers(Role.Janitor, room.name);
         let orderedTiers = OrdersRepository.getNumberOfTiersInQueue(room, Role.Janitor, room.name);
 
-        //console.log("Kiterstatus: " + outpost + ": " + currentTiers + " + " + orderedTiers + " av " + neededTiers)
+        // console.log("Kiterstatus: " + outpost + ": " + currentTiers + " + " + orderedTiers + " av " + neededTiers)
         if (neededTiers >= currentTiers + orderedTiers) {
             let order = new Order();
             order.body = ProfileUtilities.getDistanceWorkerBody(usedTier);
@@ -468,7 +468,7 @@ export function evaluateOutposts(roomName: string) {
         ScoutingUtilities.getRoomsThreeAway(roomName),
     );
 
-    let potOutposts = _.filter(closeRooms, function (r: string) { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r); });
+    let potOutposts = _.filter(closeRooms, (r: string) => { return !RoomLib.roomIsHighway(r) && !RoomRepository.isMiddleRoom(r); });
 
     let values: Array<{roomName: string, value: number | undefined}> = [];
     for (let o of potOutposts) {

@@ -88,8 +88,7 @@ function setOrderCopyTick(creep: Creep) {
     let spawn = Game.rooms[creep.memory.homeroom].getSpawn() as Spawn;
     if (mineral instanceof Mineral && spawn instanceof StructureSpawn) {
         creep.memory.orderCopyTick = Math.ceil(PathfindingUtilities.getDistanseBetween(mineral.pos, spawn.pos) + 150);
-    }
-    else {
+    } else {
         creep.memory.orderCopyTick = -1;
     }
 }

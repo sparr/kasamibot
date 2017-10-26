@@ -176,9 +176,9 @@ function runReactionLabs(room: Room) {
 }
 
 class SupplyJob {
-    lab: string;
-    mineral: string;
-    amount: number;
+    public lab: string;
+    public mineral: string;
+    public amount: number;
 }
 
 function getSupplyLabJobs(room: Room): SupplyJob[] {

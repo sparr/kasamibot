@@ -116,7 +116,7 @@ function getTeammate(creep: Creep): Creep | null {
 
 function findPossibleTeammate(creep: Creep): Creep | null {
     let possibleTeammates = creep.room.find(FIND_MY_CREEPS, {filter:
-        function(c: Creep) {
+        (c: Creep) => {
             return (c.memory.role === Role.TeamWrecker || c.memory.role === Role.TeamWarrior) &&
             c.memory.healer === undefined;
         },

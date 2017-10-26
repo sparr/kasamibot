@@ -6,7 +6,7 @@ export class InterfaceManager extends Manager {
         super("InterfaceManager");
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Trivial) {
             if (Game.flags["Layout"] instanceof Flag) {
                 let pos = Game.flags.Layout.pos;

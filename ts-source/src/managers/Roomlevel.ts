@@ -15,15 +15,15 @@ export class RoomlevelManager extends Manager {
 
     private hasRunUpdate = false;
 
-    readonly MEMORY_LASTRUN_UPDATE = "lastRunUpdate";
-    readonly MEMORY_LASTRUN_CRISIS = "lastRunCrisis";
+    public readonly MEMORY_LASTRUN_UPDATE = "lastRunUpdate";
+    public readonly MEMORY_LASTRUN_CRISIS = "lastRunCrisis";
 
     constructor(roomService: RoomService) {
         super("RoomlevelManager");
         this.roomService = roomService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Low) {
             let lastRunUpdate = this.getValue(this.MEMORY_LASTRUN_UPDATE);
             if (lastRunUpdate === undefined || lastRunUpdate + 100 < Game.time) {
@@ -160,7 +160,7 @@ function basicColonyReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.controllerLevelBelow(room, 2) &&
-    RoomUtilities.roomlevelIsAt(room, RoomLevel.BasicColonyReadyForExpansion)){
+    RoomUtilities.roomlevelIsAt(room, RoomLevel.BasicColonyReadyForExpansion)) {
         RoomRepository.setRoomLevel(room, RoomLevel.BasicColony);
     }
 }
@@ -173,7 +173,7 @@ function simpleColonyCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.SimpleColony) &&
-    RoomUtilities.controllerLevelBelow(room, 2)){
+    RoomUtilities.controllerLevelBelow(room, 2)) {
         RoomRepository.setRoomLevel(room, RoomLevel.BasicColony);
     }
 }
@@ -187,7 +187,7 @@ function simpleColonyReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.SimpleColonyReadyForExpansion) &&
-    RoomUtilities.controllerLevelBelow(room, 3)){
+    RoomUtilities.controllerLevelBelow(room, 3)) {
         RoomRepository.setRoomLevel(room, RoomLevel.SimpleColony);
     }
 }
@@ -215,7 +215,7 @@ function defendedColonyReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.DefendedColonyReadyForExpansion) &&
-    RoomUtilities.controllerLevelBelow(room, 4)){
+    RoomUtilities.controllerLevelBelow(room, 4)) {
         RoomRepository.setRoomLevel(room, RoomLevel.DefendedColony);
     }
 }
@@ -242,7 +242,7 @@ function civilizedColonyReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.CivilizedColonyReadyForExpansion) &&
-    RoomUtilities.controllerLevelBelow(room, 5)){
+    RoomUtilities.controllerLevelBelow(room, 5)) {
         RoomRepository.setRoomLevel(room, RoomLevel.CivilizedColony);
     }
 }
@@ -270,7 +270,7 @@ function advancedColonyReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.AdvancedColonyReadyForExpansion) &&
-    RoomUtilities.controllerLevelBelow(room, 6)){
+    RoomUtilities.controllerLevelBelow(room, 6)) {
         RoomRepository.setRoomLevel(room, RoomLevel.AdvancedColony);
     }
 }
@@ -317,7 +317,7 @@ function townReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.TownReadyForExpansion) &&
-    RoomUtilities.controllerLevelBelow(room, 7)){
+    RoomUtilities.controllerLevelBelow(room, 7)) {
         RoomRepository.setRoomLevel(room, RoomLevel.Town);
     }
 }
@@ -365,7 +365,7 @@ function cityColonyReadyForExpansionCheck(room: Room) {
     } else
     if (
     RoomUtilities.roomlevelIsAt(room, RoomLevel.CityReadyForExpansion) &&
-    RoomUtilities.controllerLevelBelow(room, 8)){
+    RoomUtilities.controllerLevelBelow(room, 8)) {
         RoomRepository.setRoomLevel(room, RoomLevel.City);
     }
 }

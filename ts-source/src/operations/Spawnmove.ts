@@ -35,17 +35,17 @@ export enum VictoryCondition {
 }
 
 export class Data implements IOperationData {
-    operationtype: OperationType = OperationType.Spawnmove;
+    public operationtype: OperationType = OperationType.Spawnmove;
     /** Is the operation currenty active TODO: use this with pauseconditions? */
-    active: boolean = true;
+    public active: boolean = true;
     /** Victory-condition for operation */
-    victoryCondition: VictoryCondition;
+    public victoryCondition: VictoryCondition;
     /** Victory-condition value */
-    victoryValue: RoomPosition;
+    public victoryValue: RoomPosition;
     /** Roomname */
-    roomName: string;
+    public roomName: string;
     /** The current state of the move */
-    state: MoveState = 1;
+    public state: MoveState = 1;
 }
 
 export function run(operation: Data, pri: ManagerPriority, creepService: CreepService): void {

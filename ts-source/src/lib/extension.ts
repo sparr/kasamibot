@@ -154,7 +154,7 @@ export function getRoomExtensionPositions(basePos: RoomPosition): {ext: string[]
 }
 
 function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
-    let cm = new PathFinder.CostMatrix;
+    let cm = new PathFinder.CostMatrix();
 
     for (let x of _.range(0, 50)) {
         for (let y of _.range(0, 50)) {
@@ -228,7 +228,7 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
         let counter = 50;
         while (extPositions.length < 60 && counter > 0 && possiblePositions.length > 0) {
             let bestPos = basePos.findClosestByRange(possiblePositions);
-            let pathDistance = PathFinder.search(basePos, {pos: bestPos, range: 1}, {plainCost: 1, swampCost: 1, maxRooms: 1, roomCallback: function (r: string) {
+            let pathDistance = PathFinder.search(basePos, {pos: bestPos, range: 1}, {plainCost: 1, swampCost: 1, maxRooms: 1, roomCallback: (r: string) => {
                 if (Game.rooms[r] === undefined) {
                     return extcm;
                 }
@@ -324,7 +324,7 @@ function removeExtensionToVitalTargets(basePos: RoomPosition, extPositions: stri
 }
 
 function getExtensionRoomCallback(extPositions: string[]): CostMatrix {
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
     for (let p of extPositions) {
         let t = p.split("-");

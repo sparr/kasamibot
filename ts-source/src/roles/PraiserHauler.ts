@@ -188,7 +188,7 @@ function findPraiserToProvide(creep: Creep) {
 
 function shouldShouldAnotherRun(creep: Creep): boolean {
     let homeroom = Game.rooms[creep.memory.homeroom];
-    if (homeroom == undefined || homeroom.terminal === undefined) {
+    if (homeroom === undefined || homeroom.terminal === undefined) {
         return true;
     }
     let distanceToTerminal = PathfindingUtilities.getDistanseBetween(creep.pos, homeroom.terminal.pos);

@@ -2,7 +2,7 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 
 export class MarketManager extends Manager {
 
-    readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUN = "lastRun";
 
     constructor() {
         super("MarketManager");
@@ -38,7 +38,7 @@ export function getResourceBuyPrice(resource: string): number | undefined {
 function updateMarketPrices() {
     Memory.marketBuy = {};
     Memory.marketSell = {};
-    let myActiveOrderIds = _.map(getMyActiveOrders(), function (o) {return o.id; });
+    let myActiveOrderIds = _.map(getMyActiveOrders(), (o) => {return o.id; });
     for (let o of Game.market.getAllOrders()) {
         if (o.amount >= 1000 && !_.contains(myActiveOrderIds, o.id)) {
             if (o.type === ORDER_SELL && (Memory.marketSell[o.resourceType] === undefined || Memory.marketSell[o.resourceType] > o.price)) {
@@ -53,12 +53,12 @@ function updateMarketPrices() {
 }
 
 function getMyActiveOrders(): Order[] {
-    return _.filter(Game.market.orders, function (o) {return o.active; });
+    return _.filter(Game.market.orders, (o) => {return o.active; });
 }
 
 /*
 function getMaximumBuyPrice(mineral: string, exceptOrderIds: string[]): number {
-    let ordersForMineral = Game.market.getAllOrders( function(o: Order) {
+    let ordersForMineral = Game.market.getAllOrders((o: Order) => {
         return o.type === ORDER_BUY && o.resourceType === mineral && o.remainingAmount >= 2000 && !_.contains(exceptOrderIds, o.id);
     });
     let maxPrice = 0;

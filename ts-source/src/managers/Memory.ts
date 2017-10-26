@@ -7,8 +7,8 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import * as RoomRepository from "../repository/Room";
 
 export class MemoryManager extends Manager {
-    readonly MEMORY_SHORTTERM = "shortterm";
-    readonly MEMORY_LONGTERM = "longterm";
+    public readonly MEMORY_SHORTTERM = "shortterm";
+    public readonly MEMORY_LONGTERM = "longterm";
 
     constructor() {
         super("MemoryManager");

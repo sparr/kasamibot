@@ -8,8 +8,7 @@ export function getAllRoomsBeingDismantled(): Room[] {
     for (let roomKey in Game.rooms) {
         let room = Game.rooms[roomKey];
         if (room.controller !== undefined && room.controller.my === true &&
-            room.memory.isBeingDismantled === true)
-        {
+            room.memory.isBeingDismantled === true) {
             rooms.push(room);
         }
     }

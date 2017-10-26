@@ -211,10 +211,12 @@ function findWallToDestroy(creep: Creep, targetToAttack: Structure  | Creep) {
 }
 function getRoomCallbackForWallDestruction(roomName: string): CostMatrix {
     let room = Game.rooms[roomName];
-    if (!room) return new PathFinder.CostMatrix;
+    if (!room) {
+        return new PathFinder.CostMatrix();
+    }
 
-    let costs = new PathFinder.CostMatrix;
-    room.find(FIND_STRUCTURES).forEach(function(structure: Structure) {
+    let costs = new PathFinder.CostMatrix();
+    room.find(FIND_STRUCTURES).forEach((structure: Structure) => {
         if (structure.structureType === STRUCTURE_WALL || structure.structureType === STRUCTURE_RAMPART) {
             costs.set(structure.pos.x, structure.pos.y, Math.min(250, structure.hits / 1000));
         }

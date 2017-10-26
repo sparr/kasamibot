@@ -25,7 +25,7 @@ export class BoostManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Critical) {
             let rooms = this.roomService.getNormalAndNotExpansion();
             for (let room of rooms) {
@@ -96,6 +96,7 @@ export class BoostManager extends Manager {
 
         let requiredMinerals = boosts.count * LAB_BOOST_MINERAL;
         switch (room.memory.boostStage) {
+            default:
             case undefined:
             case BoostStage.ClearLab:
                 if (lab.mineralAmount > 0) {

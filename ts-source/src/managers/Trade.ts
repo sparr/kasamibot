@@ -45,24 +45,24 @@ export class TradeManager extends Manager {
     private hasRunMineralToBuyorders = false;
     private hasRunAbandonedRooms = false;
 
-    readonly MEMORY_NEXTRUN_CRISISENERGY = "nextCrisis";
-    readonly MEMORY_NEXTRUN_SENDENERGYAWAY = "nextEnAway";
-    readonly MEMORY_NEXTRUN_SENDENERGYTOPRAISEROOM = "nextPrEnergy";
-    readonly MEMORY_NEXTRUN_SENDBOOSTTOPRAISEROOM = "nextPrBoost";
-    readonly MEMORY_NEXTRUN_PRAISEROOMENERGYORDER = "nextPrOrder";
-    readonly MEMORY_NEXTRUN_CLEANUPINACTIVEORDERS = "nextCleanup";
-    readonly MEMORY_NEXTRUN_LOOKFORGOODDEALS = "nextGoodDeals";
-    readonly MEMORY_NEXTRUN_SELLENERGY = "nextEnergySale";
-    readonly MEMORY_NEXTRUN_SELLPOWER = "nextPwSale";
-    readonly MEMORY_NEXTRUN_SELLPOWERGOODDEAL = "nextPwGoodSale";
-    readonly MEMORY_NEXTRUN_SENDPOWER = "nextPwDist";
-    readonly MEMORY_NEXTRUN_SENDMINERALS = "nextMinDist";
-    readonly MEMORY_NEXTRUN_SENDBOOST = "nextSendBoost";
-    readonly MEMORY_NEXTRUN_MINERALSELLORDERS = "nextMinSellO";
-    readonly MEMORY_NEXTRUN_MINERALTOBUYORDERS = "nextMinToBuyO";
-    readonly MEMORY_NEXTRUN_ABANDONEDROOMS = "nextAbandoned";
-    readonly MEMORY_NEXTRUN_PREPARERESPAWN = "nextPrepRespawn";
-    readonly MEMORY_NEXTRUN_BUYMINERALS = "nextBuyMins";
+    public readonly MEMORY_NEXTRUN_CRISISENERGY = "nextCrisis";
+    public readonly MEMORY_NEXTRUN_SENDENERGYAWAY = "nextEnAway";
+    public readonly MEMORY_NEXTRUN_SENDENERGYTOPRAISEROOM = "nextPrEnergy";
+    public readonly MEMORY_NEXTRUN_SENDBOOSTTOPRAISEROOM = "nextPrBoost";
+    public readonly MEMORY_NEXTRUN_PRAISEROOMENERGYORDER = "nextPrOrder";
+    public readonly MEMORY_NEXTRUN_CLEANUPINACTIVEORDERS = "nextCleanup";
+    public readonly MEMORY_NEXTRUN_LOOKFORGOODDEALS = "nextGoodDeals";
+    public readonly MEMORY_NEXTRUN_SELLENERGY = "nextEnergySale";
+    public readonly MEMORY_NEXTRUN_SELLPOWER = "nextPwSale";
+    public readonly MEMORY_NEXTRUN_SELLPOWERGOODDEAL = "nextPwGoodSale";
+    public readonly MEMORY_NEXTRUN_SENDPOWER = "nextPwDist";
+    public readonly MEMORY_NEXTRUN_SENDMINERALS = "nextMinDist";
+    public readonly MEMORY_NEXTRUN_SENDBOOST = "nextSendBoost";
+    public readonly MEMORY_NEXTRUN_MINERALSELLORDERS = "nextMinSellO";
+    public readonly MEMORY_NEXTRUN_MINERALTOBUYORDERS = "nextMinToBuyO";
+    public readonly MEMORY_NEXTRUN_ABANDONEDROOMS = "nextAbandoned";
+    public readonly MEMORY_NEXTRUN_PREPARERESPAWN = "nextPrepRespawn";
+    public readonly MEMORY_NEXTRUN_BUYMINERALS = "nextBuyMins";
 
     constructor(roomService: RoomService) {
         super("TradeManager");
@@ -374,8 +374,7 @@ export class TradeManager extends Manager {
                 room.terminal !== undefined && room.storage !== undefined &&
                 room.terminal.store[RESOURCE_ENERGY] < TradeConfig.requestCrisisEnergyWhenTerminalEnergyBelow &&
                 room.storage.store[RESOURCE_ENERGY] < TradeConfig.requestCrisisEnergyWhenStorageEnergyBelow
-                && room.terminal.my && room.terminal.isActive() && !room.isAbandoned())
-            {
+                && room.terminal.my && room.terminal.isActive() && !room.isAbandoned()) {
                 return room;
             }
         }
@@ -389,8 +388,7 @@ export class TradeManager extends Manager {
                 room.terminal !== undefined && room.storage !== undefined &&
                 room.terminal.store[RESOURCE_ENERGY] > TradeConfig.sendToNeighboursWhenTerminalEnergyAbove &&
                 room.storage.store[RESOURCE_ENERGY] > TradeConfig.sendEnergyToBuyOrdersWhenAbove &&
-                room.terminal.my && room.terminal.isActive())
-            {
+                room.terminal.my && room.terminal.isActive()) {
                 sellRooms.push(room);
             }
         }
@@ -404,8 +402,7 @@ export class TradeManager extends Manager {
                 room.terminal !== undefined && room.storage !== undefined &&
                 room.terminal.store[RESOURCE_ENERGY] > TradeConfig.sendToNeighboursWhenTerminalEnergyAbove &&
                 room.storage.store[RESOURCE_ENERGY] > TradeConfig.sendToNeighboursWhenStorageEnergyAbove &&
-                room.terminal.my && room.terminal.isActive())
-            {
+                room.terminal.my && room.terminal.isActive()) {
                 return room;
             }
         }
@@ -415,8 +412,7 @@ export class TradeManager extends Manager {
         let rooms = this.roomService.getPraiseRooms();
         for (let room of rooms) {
             if (room.terminal !== undefined && room.terminal.isActive() &&
-                room.terminal.store[RESOURCE_ENERGY] < (room.terminal.storeCapacity - (TradeConfig.batchSizeForSendingEnergy * 2)))
-            {
+                room.terminal.store[RESOURCE_ENERGY] < (room.terminal.storeCapacity - (TradeConfig.batchSizeForSendingEnergy * 2))) {
                 return room;
             }
         }
@@ -427,8 +423,7 @@ export class TradeManager extends Manager {
         for (let room of rooms) {
             if (room.terminal !== undefined && room.terminal.isActive() &&
                 (room.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] === undefined ||
-                room.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] < 20000))
-            {
+                room.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] < 20000)) {
                 return room;
             }
         }
@@ -439,8 +434,7 @@ export class TradeManager extends Manager {
         let result: Room[] = [];
         for (let room of rooms) {
             if (room.terminal !== undefined && room.terminal.isActive() &&
-            (Memory.settings.creditsToMaintain === undefined || Game.market.credits > Memory.settings.creditsToMaintain))
-            {
+            (Memory.settings.creditsToMaintain === undefined || Game.market.credits > Memory.settings.creditsToMaintain)) {
                 result.push(room);
             }
         }
@@ -470,8 +464,7 @@ export class TradeManager extends Manager {
         for (let room of _.shuffle(rooms)) {
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.Metropolis && roomCanTrade(room) &&
             room.terminal !== undefined && room.terminal.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenTerminalAbove &&
-            room.storage !== undefined && room.storage.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenStorageAbove)
-            {
+            room.storage !== undefined && room.storage.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenStorageAbove) {
                 return room;
             }
         }
@@ -482,8 +475,7 @@ export class TradeManager extends Manager {
         for (let room of _.shuffle(rooms)) {
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.Metropolis && roomCanTrade(room) &&
             room.terminal !== undefined && room.terminal.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenTerminalAbove &&
-            room.storage !== undefined && room.storage.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenStorageAbove * 2)
-            {
+            room.storage !== undefined && room.storage.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenStorageAbove * 2) {
                 return room;
             }
         }
@@ -494,8 +486,7 @@ export class TradeManager extends Manager {
         for (let room of rooms) {
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.Metropolis && roomCanTrade(room) &&
             room.terminal !== undefined && room.terminal.store[RESOURCE_POWER] >= TradeConfig.sendPowerWhenTerminalAbove &&
-            room.storage !== undefined && room.storage.store[RESOURCE_POWER] >= TradeConfig.sendPowerToBuyOrdersWhenAbove)
-            {
+            room.storage !== undefined && room.storage.store[RESOURCE_POWER] >= TradeConfig.sendPowerToBuyOrdersWhenAbove) {
                 return room;
             }
         }
@@ -506,8 +497,7 @@ export class TradeManager extends Manager {
         for (let room of rooms) {
             if (RoomRepository.getRoomLevel(room) >= RoomLevel.Metropolis && roomCanTrade(room) &&
                 RoomLevel.Metropolis && room.terminal !== undefined &&
-                room.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] > TradeConfig.sendUpgradeBoostWhenAbove)
-            {
+                room.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] > TradeConfig.sendUpgradeBoostWhenAbove) {
                 return room;
             }
         }
@@ -601,7 +591,7 @@ export class TradeManager extends Manager {
         if (energyPrice === undefined || energyPrice > 0.01) {
             return;
         }
-        let buyorder = _.filter(Game.market.orders, function (o: any) {
+        let buyorder = _.filter(Game.market.orders, (o: any) => {
             return o.type === ORDER_BUY && o.resourceType === RESOURCE_ENERGY && o.roomName === room.name;
         }) as Order[];
         if (Object.keys(buyorder).length > 0 ) {
@@ -623,7 +613,7 @@ export class TradeManager extends Manager {
     }
 
     private cleanUpInactiveOrders() {
-        let sellorders = _.filter(Game.market.orders, function (o: Order) {
+        let sellorders = _.filter(Game.market.orders, (o: Order) => {
             return o.type === ORDER_SELL && o.active === false && o.remainingAmount === 0;
         }) as Order[];
 
@@ -641,13 +631,13 @@ export class TradeManager extends Manager {
             amount = 100;
         }
         // check if we can sell of extra minerals
-        let ordersForMineral = Game.market.getAllOrders( function(o: Order) {
+        let ordersForMineral = Game.market.getAllOrders((o: Order) => {
             return o.type === ORDER_BUY && o.resourceType === mineral && o.amount >= amount;
         }) as Order[];
         if (ordersForMineral === undefined) {
             return;
         }
-        let mappedOrders = _.map(ordersForMineral, function (o: Order) {
+        let mappedOrders = _.map(ordersForMineral, (o: Order) => {
             return {orderid: o.id, priceWithTransactionCost: o.price - (0.01 * Game.market.calcTransactionCost(1, room.name, o.roomName as string))};
         });
         let minPrice = MarketManager.getResourcePrice(mineral);
@@ -668,11 +658,11 @@ export class TradeManager extends Manager {
         if (orderId !== undefined) {
             let wantedOrder = Game.market.getOrderById(orderId);
             if (wantedOrder !== null) {
-                let amount = Math.min(wantedOrder.amount, 10000);
-                Game.market.deal(wantedOrder.id, amount, room.name);
+                let orderAmount = Math.min(wantedOrder.amount, 10000);
+                Game.market.deal(wantedOrder.id, orderAmount, room.name);
                 log.info("Selling directly " +
-                amount + " " + mineral + " for " + wantedOrder.price + " because of a good deal! Cost: " +
-                Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string) + " (" + wantedOrder.id + ")", room.name);
+                orderAmount + " " + mineral + " for " + wantedOrder.price + " because of a good deal! Cost: " +
+                Game.market.calcTransactionCost(orderAmount, room.name, wantedOrder.roomName as string) + " (" + wantedOrder.id + ")", room.name);
             }
         }
     }
@@ -687,8 +677,7 @@ export class TradeManager extends Manager {
         for (let potRoom of this.roomService.getNormalAndNotExpansion()) {
             if (potRoom.name !== room.name && potRoom.controller !== undefined && potRoom.controller.level === 8 &&
                 potRoom.terminal !== undefined && !potRoom.isAbandoned() &&
-                (potRoom.terminal.store[RESOURCE_POWER] < (TradeConfig.batchSizeForSendingPower * 2) || potRoom.terminal.store[RESOURCE_POWER] === undefined))
-            {
+                (potRoom.terminal.store[RESOURCE_POWER] < (TradeConfig.batchSizeForSendingPower * 2) || potRoom.terminal.store[RESOURCE_POWER] === undefined)) {
                 room.terminal.send(RESOURCE_POWER, TradeConfig.batchSizeForSendingPower, potRoom.name);
                 log.info("Sending " +
                 TradeConfig.batchSizeForSendingPower + " " + RESOURCE_POWER + " to room: " +
@@ -735,13 +724,13 @@ export class TradeManager extends Manager {
         }
 
         // check if we can sell of extra resources
-        let ordersForMineral = Game.market.getAllOrders( function(o: Order) {
+        let ordersForMineral = Game.market.getAllOrders((o: Order) => {
             return o.type === ORDER_BUY && o.resourceType === resource && o.amount >= amount;
         }) as Order[];
         if (ordersForMineral === undefined) {
             return false;
         }
-        let mappedOrders = _.map(ordersForMineral, function (o: Order) {
+        let mappedOrders = _.map(ordersForMineral, (o: Order) => {
             return {orderid: o.id, priceWithTransactionCost: o.price - (0.005 * Game.market.calcTransactionCost(1, room.name, o.roomName as string))};
         });
         let maxPrice = 0;
@@ -755,12 +744,12 @@ export class TradeManager extends Manager {
         if (orderId !== undefined) {
             let wantedOrder = Game.market.getOrderById(orderId);
             if (wantedOrder !== null) {
-                let amount = Math.min(wantedOrder.amount, 10000);
-                let cost = Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string);
+                let orderAmount = Math.min(wantedOrder.amount, 10000);
+                let cost = Game.market.calcTransactionCost(orderAmount, room.name, wantedOrder.roomName as string);
                 if (room.terminal !== undefined && room.terminal.store[RESOURCE_ENERGY] > cost) {
-                    Game.market.deal(wantedOrder.id, amount, room.name);
-                    log.info("Selling directly " + amount + " " + resource + " for " + wantedOrder.price + " because of overflow. Cost: " +
-                    Game.market.calcTransactionCost(amount, room.name, wantedOrder.roomName as string) + " (" + wantedOrder.id + ")", room.name);
+                    Game.market.deal(wantedOrder.id, orderAmount, room.name);
+                    log.info("Selling directly " + orderAmount + " " + resource + " for " + wantedOrder.price + " because of overflow. Cost: " +
+                    Game.market.calcTransactionCost(orderAmount, room.name, wantedOrder.roomName as string) + " (" + wantedOrder.id + ")", room.name);
                     return true;
                 }
             }
@@ -778,8 +767,7 @@ export class TradeManager extends Manager {
         for (let potRoom of this.roomService.getNormalAndNotExpansion()) {
             if (potRoom.name !== room.name && potRoom.controller !== undefined && potRoom.controller.level < 8 && !potRoom.isAbandoned() &&
                 potRoom.terminal !== undefined && (potRoom.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] < (TradeConfig.batchSizeForSendingUpgradeBoost * 2) ||
-                potRoom.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] === undefined))
-            {
+                potRoom.terminal.store[RESOURCE_CATALYZED_GHODIUM_ACID] === undefined)) {
                 room.terminal.send(RESOURCE_CATALYZED_GHODIUM_ACID, TradeConfig.batchSizeForSendingUpgradeBoost , potRoom.name);
                 log.info("Sending " +
                 TradeConfig.batchSizeForSendingUpgradeBoost + " " + RESOURCE_CATALYZED_GHODIUM_ACID + " to room: " +
@@ -816,7 +804,7 @@ export class TradeManager extends Manager {
         if (room.terminal === undefined) {
             return;
         }
-        let terminalRooms = _.shuffle(_.filter(this.roomService.getNormalAndNotExpansion(), function (r: Room) {return r.terminal !== undefined && r.name !== room.name && !r.isAbandoned(); }));
+        let terminalRooms = _.shuffle(_.filter(this.roomService.getNormalAndNotExpansion(), (r: Room) => {return r.terminal !== undefined && r.name !== room.name && !r.isAbandoned(); }));
         let inventory = Object.keys(room.terminal.store);
         if (inventory.length > 1 && terminalRooms.length > 0) {
             for (let type of inventory) {
@@ -855,7 +843,7 @@ function maintainSellOrder(room: Room, mineral: string) {
     if (room.terminal === undefined) {
         return;
     }
-    let sellorder = _.filter(Game.market.orders, function (o: any) {
+    let sellorder = _.filter(Game.market.orders, (o: any) => {
         return o.type === ORDER_SELL && o.resourceType === mineral && o.roomName === room.name;
     }) as Order[];
     if (Object.keys(sellorder).length > 0 ) {
@@ -943,7 +931,7 @@ export function buyMineralsForBoosting(room: Room, mineral: string, count: numbe
         return;
     }
     count = count + 10;
-    let ordersForMineral = Game.market.getAllOrders( function(o: Order) {
+    let ordersForMineral = Game.market.getAllOrders((o: Order) => {
         return o.type === ORDER_SELL && o.resourceType === mineral && o.amount >= count;
     });
     let minPrice = 10;
@@ -966,7 +954,7 @@ function buyMissingMinerals(room: Room): boolean {
     }
     for (let min of basicMinerals) {
         if (room.terminal.store[min] === undefined || room.terminal.store[min] < 2000) { // This should not be hardcoded
-            let ordersForMineral = Game.market.getAllOrders( function(o: Order) {
+            let ordersForMineral = Game.market.getAllOrders((o: Order) => {
                 return o.type === ORDER_SELL && o.resourceType === min && o.amount >= 1000;
             });
             let minPrice = 20;
@@ -995,7 +983,7 @@ export function buyMineralsForLabs(room: Room, mineral: string, count: number) {
         return;
     }
     count = count + 10;
-    let ordersForMineral = Game.market.getAllOrders( function(o: Order) {
+    let ordersForMineral = Game.market.getAllOrders((o: Order) => {
         return o.type === ORDER_SELL && o.resourceType === mineral && o.amount >= count;
     });
     let minPrice = 20;

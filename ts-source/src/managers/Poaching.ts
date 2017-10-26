@@ -29,8 +29,8 @@ export class PoachingManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
-    readonly MEMORY_LASTRUNBOT = "lastRunBot";
+    public readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_LASTRUNBOT = "lastRunBot";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("PoachingManager");
@@ -38,7 +38,7 @@ export class PoachingManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (Memory.settings.slow === true) {
             return;
         }
@@ -76,7 +76,7 @@ export class PoachingManager extends Manager {
         }
     }
 
-    runPoaching(room: Room) {
+    private runPoaching(room: Room) {
         for (let outpost of room.memory.poaching as string[]) {
             let o = Game.rooms[outpost];
             if (o !== undefined) {
@@ -102,7 +102,7 @@ export class PoachingManager extends Manager {
         }
     }
 
-    setBotPoachingRoom(room: Room) {
+    private setBotPoachingRoom(room: Room) {
         if (room.memory.poaching !== undefined && room.memory.poaching.length > 0) {
             this.checkIfPoachIsFinished(room);
         }
@@ -112,7 +112,7 @@ export class PoachingManager extends Manager {
 
     }
 
-    checkIfPoachIsFinished(room: Room) {
+    private checkIfPoachIsFinished(room: Room) {
         for (let outpost of room.memory.poaching as string[]) {
             let intelTime = IntelLib.intelTime(outpost);
             let mineralTicks = IntelLib.mineralTicks(outpost);
@@ -124,7 +124,7 @@ export class PoachingManager extends Manager {
         }
     }
 
-    checkIfWeCanPoach(room: Room) {
+    private checkIfWeCanPoach(room: Room) {
         if (room.memory.neighbours === undefined || room.memory.neighbours.twoAway === undefined || room.memory.neighbours.threeAway === undefined) {
             return;
         }
@@ -153,7 +153,7 @@ export class PoachingManager extends Manager {
 
     }
 
-    orderPoachHaulers(room: Room, mineral: Mineral) {
+    private orderPoachHaulers(room: Room, mineral: Mineral) {
         if (room.storage === undefined) {
             return;
         }
@@ -181,7 +181,7 @@ export class PoachingManager extends Manager {
         OrdersRepository.orderCreep(room, order);
     }
 
-    orderPoachMiners(room: Room, mineral: Mineral) {
+    private orderPoachMiners(room: Room, mineral: Mineral) {
         let wanted = Math.min(mineral.getMiningPositions().length, 3);
         let ordered = OrdersRepository.getCreepsInQueue(room, Role.PoachMiner, mineral.id);
         let current = this.creepService.getCreeps(Role.PoachMiner, mineral.id).length;
@@ -198,7 +198,7 @@ export class PoachingManager extends Manager {
         OrdersRepository.orderCreep(room, order);
     }
 
-    orderPoachGuard(room: Room, targetRoom: string) {
+    private orderPoachGuard(room: Room, targetRoom: string) {
         let ordered = OrdersRepository.getCreepsInQueue(room, Role.PoachGuard, targetRoom);
         if (ordered > 0) {
             return;

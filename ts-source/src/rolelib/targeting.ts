@@ -10,13 +10,13 @@ export function isCreepHostile(creep: Creep): boolean {
 }
 
 export function filterFriendlyCreepsFromList(creeps: Creep[]): Creep[] {
-    return _.filter(creeps, function (c: Creep ) {
+    return _.filter(creeps, (c: Creep ) => {
         return _.indexOf(getFriendsList(), c.owner.username) < 0;
     });
 }
 
 export function filterStructuresOnBigRamparts(structures: Structure[]): Structure[] {
-    return _.filter(structures, function(s: Structure) {
+    return _.filter(structures, (s: Structure) => {
         let atPos = s.pos.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let sAtPos of atPos) {
             if (sAtPos.structureType === STRUCTURE_RAMPART && sAtPos.hits > 100000) {
@@ -27,7 +27,7 @@ export function filterStructuresOnBigRamparts(structures: Structure[]): Structur
     });
 }
 export function filterConstructionSitesOnRamparts(structures: ConstructionSite[]): ConstructionSite[] {
-    return _.filter(structures, function(s: ConstructionSite) {
+    return _.filter(structures, (s: ConstructionSite) => {
         let atPos = s.pos.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let sAtPos of atPos) {
             if (sAtPos.structureType === STRUCTURE_RAMPART) {
@@ -39,25 +39,25 @@ export function filterConstructionSitesOnRamparts(structures: ConstructionSite[]
 }
 
 export function filterFriendlyStructuresFromList(structures: Structure[]): Structure[] {
-    return _.filter(structures, function (s: Structure ) {
+    return _.filter(structures, (s: Structure ) => {
         return !(s instanceof OwnedStructure) || _.indexOf(getFriendsList(), s.owner.username) < 0;
     });
 }
 export function filterFriendlyConstructionSitesFromList(structures: ConstructionSite[]): ConstructionSite[] {
-    return _.filter(structures, function (s: ConstructionSite ) {
+    return _.filter(structures, (s: ConstructionSite ) => {
         return !(s instanceof OwnedStructure) || _.indexOf(getFriendsList(), s.owner.username) < 0;
     });
 }
 
 export function filterPillageableStructuresFromList(structures: Structure[]): Structure[] {
-    return _.filter(structures, function (s: Structure ) {
+    return _.filter(structures, (s: Structure ) => {
         return !((s.structureType === STRUCTURE_STORAGE && _.sum((s as StructureStorage).store) > 50000) ||
         (s.structureType === STRUCTURE_TERMINAL && _.sum((s as StructureTerminal).store) > 50000));
     });
 }
 
 export function findHostileVitalStructures(room: Room, pillage: boolean = false): Structure[] {
-    let structures = room.find(FIND_HOSTILE_STRUCTURES, {filter: function (s: Structure) {
+    let structures = room.find(FIND_HOSTILE_STRUCTURES, {filter: (s: Structure) => {
         return s.structureType === STRUCTURE_TOWER || s.structureType === STRUCTURE_SPAWN ||
         s.structureType === STRUCTURE_STORAGE || s.structureType === STRUCTURE_TERMINAL;
     }}) as Structure[];
@@ -68,7 +68,7 @@ export function findHostileVitalStructures(room: Room, pillage: boolean = false)
 }
 
 export function findHostileStructures(room: Room): Structure[] {
-    let structures = room.find(FIND_HOSTILE_STRUCTURES, {filter: function (s: Structure) {
+    let structures = room.find(FIND_HOSTILE_STRUCTURES, {filter: (s: Structure) => {
         return s.structureType !== STRUCTURE_CONTROLLER && s.structureType !== STRUCTURE_RAMPART &&
         s.structureType !== STRUCTURE_POWER_BANK && s.structureType !== STRUCTURE_TERMINAL;
     }}) as Structure[];
@@ -76,7 +76,7 @@ export function findHostileStructures(room: Room): Structure[] {
 }
 
 export function findHostileConstructionSites(room: Room): ConstructionSite[] {
-    let structures = room.find(FIND_HOSTILE_CONSTRUCTION_SITES, {filter: function (s: Structure) {
+    let structures = room.find(FIND_HOSTILE_CONSTRUCTION_SITES, {filter: (s: Structure) => {
         return s.structureType !== STRUCTURE_EXTRACTOR;
     }}) as ConstructionSite[];
     return filterFriendlyConstructionSitesFromList(structures);
@@ -108,7 +108,7 @@ export function getPrioritizedTarget(creep: Creep): Creep | null {
 
     // Find closest attack/heal/ranged_attack-creature
     let closestDangerousCreep = creep.pos.findClosestByPath(enemiesInRoom, {
-        filter: function(c: Creep) {
+        filter: (c: Creep) => {
             return c.getActiveBodyparts(ATTACK) > 0 || c.getActiveBodyparts(RANGED_ATTACK) > 0 || c.getActiveBodyparts(HEAL) > 0;
         },
     }) as Creep;

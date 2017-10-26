@@ -11,9 +11,9 @@ import {Manager, ManagerPriority} from "../managers/_Manager";
 import {RoomService} from "../services/Room";
 
 class RoadInfo {
-    roomName: string;
-    roads: {
-        [id: string] : {
+    public roomName: string;
+    public roads: {
+        [id: string]: {
             timePositions: number,
             timeBuilt: number,
             positions: string[],
@@ -25,13 +25,13 @@ export class RoadManager extends Manager {
 
     private roomService: RoomService;
 
-    readonly MEMORY_LASTRUN = "lastRun";
-    readonly MEMORY_TICKLASTINDEX = "tickIndex";
-    readonly MEMORY_LASTRUN_EXTENSIONROADS = "tickExtRoads";
-    readonly MEMORY_INDEX_EXTENSIONROADS = "indexExtRoads";
-    readonly MEMORY_LASTINDEX = "lastIndex";
-    readonly MEMORY_LOADEDINDEX = "loadedIndex";
-    readonly MEMORY_SEGMENTTOLOAD = "segLoad";
+    public readonly MEMORY_LASTRUN = "lastRun";
+    public readonly MEMORY_TICKLASTINDEX = "tickIndex";
+    public readonly MEMORY_LASTRUN_EXTENSIONROADS = "tickExtRoads";
+    public readonly MEMORY_INDEX_EXTENSIONROADS = "indexExtRoads";
+    public readonly MEMORY_LASTINDEX = "lastIndex";
+    public readonly MEMORY_LOADEDINDEX = "loadedIndex";
+    public readonly MEMORY_SEGMENTTOLOAD = "segLoad";
 
     constructor(roomService: RoomService) {
         super("RoadManager");
@@ -48,7 +48,7 @@ export class RoadManager extends Manager {
 
             let lastRun = this.getValue(this.MEMORY_LASTRUN);
             if (lastRun === undefined || lastRun + 20 < Game.time) {
-                //console.log("Running roadManager lastrun: " + lastRun + "(" + Game.time + ")");
+                // console.log("Running roadManager lastrun: " + lastRun + "(" + Game.time + ")");
                 let roadinfo = this.updateRoadSegmentForLoadedRoom();
                 if (roadinfo !== undefined) {
                     this.saveRoadsNeedingRepairingToMemory(roadinfo);
@@ -110,9 +110,9 @@ export class RoadManager extends Manager {
                 roadInfo.roomName = room.name;
                 roadInfo.roads = {};
             }
-            //console.log("Roadservice for room " + roadInfo.roomName + " current targets: " + Object.keys(roadInfo.roads).length);
+            // console.log("Roadservice for room " + roadInfo.roomName + " current targets: " + Object.keys(roadInfo.roads).length);
             let targetsForRoom = this.getRoadTargetIds(room);
-            //console.log("Number of wanted targets: " + targetsForRoom.length);
+            // console.log("Number of wanted targets: " + targetsForRoom.length);
             for (let id of targetsForRoom) {
                 let target = Game.getObjectById(id) as Structure | Source | Mineral;
                 if (target !== null && target.pos !== undefined && target.pos instanceof RoomPosition) {
@@ -130,13 +130,13 @@ export class RoadManager extends Manager {
                     }
                 }
                 if (Game.cpu.getUsed() > usedCpu + 40) {
-                    //console.log("Did not finished positions");
+                    // console.log("Did not finished positions");
                     processingFinishedForRoom = false;
                     break;
                 }
             }
 
-            //console.log("Building roads: " + Object.keys(roadInfo.roads).length);
+            // console.log("Building roads: " + Object.keys(roadInfo.roads).length);
             for (let id of Object.keys(roadInfo.roads)) {
                 if (roadInfo.roads[id].timePositions + 20000 < Game.time) {
                     delete roadInfo.roads[id];
@@ -157,12 +157,12 @@ export class RoadManager extends Manager {
                         if (room.storage !== undefined) {
                             startPos = room.storage.pos;
                         }
-                        //console.log("Building road from " + startPos + " to " + this.getRoadTargetFor(target));
+                        // console.log("Building road from " + startPos + " to " + this.getRoadTargetFor(target));
                         buildRoadBetween(startPos, this.getRoadTargetFor(target), false, false, RoomRepository.isMiddleRoom(target.room.name));
                     }
                 }
                 if (Game.cpu.getUsed() > usedCpu + 80) {
-                    //console.log("Did not finished building");
+                    // console.log("Did not finished building");
                     break;
                 }
             }
@@ -231,7 +231,7 @@ export class RoadManager extends Manager {
                 }
             }
         }
-        //console.log("Roads needing repairing in: " + room.name + " - " + structureIds.length);
+        // console.log("Roads needing repairing in: " + room.name + " - " + structureIds.length);
         room.memory.roads = _.unique(structureIds);
         Memory.stats["roads." + roadInfo.roomName + ".repair"] = room.memory.roads.length;
         room.memory.roadsUpdate = Game.time;
@@ -239,7 +239,7 @@ export class RoadManager extends Manager {
 
     private requestSegmentForNextTick(): void {
         let segmentToLoad = this.getValue(this.MEMORY_SEGMENTTOLOAD);
-        if (segmentToLoad === undefined){
+        if (segmentToLoad === undefined) {
             this.setValue(this.MEMORY_SEGMENTTOLOAD, 51);
         } else {
             RawMemory.setActiveSegments([segmentToLoad]);
@@ -425,7 +425,7 @@ function getSkRoomMineralIds(room: Room): string[] {
 function getPraiseRoomControllerId(room: Room): string | undefined {
     if (room.memory.praiseroom !== undefined && !room.memory.praiseroomHibernated) {
         let praiseroom = Game.rooms[room.memory.praiseroom];
-        if (praiseroom !== undefined && praiseroom.controller !== undefined){
+        if (praiseroom !== undefined && praiseroom.controller !== undefined) {
             return praiseroom.controller.id;
         }
     }
@@ -435,7 +435,7 @@ function getPraiseRoomControllerId(room: Room): string | undefined {
 function getPraiseRoomMineralId(room: Room): string | undefined {
     if (room.memory.praiseroom !== undefined && !room.memory.praiseroomHibernated) {
         let praiseroom = Game.rooms[room.memory.praiseroom];
-        if (praiseroom !== undefined && praiseroom.controller !== undefined){
+        if (praiseroom !== undefined && praiseroom.controller !== undefined) {
             let minerals = praiseroom.find(FIND_MINERALS) as Mineral[];
             if (minerals.length === 1) {
                 return minerals[0].id;

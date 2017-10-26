@@ -26,7 +26,7 @@ export function orderCreep(room: Room, order: Order): boolean {
     }
 
     if (order.twinOrder !== undefined) {
-        let costOfCreep = ProfilesUtilities.getCostForBody(order.twinOrder.body);
+        costOfCreep = ProfilesUtilities.getCostForBody(order.twinOrder.body);
         if (costOfCreep > room.energyCapacityAvailable) {
             log.error("Creep ordered that is more expensive than the room is able to handle: " + JSON.stringify(order.twinOrder.memory), room.name);
             return false;
@@ -61,7 +61,7 @@ export function getNumberOfTiersInQueue(room: Room, role: Role | null = null, ta
     }
 
     let count = 0;
-    for (let order of room.memory.orders){
+    for (let order of room.memory.orders) {
         if ((target === null || order.memory.target === target) &&
             (role === null || order.memory.role === role)) {
             if (order.memory.tier) {
@@ -93,7 +93,7 @@ export function getCreepsInQueue(room: Room, role: Role | null = null, target: s
     }
 
     let count = 0;
-    for (let order of room.memory.orders){
+    for (let order of room.memory.orders) {
         if ((target === null || order.memory.target === target) &&
             (role === null || order.memory.role === role)) {
             count++;
@@ -114,7 +114,7 @@ export function getCreepsInQueueWithHomeRoom(room: Room, role: Role | null = nul
     }
 
     let count = 0;
-    for (let order of room.memory.orders){
+    for (let order of room.memory.orders) {
         if ((homeroom === null || order.memory.homeroom === homeroom) &&
             (role === null || order.memory.role === role)) {
             count++;
@@ -134,7 +134,7 @@ export function orderedBaseHaulerIsTooExpensive(room: Room): boolean {
         }
     }
 
-    for (let order of room.memory.orders){
+    for (let order of room.memory.orders) {
         if ((order.memory.role === Role.BaseHauler)) {
             order.priority = Priority.Critical;
             return (order.memory.tier * 150) > room.energyAvailable;

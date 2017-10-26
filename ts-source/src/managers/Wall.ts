@@ -26,12 +26,12 @@ export class WallManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN_BORDERWALL = "lastRunBorderWall";
-    readonly MEMORY_LASTINDEX = "lastIndex";
-    readonly MEMORY_ROOMINDEX = "roomIndex";
-    readonly MEMORY_TICKLASTINDEX = "tickIndex";
-    readonly MEMORY_LASTRUN_BASEBUILDER = "lastRunBaseBuilder";
-    readonly MEMORY_LASTRUN_PROTECTOR = "lastRunProtector";
+    public readonly MEMORY_LASTRUN_BORDERWALL = "lastRunBorderWall";
+    public readonly MEMORY_LASTINDEX = "lastIndex";
+    public readonly MEMORY_ROOMINDEX = "roomIndex";
+    public readonly MEMORY_TICKLASTINDEX = "tickIndex";
+    public readonly MEMORY_LASTRUN_BASEBUILDER = "lastRunBaseBuilder";
+    public readonly MEMORY_LASTRUN_PROTECTOR = "lastRunProtector";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("WallManager");
@@ -156,7 +156,7 @@ export class WallManager extends Manager {
         let rampartIndex = makeRampartListForBorderwall(borderwall);
 
         for (let posId of Object.keys(borderwall)) {
-            let posIdInt = parseInt(posId);
+            let posIdInt = parseInt(posId, 10);
             if (rampartIndex[posIdInt]) {
                 BuildLib.buildIfNotPresent(STRUCTURE_RAMPART, borderwall[posIdInt], 0, 0, true, false);
             } else {
@@ -190,7 +190,7 @@ export class WallManager extends Manager {
         let rampartIndex = makeRampartListForBorderwall(borderwall);
 
         for (let posId of Object.keys(borderwall)) {
-            let posIdInt = parseInt(posId);
+            let posIdInt = parseInt(posId, 10);
             if (rampartIndex[posIdInt]) {
                 borderwall[posIdInt].createFlag(undefined, COLOR_GREEN, COLOR_GREEN);
             } else {
@@ -373,14 +373,14 @@ function posShouldBeBorderWall(pos: RoomPosition) {
 function makeRampartListForBorderwall(neededPositions: RoomPosition[]): boolean[] {
     let ramparts: boolean[] = [];
     for (let posId of Object.keys(neededPositions)) {
-        let posIdInt = parseInt(posId);
+        let posIdInt = parseInt(posId, 10);
         let structs = neededPositions[posIdInt].lookFor(LOOK_STRUCTURES) as Structure[];
         if (structs.length > 0) {
             for (let s of structs) {
                 if (s.structureType === STRUCTURE_WALL) {
                     ramparts[posIdInt] = false;
                 } else
-                if (s.structureType === STRUCTURE_RAMPART){
+                if (s.structureType === STRUCTURE_RAMPART) {
                     ramparts[posIdInt] = true;
                 } else {
                     ramparts[posIdInt] = true;
@@ -389,7 +389,7 @@ function makeRampartListForBorderwall(neededPositions: RoomPosition[]): boolean[
         }
     }
     for (let posId of Object.keys(neededPositions)) {
-        let posIdInt = parseInt(posId);
+        let posIdInt = parseInt(posId, 10);
         if (ramparts[posIdInt] !== undefined) {
              continue;
         } else
@@ -456,7 +456,7 @@ function borderwallPositionNeeded(storage: StructureStorage, pos: RoomPosition, 
 }
 
 function getOuterWallRoomCallback(room: Room, basePos: RoomPosition, withHorizontal: boolean): CostMatrix {
-    let costs = new PathFinder.CostMatrix;
+    let costs = new PathFinder.CostMatrix();
 
     for (let x of _.range(0, 50)) {
         for (let y of _.range(0, 50)) {

@@ -166,7 +166,7 @@ export class Traveler {
             }
 
             let room = Game.rooms[roomName];
-            //if (!room) { return false; }
+            // if (!room) { return false; }
             if (!room) { return new PathFinder.CostMatrix(); }
 
             let matrix: CostMatrix;
@@ -299,20 +299,20 @@ export class Traveler {
             travelData.cpu += (Game.cpu.getUsed() - cpu);
             travelData.count++;
             if (travelData.cpu > REPORT_CPU_THRESHOLD) {
-                //console.log(`TRAVELER: heavy cpu use: ${creep.name}, cpu: ${_.round(travelData.cpu, 2)},\n` +
-                //    `origin: ${creep.pos}, dest: ${destination.pos}`);
+                // console.log(`TRAVELER: heavy cpu use: ${creep.name}, cpu: ${_.round(travelData.cpu, 2)},\n` +
+                //     `origin: ${creep.pos}, dest: ${destination.pos}`);
             }
             if (ret.incomplete) {
-                //console.log(`TRAVELER: incomplete path for ${creep.name}`);
+                // console.log(`TRAVELER: incomplete path for ${creep.name}`);
                 options.useFindRoute = true;
                 ret = this.findTravelPath(creep, destination, options);
-                //console.log(`attempting path without findRoute was ${ret.incomplete ? "not" : ""} successful`);
+                // console.log(`attempting path without findRoute was ${ret.incomplete ? "not" : ""} successful`);
             }
             travelData.path = Traveler.serializePath(creep.pos, ret.path);
             travelData.stuck = 0;
         }
         if (!travelData.path || travelData.path.length === 0) {
-            //console.log("ErrNoPath: from " + creep.pos + " to " + destination.pos + " - creep: " + creep.id);
+            // console.log("ErrNoPath: from " + creep.pos + " to " + destination.pos + " - creep: " + creep.id);
             return creep.moveTo(destination);
         }
 
@@ -436,7 +436,7 @@ export const traveler = new Traveler();
 // uncomment this block to assign a function to Creep.prototype: creep.travelTo(destination)
 /*
 const traveler = new Traveler();
-Creep.prototype.travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
+Creep.prototype.travelTo = (destination: {pos: RoomPosition}, options?: TravelToOptions) => {
     return traveler.travelTo(this, destination, options);
 };
 */

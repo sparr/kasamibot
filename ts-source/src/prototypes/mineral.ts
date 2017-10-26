@@ -1,4 +1,4 @@
-Mineral.prototype.memoryCheck = function(): void {
+Mineral.prototype.memoryCheck = (): void => {
     if (Memory.minerals === undefined) {
         Memory.minerals = {};
     }
@@ -7,7 +7,7 @@ Mineral.prototype.memoryCheck = function(): void {
     }
 };
 
-Mineral.prototype.hasExtractor = function(): boolean {
+Mineral.prototype.hasExtractor = (): boolean => {
     let structures = this.pos.lookFor(LOOK_STRUCTURES);
     for (let structure of structures) {
         if (structure instanceof StructureExtractor) {
@@ -17,20 +17,20 @@ Mineral.prototype.hasExtractor = function(): boolean {
     return false;
 };
 
-Mineral.prototype.hasMiningContainer = function(): boolean {
+Mineral.prototype.hasMiningContainer = (): boolean => {
     return this.getMiningContainer() !== null;
 };
 
-Mineral.prototype.buildExtractor = function(): boolean {
+Mineral.prototype.buildExtractor = (): boolean => {
     return (this.pos as RoomPosition).createConstructionSite(STRUCTURE_EXTRACTOR) === 0;
 };
 
-Mineral.prototype.setMiningContainerId = function(id: string): void {
+Mineral.prototype.setMiningContainerId = (id: string): void => {
     this.memoryCheck();
     Memory.minerals[this.id]["container"] = id;
 };
 
-Mineral.prototype.getMiningContainer = function(): Container | null {
+Mineral.prototype.getMiningContainer = (): Container | null => {
     this.memoryCheck();
     if (Memory.minerals[this.id]["container"] === undefined) {
         this.buildMiningContainer();
@@ -44,7 +44,7 @@ Mineral.prototype.getMiningContainer = function(): Container | null {
     return container;
 };
 
-Mineral.prototype.getMiningContainerConstructionSite = function(): ConstructionSite | null {
+Mineral.prototype.getMiningContainerConstructionSite = (): ConstructionSite | null => {
     this.memoryCheck();
     let position = this.getContainerPosition() as RoomPosition | undefined;
     if (position !== undefined) {
@@ -58,7 +58,7 @@ Mineral.prototype.getMiningContainerConstructionSite = function(): ConstructionS
     return null;
 };
 
-Mineral.prototype.buildMiningContainer = function(): void {
+Mineral.prototype.buildMiningContainer = (): void => {
     this.memoryCheck();
     let position = this.getContainerPosition() as RoomPosition | undefined;
     if (position !== undefined) {
@@ -75,7 +75,7 @@ Mineral.prototype.buildMiningContainer = function(): void {
 };
 
 // TODO: Caching
-Mineral.prototype.getMiningPositions = function(): RoomPosition[] {
+Mineral.prototype.getMiningPositions = (): RoomPosition[] => {
     let positions: RoomPosition[] = [];
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
@@ -92,7 +92,7 @@ Mineral.prototype.getMiningPositions = function(): RoomPosition[] {
 };
 
 // TODO: Caching
-Mineral.prototype.getContainerPosition = function(): RoomPosition | undefined {
+Mineral.prototype.getContainerPosition = (): RoomPosition | undefined => {
     this.memoryCheck();
     if (Memory.minerals[this.id].containerPos !== undefined) {
         let pos = Memory.minerals[this.id].containerPos;
@@ -121,20 +121,20 @@ Mineral.prototype.getContainerPosition = function(): RoomPosition | undefined {
 
     let maxPosId: string | undefined = undefined;
     for (let positionId in neighbours) {
-        if (maxPosId === undefined || neighbours[parseInt(positionId)] > neighbours[parseInt(maxPosId)]) {
+        if (maxPosId === undefined || neighbours[parseInt(positionId, 10)] > neighbours[parseInt(maxPosId, 10)]) {
             maxPosId = positionId;
         }
     }
 
     if (maxPosId !== undefined) {
-        Memory.minerals[this.id].containerPos = positions[parseInt(maxPosId)];
-        return positions[parseInt(maxPosId)];
+        Memory.minerals[this.id].containerPos = positions[parseInt(maxPosId, 10)];
+        return positions[parseInt(maxPosId, 10)];
     }
     return undefined;
 };
 
 // TODO: Caching
-Mineral.prototype.getContainerMiningPositions = function(): RoomPosition[]{
+Mineral.prototype.getContainerMiningPositions = (): RoomPosition[] => {
     let positions: RoomPosition[] = this.getMiningPositions();
     let containerPosition: RoomPosition = this.getContainerPosition();
     let miningPositions: RoomPosition[] = [];

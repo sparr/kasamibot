@@ -80,7 +80,7 @@ function runMovingToTarget(creep: Creep) {
     if (targetRoom === undefined) {
         targetRoom = getNextTargetRoom(creep);
         if (targetRoom === undefined) {
-            //log.error("Drainer " + creep.name + " has no target room.", creep.room.name);
+            // log.error("Drainer " + creep.name + " has no target room.", creep.room.name);
             return;
         }
     }
@@ -164,7 +164,7 @@ function healIfNeeded(creep: Creep) {
 function shootHostileCreeps(creep: Creep) {
     let closeDangerousCreeps = _Targeting.findHostileCreepsInRangedRange(creep.pos);
 
-    let closeDangerousCreepsNotOnRamparts = _.filter(closeDangerousCreeps, function(c: Creep) {
+    let closeDangerousCreepsNotOnRamparts = _.filter(closeDangerousCreeps, (c: Creep) => {
         let atPos = c.pos.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let sAtPos of atPos) {
             if (sAtPos.structureType === STRUCTURE_RAMPART) {
@@ -176,8 +176,7 @@ function shootHostileCreeps(creep: Creep) {
 
     if (closeDangerousCreepsNotOnRamparts.length > 0) {
         creep.rangedAttack(closeDangerousCreepsNotOnRamparts[0]);
-    } else
-    {
+    } else {
         let targetToDismantle: Structure | null = Game.getObjectById(creep.memory.targetToDismantle) as Structure;
         if (targetToDismantle instanceof Structure && creep.pos.getRangeTo(targetToDismantle) < 4) {
             creep.rangedAttack(targetToDismantle);
@@ -186,12 +185,12 @@ function shootHostileCreeps(creep: Creep) {
 }
 
 /**
-
-Needs to be able to tank 2/4/8 towers at max range. (Tier 1-2-3)
-
-Towers do 150 dmg at range 20+, 45 with boosted TOUGH, 48 heal per boosted HEAL, ATTACK should not be boosted
-- T1: Tank 90, heal 90 - 2 TOUGH (b), 8 HEAL, 1 ATTACK (for attention), 11 MOVE
-- T2: Tank 180, heal 180 - 3 TOUGH (b), 16 HEAL, 1 ATTACK (for attention), 20 MOVE
-- T3: Tank 360, heal 360 - 6 TOUGH (b), 8 HEAL (b), 1 ATTACK (for attention), 17 MOVE
-
+ *
+ * Needs to be able to tank 2/4/8 towers at max range. (Tier 1-2-3)
+ *
+ * Towers do 150 dmg at range 20+, 45 with boosted TOUGH, 48 heal per boosted HEAL, ATTACK should not be boosted
+ * - T1: Tank 90, heal 90 - 2 TOUGH (b), 8 HEAL, 1 ATTACK (for attention), 11 MOVE
+ * - T2: Tank 180, heal 180 - 3 TOUGH (b), 16 HEAL, 1 ATTACK (for attention), 20 MOVE
+ * - T3: Tank 360, heal 360 - 6 TOUGH (b), 8 HEAL (b), 1 ATTACK (for attention), 17 MOVE
+ *
  */

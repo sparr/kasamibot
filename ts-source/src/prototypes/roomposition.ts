@@ -1,8 +1,8 @@
-RoomPosition.prototype.getClosestSpawn = function(): Spawn {
+RoomPosition.prototype.getClosestSpawn = (): Spawn => {
     return this.findClosestByRange(FIND_MY_SPAWNS) as Spawn;
 };
 
-RoomPosition.prototype.hasFreeSpaceAround = function(): boolean {
+RoomPosition.prototype.hasFreeSpaceAround = (): boolean => {
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
         let position = new RoomPosition(this.x + x, this.y + y, this.roomName);
@@ -15,7 +15,7 @@ RoomPosition.prototype.hasFreeSpaceAround = function(): boolean {
     return true;
 };
 
-RoomPosition.prototype.getFreeSpaceAround = function(): number {
+RoomPosition.prototype.getFreeSpaceAround = (): number => {
     let c = 0;
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
@@ -29,7 +29,7 @@ RoomPosition.prototype.getFreeSpaceAround = function(): number {
     return c;
 };
 
-RoomPosition.prototype.hasBuildingType = function (structureType: string): boolean {
+RoomPosition.prototype.hasBuildingType = (structureType: string): boolean  => {
     let structuresAtPos = this.lookFor(LOOK_STRUCTURES) as Structure[];
     let constructionSitesAtPos = this.lookFor(LOOK_CONSTRUCTION_SITES) as ConstructionSite[];
 
@@ -46,7 +46,7 @@ RoomPosition.prototype.hasBuildingType = function (structureType: string): boole
     return false;
 };
 
-RoomPosition.prototype.getPositionInDirection = function (direction: number): RoomPosition {
+RoomPosition.prototype.getPositionInDirection = (direction: number): RoomPosition  => {
     switch (direction) {
         case TOP:
             return new RoomPosition(this.x, this.y - 1, this.roomName);

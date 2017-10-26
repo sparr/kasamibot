@@ -42,7 +42,7 @@ export class CreepService {
         for (let creep of this.getAllOfRole(role)) {
             if (this.creepShouldRun(creep)) {
                 this.logUsedCpu(func, Role[creep.memory.role], creep);
-                //func(creep);
+                // func(creep);
             }
         }
     }
@@ -135,7 +135,7 @@ export class CreepService {
                 console.log("Creep with unknown role: " + creep.name + " Pos: " + creep.pos);
                 continue;
             }
-            if (creeps[creep.memory.role] === undefined){
+            if (creeps[creep.memory.role] === undefined) {
                 creeps[creep.memory.role] = [];
             }
             creeps[creep.memory.role].push(creep);

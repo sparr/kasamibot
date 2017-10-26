@@ -29,8 +29,8 @@ export class ScoutingManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN_SCOUT = "lastRunScout";
-    readonly MEMORY_LASTRUN_NEIGHBOURS = "lastRunNeighbours";
+    public readonly MEMORY_LASTRUN_SCOUT = "lastRunScout";
+    public readonly MEMORY_LASTRUN_NEIGHBOURS = "lastRunNeighbours";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("ScoutingManager");
@@ -38,7 +38,7 @@ export class ScoutingManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Standard) {
             let rooms = this.roomService.getNormalRooms();
             for (let room of rooms) {
@@ -280,7 +280,7 @@ export class ScoutingManager extends Manager {
 }
 
 function checkForPowerBanks(room: Room, targetRoom: Room) {
-    let banks = targetRoom.find(FIND_STRUCTURES, {filter: function (s: Structure) {
+    let banks = targetRoom.find(FIND_STRUCTURES, {filter: (s: Structure) => {
         return s.structureType === STRUCTURE_POWER_BANK;
     }}) as StructurePowerBank[];
     if (banks !== undefined && banks.length > 0) {

@@ -19,7 +19,7 @@ export function createSpawnmoveOperation(room: Room, basePos: RoomPosition) {
 }
 
 export function findSpawnLocation(roomName: string, firstRoom: boolean = false): {pos: RoomPosition, value: number} | undefined {
-    let matrix = new PathFinder.CostMatrix;
+    let matrix = new PathFinder.CostMatrix();
 
     // Setting exits to 0
     for (let x of [0, 1, 2, 47, 48, 49]) {
@@ -76,15 +76,11 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
     for (let x of _.range(7, 43)) {
         for (let y of _.range(7, 40)) {
             if (matrix.get(x, y) >= 5 &&
-                matrix.get(x, y + 3) >= 4)
-            {
+                matrix.get(x, y + 3) >= 4) {
                 let pos = new RoomPosition(x, y, roomName);
-                if (matrix.get(x + 4, y - 7) >= 3 && matrix.get(x - 4, y - 7) >= 5)
-                {
+                if (matrix.get(x + 4, y - 7) >= 3 && matrix.get(x - 4, y - 7) >= 5) {
                     perfect.push(pos);
-                } else
-                if (matrix.get(x - 2, y) >= 7)
-                {
+                } else if (matrix.get(x - 2, y) >= 7) {
                     okey.push(pos);
                 } else {
                     let distanceToWall = matrix.get(pos.x, pos.y);

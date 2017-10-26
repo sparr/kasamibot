@@ -32,7 +32,7 @@ export class DefenseManager extends Manager {
     private roomService: RoomService;
     private creepService: CreepService;
 
-    readonly MEMORY_LASTRUN_SIEGE = "lastRunSiege";
+    public readonly MEMORY_LASTRUN_SIEGE = "lastRunSiege";
 
     constructor(roomService: RoomService, creepService: CreepService) {
         super("DefenseManager");
@@ -40,7 +40,7 @@ export class DefenseManager extends Manager {
         this.creepService = creepService;
     }
 
-    run (pri: ManagerPriority): void {
+    public run (pri: ManagerPriority): void {
         if (pri === ManagerPriority.Critical) {
             this.creepService.runCreeps(Role.BaseRanger, BaseRanger.run);
             this.creepService.runCreeps(Role.RampartDefender, RampartDefender.run);
@@ -144,7 +144,7 @@ export class DefenseManager extends Manager {
                         if (currentLevel < 2 && creepLooksHostile(creep)) {
                             setDefConLevelToAtLeast(room, 2);
                         } else
-                        if (currentLevel == undefined) {
+                        if (currentLevel === undefined) {
                             setDefConLevelToAtLeast(room, 1);
                         }
                     }
@@ -526,7 +526,7 @@ function shootHostileCreep(tower: Tower, creep: Creep): boolean {
 
 function getInjuredCreep(room: Room, isUnderSiege: boolean = false): Creep | null {
     if (isUnderSiege) {
-        let unitsInNeed = room.find(FIND_MY_CREEPS, {filter: function(c: Creep) {
+        let unitsInNeed = room.find(FIND_MY_CREEPS, {filter: (c: Creep) => {
             return (c.hits < (c.hitsMax - 400));
         }}) as Creep[];
         if (unitsInNeed.length > 0) {
@@ -534,7 +534,7 @@ function getInjuredCreep(room: Room, isUnderSiege: boolean = false): Creep | nul
         }
         return null;
     } else {
-        let unitsInNeed = room.find(FIND_MY_CREEPS, {filter: function(c: Creep) {
+        let unitsInNeed = room.find(FIND_MY_CREEPS, {filter: (c: Creep) => {
             return (c.hits < c.hitsMax);
         }}) as Creep[];
         if (unitsInNeed.length > 0) {
@@ -553,7 +553,7 @@ function healTargetCreep(tower: Tower, creep: Creep): boolean {
 }
 
 function getStructureNeedingRepair(room: Room): Structure | null {
-    let structuresInNeed = room.find(FIND_STRUCTURES, {filter: function(s: Structure) {
+    let structuresInNeed = room.find(FIND_STRUCTURES, {filter: (s: Structure) => {
         return (s.structureType === STRUCTURE_RAMPART && s.hits < 1000) || (s.structureType === STRUCTURE_WALL && s.hits < 100);
     }}) as Structure[];
     if (structuresInNeed.length > 0) {
