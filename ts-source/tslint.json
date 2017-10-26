@@ -12,6 +12,8 @@
       "check-format",
       "allow-pascal-case",
       "allow-leading-underscore"
-    ]
+    ],
+    "max-line-length": [true, 1000],
+    "object-literal-sort-keys": false
   }
 }
