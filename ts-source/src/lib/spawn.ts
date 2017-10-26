@@ -43,11 +43,9 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
     }
 
     let distance = 0;
-    let found = true;
     let max = 1;
     while (distance < 25) {
         distance++;
-        found = false;
         for (let x of _.range(1, 49)) {
             for (let y of _.range(1, 49)) {
                 if (matrix.get(x, y) === distance) {
@@ -56,7 +54,6 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
                             if (matrix.get(x + x2, y + y2) === 0) {
                                 matrix.set(x + x2, y + y2, distance + 1);
                                 max = distance + 1;
-                                found = true;
                             }
                         }
                     }
