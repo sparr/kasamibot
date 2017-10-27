@@ -40,11 +40,9 @@ export class MiningManager extends Manager {
             this.creepService.runCreeps(Role.SKMiner, ContainerMiner.run);
             let lastRun = this.getValue(this.MEMORY_LASTRUN);
             if (lastRun === undefined || lastRun + 20 < Game.time) {
-                let rooms = this.roomService.getNormalRoomsNotAbandoned();
+                let rooms = this.roomService.getNormalAndNotExpansion().concat(this.roomService.getNormalWithExpansion(), this.roomService.getExpansion());
                 for (let room of rooms) {
-                    if (!room.isExpansion()) {
-                        this.organizeEnergyMining(room);
-                    }
+                    this.organizeEnergyMining(room);
                 }
                 this.setValue(this.MEMORY_LASTRUN, Game.time);
             }
