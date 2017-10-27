@@ -436,7 +436,7 @@ export const traveler = new Traveler();
 // uncomment this block to assign a function to Creep.prototype: creep.travelTo(destination)
 /*
 const traveler = new Traveler();
-Creep.prototype.travelTo = (destination: {pos: RoomPosition}, options?: TravelToOptions) => {
+Creep.prototype.travelTo = function travelTo(destination: {pos: RoomPosition}, options?: TravelToOptions) {
     return traveler.travelTo(this, destination, options);
 };
 */

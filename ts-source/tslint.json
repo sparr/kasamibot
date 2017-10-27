@@ -18,6 +18,7 @@
     "member-ordering": false,
     "one-variable-per-declaration": false,
     "no-string-literal": false,
-    "max-classes-per-file": false
+    "max-classes-per-file": false,
+    "only-arrow-functions": [true, "allow-named-functions"]
   }
 }

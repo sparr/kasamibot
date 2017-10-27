@@ -1,5 +1,5 @@
 
-Source.prototype.memoryCheck = (): void => {
+Source.prototype.memoryCheck = function memoryCheck(): void {
     if (Memory.sources === undefined) {
         Memory.sources = {};
     }
@@ -8,16 +8,16 @@ Source.prototype.memoryCheck = (): void => {
     }
 };
 
-Source.prototype.hasMiningContainer = (): boolean => {
+Source.prototype.hasMiningContainer = function hasMiningContainer(): boolean {
     return this.getMiningContainer() !== null;
 };
 
-Source.prototype.setMiningContainerId = (id: string): void => {
+Source.prototype.setMiningContainerId = function setMiningContainerId(id: string): void {
     this.memoryCheck();
     Memory.sources[this.id]["container"] = id;
 };
 
-Source.prototype.getMiningContainer = (): StructureContainer | null => {
+Source.prototype.getMiningContainer = function getMiningContainer(): StructureContainer | null {
     this.memoryCheck();
     if (Memory.sources[this.id]["container"] === undefined) {
         return null;
@@ -31,7 +31,7 @@ Source.prototype.getMiningContainer = (): StructureContainer | null => {
 };
 
 // TODO: Caching
-Source.prototype.getMiningContainerConstructionSite = (): ConstructionSite | null => {
+Source.prototype.getMiningContainerConstructionSite = function getMiningContainerConstructionSite(): ConstructionSite | null {
     this.memoryCheck();
     let position = this.getContainerPosition() as RoomPosition | undefined;
     if (position !== undefined) {
@@ -45,7 +45,7 @@ Source.prototype.getMiningContainerConstructionSite = (): ConstructionSite | nul
     return null;
 };
 
-Source.prototype.buildMiningContainer = (): void => {
+Source.prototype.buildMiningContainer = function buildMiningContainer(): void {
     this.memoryCheck();
     let containerPosition = this.getContainerPosition() as RoomPosition | undefined;
     if (containerPosition !== undefined) {
@@ -65,7 +65,7 @@ Source.prototype.buildMiningContainer = (): void => {
 };
 
 // TODO: Caching
-Source.prototype.getMiningPositions = (): RoomPosition[] => {
+Source.prototype.getMiningPositions = function getMiningPositions(): RoomPosition[] {
     let positions: RoomPosition[] = [];
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
@@ -81,7 +81,7 @@ Source.prototype.getMiningPositions = (): RoomPosition[] => {
     return positions;
 };
 
-Source.prototype.getContainerPosition = (): RoomPosition | undefined => {
+Source.prototype.getContainerPosition = function getContainerPosition(): RoomPosition | undefined {
     this.memoryCheck();
     if (Memory.sources[this.id].containerPos !== undefined) {
         let pos = Memory.sources[this.id].containerPos;
@@ -129,7 +129,7 @@ Source.prototype.getContainerPosition = (): RoomPosition | undefined => {
 };
 
 // TODO: Caching
-Source.prototype.getContainerMiningPositions = (): RoomPosition[] => {
+Source.prototype.getContainerMiningPositions = function getContainerMiningPositions(): RoomPosition[] {
     let positions: RoomPosition[] = this.getMiningPositions();
     let containerPosition: RoomPosition = this.getContainerPosition();
     let miningPositions: RoomPosition[] = [];
@@ -144,7 +144,7 @@ Source.prototype.getContainerMiningPositions = (): RoomPosition[] => {
     return miningPositions;
 };
 
-Source.prototype.getDistanceFrom = (roomName: string): number | undefined  => {
+Source.prototype.getDistanceFrom = function getDistanceFrom(roomName: string): number | undefined  {
     this.memoryCheck();
     if (Memory.sources[this.id].basedistance !== undefined && Memory.sources[this.id].basedistanceRoom !== undefined &&
     Memory.sources[this.id].basedistanceRoom === roomName) {
@@ -153,7 +153,7 @@ Source.prototype.getDistanceFrom = (roomName: string): number | undefined  => {
     return undefined;
 };
 
-Source.prototype.setDistanceFrom = (roomName: string, distance: number): void  => {
+Source.prototype.setDistanceFrom = function setDistanceFrom(roomName: string, distance: number): void  {
     this.memoryCheck();
     Memory.sources[this.id].basedistance = distance;
     Memory.sources[this.id].basedistanceRoom = roomName;

@@ -2,7 +2,7 @@ import {RoomLevel} from "../enums/roomlevel";
 
 import * as RoomRepository from "../repository/Room";
 
-Mineral.prototype.memoryCheck = (): void => {
+Mineral.prototype.memoryCheck = function memoryCheck(): void {
     if (Memory.minerals === undefined) {
         Memory.minerals = {};
     }
@@ -11,7 +11,7 @@ Mineral.prototype.memoryCheck = (): void => {
     }
 };
 
-Mineral.prototype.hasExtractor = (): boolean => {
+Mineral.prototype.hasExtractor = function hasExtractor(): boolean {
     let structures = this.pos.lookFor(LOOK_STRUCTURES);
     for (let structure of structures) {
         if (structure instanceof StructureExtractor) {
@@ -21,20 +21,20 @@ Mineral.prototype.hasExtractor = (): boolean => {
     return false;
 };
 
-Mineral.prototype.hasMiningContainer = (): boolean => {
+Mineral.prototype.hasMiningContainer = function hasMiningContainer(): boolean {
     return this.getMiningContainer() !== null;
 };
 
-Mineral.prototype.buildExtractor = (): boolean => {
+Mineral.prototype.buildExtractor = function buildExtractor(): boolean {
     return (this.pos as RoomPosition).createConstructionSite(STRUCTURE_EXTRACTOR) === 0;
 };
 
-Mineral.prototype.setMiningContainerId = (id: string): void => {
+Mineral.prototype.setMiningContainerId = function setMiningContainerId(id: string): void {
     this.memoryCheck();
     Memory.minerals[this.id]["container"] = id;
 };
 
-Mineral.prototype.getMiningContainer = (): Container | null => {
+Mineral.prototype.getMiningContainer = function getMiningContainer(): Container | null {
     this.memoryCheck();
     if (Memory.minerals[this.id]["container"] === undefined) {
         let room = this.room;
@@ -51,7 +51,7 @@ Mineral.prototype.getMiningContainer = (): Container | null => {
     return container;
 };
 
-Mineral.prototype.getMiningContainerConstructionSite = (): ConstructionSite | null => {
+Mineral.prototype.getMiningContainerConstructionSite = function getMiningContainerConstructionSite(): ConstructionSite | null {
     this.memoryCheck();
     let position = this.getContainerPosition() as RoomPosition | undefined;
     if (position !== undefined) {
@@ -65,7 +65,7 @@ Mineral.prototype.getMiningContainerConstructionSite = (): ConstructionSite | nu
     return null;
 };
 
-Mineral.prototype.buildMiningContainer = (): void => {
+Mineral.prototype.buildMiningContainer = function buildMiningContainer(): void {
     this.memoryCheck();
     let position = this.getContainerPosition() as RoomPosition | undefined;
     if (position !== undefined) {
@@ -82,7 +82,7 @@ Mineral.prototype.buildMiningContainer = (): void => {
 };
 
 // TODO: Caching
-Mineral.prototype.getMiningPositions = (): RoomPosition[] => {
+Mineral.prototype.getMiningPositions = function getMiningPositions(): RoomPosition[] {
     let positions: RoomPosition[] = [];
     for (let x = -1; x < 2; x++) {
         for (let y = -1; y < 2; y++) {
@@ -99,7 +99,7 @@ Mineral.prototype.getMiningPositions = (): RoomPosition[] => {
 };
 
 // TODO: Caching
-Mineral.prototype.getContainerPosition = (): RoomPosition | undefined => {
+Mineral.prototype.getContainerPosition = function getContainerPosition(): RoomPosition | undefined {
     this.memoryCheck();
     if (Memory.minerals[this.id].containerPos !== undefined) {
         let pos = Memory.minerals[this.id].containerPos;
@@ -141,7 +141,7 @@ Mineral.prototype.getContainerPosition = (): RoomPosition | undefined => {
 };
 
 // TODO: Caching
-Mineral.prototype.getContainerMiningPositions = (): RoomPosition[] => {
+Mineral.prototype.getContainerMiningPositions = function getContainerMiningPositions(): RoomPosition[] {
     let positions: RoomPosition[] = this.getMiningPositions();
     let containerPosition: RoomPosition = this.getContainerPosition();
     let miningPositions: RoomPosition[] = [];
