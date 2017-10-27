@@ -186,16 +186,16 @@ export class MiningManager extends Manager {
             return;
         }
         const dist = spawn.pos.getRangeTo(sourcePos);
-        let maxTier = ProfileUtilities.getMaxTierEngineer(room.energyCapacityAvailable, dist);
         let currentCreeps = this.creepService.getCreeps(Role.Pioneer, sourceId, room.name).length;
         let currentTiers = this.creepService.getNumberOfTiers(Role.Pioneer, sourceId, room.name);
+        let maxTier = ProfileUtilities.getMaxTierEngineer(currentTiers < 3 ? room.energyAvailable : room.energyCapacityAvailable, dist);
         let orderedTiers = OrdersRepository.getNumberOfTiersInQueue(room, Role.Pioneer, sourceId);
         let wantedTiers = SourceUtilities.getTiersRequiredForPioneerMining(maxTier, miningPositions, spawn.pos, sourcePos);
 
         if (orderedTiers === 0 && currentTiers < wantedTiers && currentCreeps < 10) {
             let order = new Order();
             order.body = ProfileUtilities.getEngineerBody(maxTier, dist);
-            order.priority = Priority.Standard;
+            order.priority = currentTiers < 3 ? Priority.Critical : Priority.Standard;
             order.memory = {role: Role.Pioneer, tier: maxTier, target: sourceId};
 
             OrdersRepository.orderCreep(room, order);
