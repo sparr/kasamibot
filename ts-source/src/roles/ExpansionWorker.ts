@@ -212,6 +212,18 @@ function runDecideWhereToGetEnergy(creep: Creep) {
         return;
     }
 
+    structuresWithEnergy = creep.room.find(FIND_STRUCTURES, {
+        filter: (c: Storage | Terminal | Container) => {
+            return (c.structureType === STRUCTURE_CONTAINER || c.structureType === STRUCTURE_STORAGE || c.structureType === STRUCTURE_TERMINAL) &&
+                c.store[RESOURCE_ENERGY] > 1000;
+        }});
+    if (structuresWithEnergy.length > 0) {
+        creep.memory.pickupid = creep.pos.findClosestByRange(structuresWithEnergy).id;
+        creep.setState(State.GetEnergyFromStructure);
+        runGetEnergyFromStructure(creep);
+        return;
+    }
+
     // Scavange for resources
     let pilesWithEnergy = creep.room.find(FIND_DROPPED_RESOURCES, {
         filter: (c: Resource) => {
@@ -287,27 +299,9 @@ function runDecideWhatToDoWithEnergy(creep: Creep) {
     }
 
     if (creep.carry.energy < 10 ) {
-        creep.setState(State.MovingToSource);
-        runMovingToSource(creep);
+        creep.setState(State.DecideWhereToGetEnergy);
+        runDecideWhereToGetEnergy(creep);
         return;
-    }
-
-    let ramparts = creep.room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_RAMPART}) as StructureRampart[];
-    if (ramparts.length > 0) {
-        let lowestId = ramparts[0].id;
-        let lowestHits = ramparts[0].hits;
-        for (let r of ramparts) {
-            if (r.hits < lowestHits) {
-                lowestHits = r.hits;
-                lowestId = r.id;
-            }
-        }
-        if (lowestHits < 20000) {
-            creep.memory.rampartId = lowestId;
-            creep.setState(State.Repairing);
-            runRepairing(creep);
-            return;
-        }
     }
 
     if (creep.room.controller !== undefined && creep.room.controller.ticksToDowngrade < 2000) {
@@ -349,6 +343,24 @@ function runDecideWhatToDoWithEnergy(creep: Creep) {
         return;
     }
 
+    let ramparts = creep.room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_RAMPART}) as StructureRampart[];
+    if (ramparts.length > 0) {
+        let lowestId = ramparts[0].id;
+        let lowestHits = ramparts[0].hits;
+        for (let r of ramparts) {
+            if (r.hits < lowestHits) {
+                lowestHits = r.hits;
+                lowestId = r.id;
+            }
+        }
+        if (lowestHits < 20000) {
+            creep.memory.rampartId = lowestId;
+            creep.setState(State.Repairing);
+            runRepairing(creep);
+            return;
+        }
+    }
+
     let constructionSitesInRoom = expansion.find(FIND_MY_CONSTRUCTION_SITES) as ConstructionSite[];
 
     if (constructionSitesInRoom.length > 0) {
@@ -358,8 +370,8 @@ function runDecideWhatToDoWithEnergy(creep: Creep) {
         return;
     }
 
-    // If storage is built and active, put energy there.
-    if (creep.room.storage !== undefined && creep.room.storage.isActive()) {
+    // If storage is built and active, put energy there, unless we're still standing next to it
+    if (creep.room.storage !== undefined && creep.room.storage.isActive() && !creep.pos.isNearTo(creep.room.storage.pos)) {
         creep.memory.fillingid = creep.room.storage.id;
         creep.setState(State.FillingBase);
         runFillingBase(creep);
