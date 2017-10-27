@@ -157,9 +157,9 @@ function runGetEnergyFromStructure(creep: Creep) {
         return;
     }
 
-    let structure = Game.getObjectById(creep.memory.pickupid) as Terminal | Storage;
+    let structure = Game.getObjectById(creep.memory.pickupid) as Container | Terminal | Storage;
 
-    if ((structure instanceof StructureTerminal || structure instanceof StructureStorage) && structure.store[RESOURCE_ENERGY] > creep.carryCapacity) {
+    if ((structure instanceof StructureContainer || structure instanceof StructureTerminal || structure instanceof StructureStorage) && structure.store[RESOURCE_ENERGY] > creep.carryCapacity) {
         let distanceToStructure = creep.pos.getRangeTo(structure.pos);
 
         if (distanceToStructure > 1) {

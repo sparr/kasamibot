@@ -110,11 +110,15 @@ export function getRequiredEnergyHaulers(room: Room, maxTier: number): number {
 export function getTiersRequiredForContainerHauling(sourcePos: RoomPosition, homeRoom: Room, sourceSize: number): number {
     let storage = homeRoom.storage as Structure;
     let spawn = homeRoom.getSpawn();
+    let baseContainer = homeRoom.getBaseContainer();
     if (storage === undefined && spawn !== undefined) {
         storage = spawn;
     }
+    if (storage === undefined && baseContainer !== undefined) {
+        storage = baseContainer;
+    }
     if (storage === undefined) {
-        console.log("No spawn or storage found for containerhaulers homeroom.");
+        console.log("No spawn or storage or baseContainer found for containerhaulers homeroom.");
         return 0;
     }
     let distance = PathfindingUtilities.getDistanseBetween(storage.pos, sourcePos);
@@ -130,11 +134,15 @@ export function getTiersRequiredForContainerHauling(sourcePos: RoomPosition, hom
 export function getTiersRequiredForMineralHauling(mineral: Mineral, homeRoom: Room): number {
     let storage = homeRoom.storage as Structure;
     let spawn = homeRoom.getSpawn();
+    let baseContainer = homeRoom.getBaseContainer();
     if (storage === undefined && spawn !== undefined) {
         storage = spawn;
     }
+    if (storage === undefined && baseContainer !== undefined) {
+        storage = baseContainer;
+    }
     if (storage === undefined) {
-        console.log("No spawn or storage found for mineralhaulers homeroom.");
+        console.log("No spawn or storage or baseContainer found for mineralhaulers homeroom.");
         return 0;
     }
     let distance = PathfindingUtilities.getDistanseBetween(storage.pos, mineral.pos);
