@@ -109,7 +109,7 @@ function runScavengeEnergy(creep: Creep) {
             creep.pickup(resource);
         }
     } else {
-        if (creep.carry.energy > 0) {
+        if (creep.carry.energy >= creep.carryCapacity / 2) {
             creep.setState(State.DecideWhatToDoWithEnergy);
             runDecideWhatToDoWithEnergy(creep);
         } else {
@@ -128,7 +128,7 @@ function runGetEnergyFromStructure(creep: Creep) {
 
     let structure = Game.getObjectById(creep.memory.pickupid) as Terminal | Storage;
 
-    if ((structure instanceof StructureTerminal || structure instanceof StructureStorage) && structure.store[RESOURCE_ENERGY] > creep.carryCapacity) {
+    if ((structure instanceof StructureContainer || structure instanceof StructureTerminal || structure instanceof StructureStorage) && structure.store[RESOURCE_ENERGY] > creep.carryCapacity / 2) {
         let distanceToStructure = creep.pos.getRangeTo(structure.pos);
 
         if (distanceToStructure > 1) {
@@ -152,7 +152,7 @@ function runDecideWhereToGetEnergy(creep: Creep) {
     let structuresWithEnergy = creep.room.find(FIND_HOSTILE_STRUCTURES, {
         filter: (c: Storage | Terminal) => {
         return (c.structureType === STRUCTURE_STORAGE || c.structureType === STRUCTURE_TERMINAL) &&
-            c.store[RESOURCE_ENERGY] > 50; }}) as Structure[];
+            c.store[RESOURCE_ENERGY] > creep.carryCapacity / 2; }}) as Structure[];
 
     if (structuresWithEnergy.length > 0) {
         creep.memory.pickupid = creep.pos.findClosestByRange(structuresWithEnergy).id;
@@ -170,6 +170,18 @@ function runDecideWhereToGetEnergy(creep: Creep) {
         creep.memory.pickupid = creep.pos.findClosestByRange(pilesWithEnergy).id;
         creep.setState(State.ScavengeEnergy);
         runScavengeEnergy(creep);
+        return;
+    }
+
+    structuresWithEnergy = creep.room.find(FIND_STRUCTURES, {
+        filter: (s: Storage | Terminal) => {
+            return s.structureType === STRUCTURE_CONTAINER &&
+                s.store[RESOURCE_ENERGY] > creep.carryCapacity / 2;
+        }});
+    if (structuresWithEnergy.length > 0) {
+        creep.memory.pickupid = creep.pos.findClosestByRange(structuresWithEnergy).id;
+        creep.setState(State.GetEnergyFromStructure);
+        runGetEnergyFromStructure(creep);
         return;
     }
 
@@ -267,6 +279,25 @@ function runMovingToSource(creep: Creep) {
         }
     }
 
+    // TODO get this working; would like to spread out and not mob over-mined sources
+    // but this currently results in infinite recursion somewhere, even with the bailedOnce check
+    // let source = Game.getObjectById(creep.memory.sourceId);
+    // if (source instanceof Source && source.energy === 0 && !creep.bailedOnce) {
+    //     creep.setState(State.DecideWhereToGetEnergy);
+    //     creep.bailedOnce = true;
+    //     runDecideWhereToGetEnergy(creep);
+    // }
+    // TODO get this working; would like to get energy from full container at a source
+    // but this currently results in infinite recursion somewhere
+    // if (source instanceof Source && source.pos.getRangeTo(creep.pos) <= 2) {
+    //     let container = creep.pos.findInRange(FIND_STRUCTURES, 1, {filter:(s)=>s.structureType===STRUCTURE_CONTAINER && s.store.energy > creep.carryCapacity / 3})[0]
+    //     if (container instanceof StructureContainer) {
+    //         creep.memory.pickupid = container.id;
+    //         creep.setState(State.GetEnergyFromStructure);
+    //         runGetEnergyFromStructure(creep);
+    //     }
+    // }
+
     let sourcePos = new RoomPosition(creep.memory.sourcePos.x, creep.memory.sourcePos.y, creep.memory.sourcePos.roomName);
 
     if (sourcePos instanceof RoomPosition) {
@@ -291,7 +322,7 @@ function runMining(creep: Creep) {
         return;
     }
 
-    if (creep.carry.energy === creep.carryCapacity) {
+    if (creep.carry.energy === creep.carryCapacity || (source.energy === 0 && creep.carry.energy > creep.carryCapacity / 3)) {
         if (!creep.isInHomeroom()) {
             let constructionSitesInRoom = creep.room.find(FIND_MY_CONSTRUCTION_SITES) as ConstructionSite[];
 
