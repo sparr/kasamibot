@@ -1,3 +1,7 @@
+import {RoomLevel} from "../enums/roomlevel";
+
+import * as RoomRepository from "../repository/Room";
+
 Mineral.prototype.memoryCheck = (): void => {
     if (Memory.minerals === undefined) {
         Memory.minerals = {};
@@ -33,8 +37,11 @@ Mineral.prototype.setMiningContainerId = (id: string): void => {
 Mineral.prototype.getMiningContainer = (): Container | null => {
     this.memoryCheck();
     if (Memory.minerals[this.id]["container"] === undefined) {
-        this.buildMiningContainer();
-        return null;
+        let room = this.room;
+        if (RoomRepository.getRoomLevel(room) >= RoomLevel.Town) {
+            this.buildMiningContainer();
+            return null;
+        }
     }
 
     let container = Game.getObjectById(Memory.minerals[this.id]["container"]) as Container;
