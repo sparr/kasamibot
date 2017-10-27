@@ -110,7 +110,7 @@ export function getBuildingIdForDump(room: Room, creep: Creep): string {
     // Hvis room.container har mer enn 500 og vi har en controller.container med mindre enn 1000, bruk DENNE
     let controllerContainer = (room.controller as StructureController).getContainer();
     if (controllerContainer instanceof StructureContainer && controllerContainer.store[RESOURCE_ENERGY] < 1000 &&
-        baseContainer instanceof StructureContainer && baseContainer.store[RESOURCE_ENERGY] > 500) {
+        (!baseContainer || (baseContainer instanceof StructureContainer && baseContainer.store[RESOURCE_ENERGY] > 500))) {
         return controllerContainer.id;
     }
 
