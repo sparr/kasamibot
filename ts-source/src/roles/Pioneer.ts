@@ -316,6 +316,16 @@ function runMining(creep: Creep) {
             Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] += creep.getWorkerParts() * 2;
         }
     }
+    let fillingSite = Game.getObjectById(creep.memory.fillingid) as StructureStorage | StructureSpawn | StructureExtension | StructureTower;
+    if (fillingSite &&
+        (
+         (!(fillingSite instanceof StructureStorage) && fillingSite.energy < fillingSite.energyCapacity) ||
+         (fillingSite instanceof StructureStorage && _.sum(fillingSite.store) < fillingSite.storeCapacity)
+        ) &&
+        fillingSite.pos.getRangeTo(creep.pos) < 2
+       ) {
+        creep.transfer(fillingSite, RESOURCE_ENERGY);
+    }
 }
 
 function runUpgrading(creep: Creep) {
