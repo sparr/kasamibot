@@ -1,3 +1,5 @@
+import * as RoomPositionUtilities from "../utilities/RoomPosition";
+
 Room.prototype.getHostileCreeps = (): Creep[] => {
     return this.find(FIND_HOSTILE_CREEPS) as Creep[];
 };
@@ -64,9 +66,8 @@ Room.prototype.getBoostLab = (): StructureLab | undefined => {
     if (this.memory.b === undefined) {
         return undefined;
     }
-    let split = this.memory.b.split("-");
-    let pos = new RoomPosition(+split[0], +split[1], this.name);
-    let structures = (new RoomPosition(pos.x + 1, pos.y + 4, pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
+    let pos = RoomPositionUtilities.longPos(this.memory.b, this.name);
+    let structures = (new RoomPosition(pos.x + 3, pos.y + 2, pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
     for (let s of structures) {
         if (s.structureType === STRUCTURE_LAB) {
             return s as StructureLab;
@@ -147,9 +148,8 @@ Room.prototype.getBaseLink = (): StructureLink | undefined => {
     if (this.memory.b === undefined) {
         return undefined;
     }
-    let split = this.memory.b.split("-");
-    let pos = new RoomPosition(+split[0], +split[1], this.name);
-    let structures = (new RoomPosition(pos.x - 1, pos.y + 4, pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
+    let pos = RoomPositionUtilities.longPos(this.memory.b, this.name);
+    let structures = (new RoomPosition(pos.x, pos.y, pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
     for (let s of structures) {
         if (s.structureType === STRUCTURE_LINK) {
             return s as StructureLink;

@@ -1,3 +1,5 @@
+import * as RoomPositionUtilities from "../utilities/RoomPosition";
+
 /**
  * Repository for structures for a room
  *
@@ -22,20 +24,20 @@ import * as SpawnLib from "../lib/spawn";
 
 export function getBasePosition(room: Room): RoomPosition | undefined {
     if (room.memory.b !== undefined) {
-        return longPos(room.memory.b, room.name);
+        return RoomPositionUtilities.longPos(room.memory.b, room.name);
     } else {
         // TODO: Change Spawnmove-operation to move spawn when storage is built
         if (Memory.settings.bot) {
-            let basepos = SpawnLib.findSpawnLocation(room.name, true);
+            let basepos = SpawnLib.findBaseLocation(room.name, true);
             if (basepos !== undefined) {
                 SpawnLib.createSpawnmoveOperation(room, basepos.pos);
-                room.memory.b = shortPos(basepos.pos);
+                room.memory.b = RoomPositionUtilities.shortPos(basepos.pos);
                 return basepos.pos;
             }
         }
         let spawnsInRoom = room.find(FIND_MY_SPAWNS) as Spawn[];
         if (spawnsInRoom.length > 0) {
-            room.memory.b = shortPos(spawnsInRoom[0].pos);
+            room.memory.b = RoomPositionUtilities.shortPos(spawnsInRoom[0].pos);
             return spawnsInRoom[0].pos;
         }
     }
@@ -46,7 +48,8 @@ export function setBasePosition(roomName: string, pos: RoomPosition) {
     if (Memory.rooms[roomName] === undefined) {
         Memory.rooms[roomName] = {};
     }
-    Memory.rooms[roomName].b = shortPos(pos);
+    console.log(`setting base pos for ${roomName} to ${pos}`);
+    Memory.rooms[roomName].b = RoomPositionUtilities.shortPos(pos);
 }
 
 export function roomShouldBuild(room: Room): boolean {
@@ -227,15 +230,6 @@ export function isPortalRoom(roomName: string): boolean {
     let sMod = parsed[2] % 10;
     let isPortal = (fMod === 5 && sMod === 5);
     return isPortal;
-}
-
-function shortPos(pos: RoomPosition) {
-    return pos.x + "-" + pos.y;
-}
-
-function longPos(pos: string, roomName: string): RoomPosition {
-    let split = pos.split("-");
-    return new RoomPosition(+split[0], +split[1], roomName);
 }
 
 export function getClosestPortalroom(roomName: string): string {

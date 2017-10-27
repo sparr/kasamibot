@@ -1,4 +1,5 @@
 import * as ProfileUtilities from "../utilities/Profiles";
+import * as RoomPositionUtilities from "../utilities/RoomPosition";
 
 import * as BaseLib from "../lib/base";
 import * as BuildLib from "../lib/build";
@@ -117,6 +118,12 @@ export class BuildManager extends Manager {
                 let flag = Game.flags["Ext"] as Flag;
                 ExtensionLib.simExtensions(flag.pos);
             }
+            if (Game.flags["ExtBase"] !== undefined) {
+                const flag = Game.flags["ExtBase"];
+                const base = flag.room.memory.b;
+                const basePos = RoomPositionUtilities.longPos(base, flag.room.name);
+                ExtensionLib.simExtensions(basePos);
+            }
             this.creepService.runCreeps(Role.BaseBuilder, BaseBuilder.run);
         }
     }
@@ -171,7 +178,7 @@ export function placeBuildings(room: Room): void {
         (room.storage === undefined || !room.storage.isActive())) {
         let baseContainer = getBaseContainer(basePosition, room);
         if (baseContainer === undefined) {
-            BuildLib.buildIfNotPresent(STRUCTURE_CONTAINER, basePosition, 0, 2, true, false);
+            BuildLib.buildIfNotPresent(STRUCTURE_CONTAINER, basePosition, -2, 0, true, false);
         }
     }
 
@@ -186,9 +193,9 @@ export function placeBuildings(room: Room): void {
     let spawn = room.getSpawn();
     let ramparts = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_RAMPART}) as StructureRampart[];
     if (spawn === undefined && ramparts.length === 0 && room.controller !== undefined && room.controller.safeMode === undefined) {
-        buildIfPossible(room, basePosition, STRUCTURE_RAMPART, BaseLib.getSpawnPositions(), 1);
+        buildIfPossibleRelative(room, basePosition, STRUCTURE_RAMPART, BaseLib.getSpawnPositions(), 1);
     } else {
-        buildIfPossible(room, basePosition, STRUCTURE_SPAWN, BaseLib.getSpawnPositions(), BaseLib.getPossibleSpawnCount(room));
+        buildIfPossibleRelative(room, basePosition, STRUCTURE_SPAWN, BaseLib.getSpawnPositions(), BaseLib.getPossibleSpawnCount(room));
     }
 
     if (spawn === undefined) {
@@ -196,74 +203,73 @@ export function placeBuildings(room: Room): void {
     }
 
     // Towers
-    buildIfPossible(room, basePosition, STRUCTURE_TOWER, BaseLib.getTowerPositions(), BaseLib.getPossibleTowerCount(room));
+    buildIfPossibleRelative(room, basePosition, STRUCTURE_TOWER, BaseLib.getTowerPositions(), BaseLib.getPossibleTowerCount(room));
 
     // Extensions
-    ExtensionLib.destroyExtensionsNotCorrectlyPlaced(room, basePosition);
+    // ExtensionLib.destroyExtensionsNotCorrectlyPlaced(room, basePosition);
     let extensions = ExtensionLib.getExtensionPositions(room, basePosition);
-    buildIfPossibleRoomPosition(room, STRUCTURE_EXTENSION, extensions, BaseLib.getPossibleExtensionsCount(room));
+    buildIfPossibleAbsolute(room, STRUCTURE_EXTENSION, extensions, BaseLib.getPossibleExtensionsCount(room));
 
     // Storage
     if (level >= RoomLevel.DefendedColonyReadyForExpansion) {
-        BuildLib.buildIfNotPresent(STRUCTURE_STORAGE, basePosition, 0, 3, false, false);
+        BuildLib.buildIfNotPresent(STRUCTURE_STORAGE, basePosition, -1, 0, false, false);
     }
 
     // Roads
     if (level >= RoomLevel.SimpleColonyReadyForExpansion) {
-        buildIfPossible(room, basePosition, STRUCTURE_ROAD, BaseLib.getColonyRoadPositions());
-        buildIfPossibleRoomPosition(room, STRUCTURE_ROAD, ExtensionLib.getRoadPositions(room, basePosition));
+        buildIfPossibleRelative(room, basePosition, STRUCTURE_ROAD, BaseLib.getColonyRoadPositions());
+        buildIfPossibleAbsolute(room, STRUCTURE_ROAD, ExtensionLib.getRoadPositions(room, basePosition));
     }
     if (level >= RoomLevel.CivilizedColony) {
-        buildIfPossible(room, basePosition, STRUCTURE_ROAD, BaseLib.getCityRoadPositions());
+        buildIfPossibleRelative(room, basePosition, STRUCTURE_ROAD, BaseLib.getCityRoadPositions());
     }
 
     // Baselink
     if (level >= RoomLevel.CivilizedColonyReadyForExpansion) {
-        BuildLib.buildIfNotPresent(STRUCTURE_LINK, basePosition, -1, 4, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LINK, basePosition, 0, 0, false, true);
     }
 
     // Fortresswalls
     if (level < RoomLevel.Town && level >= RoomLevel.SimpleColony) {
-        buildIfPossible(room, null, STRUCTURE_RAMPART, BaseLib.getImportantBuildingPositions(room), undefined, true);
+        buildIfPossibleAbsolute(room, STRUCTURE_RAMPART, BaseLib.getImportantBuildingPositions(room), undefined, true);
     }
 
     if (level >= RoomLevel.Town) {
-        buildIfPossible(room, basePosition, STRUCTURE_RAMPART, BaseLib.getFortressWallPositions(), undefined, true);
+        buildIfPossibleRelative(room, basePosition, STRUCTURE_RAMPART, BaseLib.getFortressWallPositions(), undefined, true);
     }
     if (level >= RoomLevel.Metropolis) {
-        buildIfPossible(room, basePosition, STRUCTURE_RAMPART, BaseLib.getShellWallPositions(), undefined, true);
+        buildIfPossibleRelative(room, basePosition, STRUCTURE_RAMPART, BaseLib.getShellWallPositions(), undefined, true);
     }
 
     if (level >= RoomLevel.AdvancedColonyReadyForExpansion) {
-        BuildLib.buildIfNotPresent(STRUCTURE_TERMINAL, basePosition, 2, 2, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 1, 4, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_TERMINAL, basePosition, 1, 0, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 3, 3, false, true);
     }
 
     if (level >= RoomLevel.Town) {
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 0, 5, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 1, 6, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 3, 2, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 3, false, true);
     }
 
     if (level >= RoomLevel.City) {
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, -1, 5, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 5, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, -1, 6, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 4, 2, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 4, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 4, 4, false, true);
     }
 
     if (level >= RoomLevel.Metropolis) {
         BuildLib.buildIfNotPresent(STRUCTURE_POWER_SPAWN, basePosition, -2, 2, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_NUKER, basePosition, -2, 5, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_OBSERVER, basePosition, -2, 6, false, true);
-
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 6, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, -1, 7, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 0, 7, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 1, 7, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_NUKER, basePosition, -2, 0, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_OBSERVER, basePosition, 2, 2, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 4, 5, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 5, 4, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 3, 5, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 5, 3, false, true);
     }
 }
 
-function buildIfPossible(room: Room, spawnpos: RoomPosition | null, structureType: string, positions: number[][],
-                         possible: number | undefined = undefined, keepRoad: boolean = false): void {
+function buildIfPossibleRelative(room: Room, spawnpos: RoomPosition | null, structureType: string, positions: Array<{x: number, y: number}>,
+                                 possible: number | undefined = undefined, keepRoad: boolean = false): void {
     let needed = 100;
     if (spawnpos === null) {
         spawnpos = new RoomPosition(0, 0, room.name);
@@ -281,39 +287,20 @@ function buildIfPossible(room: Room, spawnpos: RoomPosition | null, structureTyp
     let positionCounter = 0;
 
     while (needed > 0 && positionCounter < positions.length) {
-        if (BuildLib.buildIfNotPresent(structureType, spawnpos, positions[positionCounter][0], positions[positionCounter][1], keepRoad)) {
+        if (BuildLib.buildIfNotPresent(structureType, spawnpos, positions[positionCounter].x, positions[positionCounter].y, keepRoad)) {
             needed--;
         }
         positionCounter++;
     }
 }
 
-function buildIfPossibleRoomPosition(room: Room, structureType: string, positions: RoomPosition[],
-                                     possible: number | undefined = undefined, keepRoad: boolean = false): void {
-    let needed = 100;
-    if (possible !== undefined) {
-        let current = room.find(FIND_STRUCTURES, {filter: (s: Structure) => { return s.structureType === structureType; }}).length;
-        let ordered = room.find(FIND_CONSTRUCTION_SITES, {filter: (s: Structure) => { return s.structureType === structureType; }}).length;
-        if (possible <= current + ordered) {
-            return;
-        }
-        needed = possible - current - ordered;
-        log.info("Building: " + needed + " " + structureType, room.name);
-    }
-
-    let positionCounter = 0;
-
-    let nullPosition = new RoomPosition(0, 0, room.name);
-    while (needed > 0 && positionCounter < positions.length) {
-        if (BuildLib.buildIfNotPresent(structureType, nullPosition , positions[positionCounter].x, positions[positionCounter].y, keepRoad)) {
-            needed--;
-        }
-        positionCounter++;
-    }
+function buildIfPossibleAbsolute(room: Room, structureType: string, positions: Array<{x: number, y: number}>,
+                                 possible: number | undefined = undefined, keepRoad: boolean = false): void {
+    buildIfPossibleRelative(room, null, structureType, positions, possible, keepRoad);
 }
 
 function getBaseContainer(basePos: RoomPosition, room: Room): Structure | undefined {
-    let containerPos = new RoomPosition(basePos.x, basePos.y + 2, basePos.roomName);
+    let containerPos = new RoomPosition(basePos.x - 2, basePos.y, basePos.roomName);
     if (containerPos !== undefined) {
         let structures = containerPos.lookFor(LOOK_STRUCTURES);
         for (let structure of structures) {

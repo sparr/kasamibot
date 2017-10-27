@@ -116,7 +116,7 @@ function parkMe(creep: Creep) {
     let parkingPos: RoomPosition;
     let basePos = RoomRepository.getBasePosition(creep.room);
     if (basePos !== undefined) {
-        parkingPos = new RoomPosition(basePos.x, basePos.y - 1, basePos.roomName);
+        parkingPos = new RoomPosition(basePos.x - 2, basePos.y - 1, basePos.roomName);
     } else {
         parkingPos = creep.pos;
     }

@@ -123,13 +123,14 @@ function checkIfSpawnHasBeenBuilt(operation: Data) {
     }
     let spawn = room.getSpawn();
     if (spawn !== undefined) {
-        if (spawn.pos.x === basePos.x && spawn.pos.y === basePos.y) {
+        if (spawn.pos.x === basePos.x - 1 && spawn.pos.y === basePos.y - 3) {
             operation.state = MoveState.Finished;
         } else {
             spawn.destroy();
         }
     } else {
-        basePos.createConstructionSite(STRUCTURE_SPAWN);
+        let spawnPos = new RoomPosition(basePos.x - 1, basePos.y - 3, basePos.roomName);
+        spawnPos.createConstructionSite(STRUCTURE_SPAWN);
     }
 }
 

@@ -258,9 +258,9 @@ function safemodeCheck(room: Room) {
             return;
         }
         let enemies = room.getHostileCreeps();
-        let middlePos = new RoomPosition(basePos.x, basePos.y + 2, basePos.roomName);
+        let middlePos = new RoomPosition(basePos.x, basePos.y, basePos.roomName);
         for (let c of enemies) {
-            if (c.pos.getRangeTo(middlePos) < 4) {
+            if (c.pos.getRangeTo(middlePos) < 6) {
                 room.controller.activateSafeMode();
                 Game.notify("Room " + room.name + " was set in safe mode because enemies are inside the base.");
                 log.alert("The room was set in safe mode because enemies are inside the base.", room.name);

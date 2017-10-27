@@ -62,7 +62,7 @@ export class SpawnManager extends Manager {
                 return;
             }
             let twinSpawn = spawns[0];
-            let name = OrdersUtilities.makeRoleName(order.twinOrder.memory.role) + "-" + "T" + order.twinOrder.memory.tier + "-" + OrdersUtilities.makeRandomCreepId();
+            let name = OrdersUtilities.makeRoleName(order.twinOrder.memory.role) + "_" + "T" + order.twinOrder.memory.tier + "_" + OrdersUtilities.makeRandomCreepId();
 
             let response = twinSpawn.spawnCreep(order.twinOrder.body, name, {memory: order.twinOrder.memory, energyStructures: this.getEnergyStructures(room)});
             // let response = twinSpawn.createCreep(order.twinOrder.body, name, order.twinOrder.memory);

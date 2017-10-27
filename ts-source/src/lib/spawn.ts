@@ -18,49 +18,13 @@ export function createSpawnmoveOperation(room: Room, basePos: RoomPosition) {
     return true;
 }
 
-export function findSpawnLocation(roomName: string, firstRoom: boolean = false): {pos: RoomPosition, value: number} | undefined {
-    let matrix = new PathFinder.CostMatrix();
+export function findBaseLocation(roomName: string, firstRoom: boolean = false): {pos: RoomPosition, value: number} | undefined {
+    let max = 10; // FIXME!!
 
-    // Setting exits to 0
-    for (let x of [0, 1, 2, 47, 48, 49]) {
-        for (let y of _.range(0, 50)) {
-            matrix.set(x, y, 1);
-        }
-    }
-    for (let y of [0, 1, 2, 47, 48, 49]) {
-        for (let x of _.range(3, 57)) {
-            matrix.set(x, y, 1);
-        }
-    }
+    const dt = distanceTransform(walkablePixelsForRoom(roomName)); // a bare Uint8Array
+    const cm = new PathFinder.CostMatrix();
+    cm._bits = dt; // now we have a real CostMatrix for future use
 
-    // Setting walls to 0
-    for (let x of _.range(3, 47)) {
-        for (let y of _.range(3, 47)) {
-            if (Game.map.getTerrainAt(x, y, roomName) === "wall") {
-                matrix.set(x, y, 1);
-            }
-        }
-    }
-
-    let distance = 0;
-    let max = 1;
-    while (distance < 25) {
-        distance++;
-        for (let x of _.range(1, 49)) {
-            for (let y of _.range(1, 49)) {
-                if (matrix.get(x, y) === distance) {
-                    for (let x2 of [-1, 0, 1]) {
-                        for (let y2 of [-1, 0, 1]) {
-                            if (matrix.get(x + x2, y + y2) === 0) {
-                                matrix.set(x + x2, y + y2, distance + 1);
-                                max = distance + 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     if (max < 5 && !firstRoom) {
         console.log("Did not find a spawnposition for room " + roomName);
         return undefined;
@@ -70,21 +34,39 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
     let okey: RoomPosition[] = [];
     let possible: RoomPosition[] = [];
 
-    for (let x of _.range(7, 43)) {
-        for (let y of _.range(7, 40)) {
-            if (matrix.get(x, y) >= 5 &&
-                matrix.get(x, y + 3) >= 4) {
-                let pos = new RoomPosition(x, y, roomName);
-                if (matrix.get(x + 4, y - 7) >= 3 && matrix.get(x - 4, y - 7) >= 5) {
-                    perfect.push(pos);
-                } else if (matrix.get(x - 2, y) >= 7) {
-                    okey.push(pos);
-                } else {
-                    let distanceToWall = matrix.get(pos.x, pos.y);
-                    if (distanceToWall > Math.max(4, max - 4)) {
-                        possible.push(pos);
+    for (let x of _.range(7, 42)) {
+        for (let y of _.range(7, 42)) {
+            if (cm.get(x, y) > 4) { // quickly reject very-small spaces
+                if (cm.get(x - 1, y) > 4 && cm.get(x + 1, y) > 4 &&
+                    cm.get(x, y - 1) > 4 && cm.get(x, y + 1) > 4) {
+                    // now there's room for all extensions but the outer 8
+                    if (cm.get(x, y) > 5 &&
+                        cm.get(x - 2, y) > 4 && cm.get(x + 2, y) > 4 &&
+                        cm.get(x, y - 2) > 4 && cm.get(x, y + 2) > 4
+                        ) {
+                        // room for the whole bunker
+                        perfect.push(new RoomPosition(x, y, roomName));
+                        if (Game.rooms[roomName]) {
+                            Game.rooms[roomName].visual.rect(x - 0.5, y - 0.5, 1, 1, {stroke: "#00FF00", opacity: 0.5});
+                        }
+                    } else if (
+                        cm.get(x - 6, y + 2) > 0 &&
+                        cm.get(x - 6, y - 2) > 0 &&
+                        cm.get(x - 2, y - 6) > 0 &&
+                        cm.get(x + 2, y - 6) > 0 &&
+                        cm.get(x + 6, y - 2) > 0 &&
+                        cm.get(x + 6, y    ) > 0 &&
+                        cm.get(x    , y + 6) > 0 &&
+                        cm.get(x - 2, y + 6) > 0
+                        ) {
+                        // room for the whole bunker except some defensive perimeter
+                        okey.push(new RoomPosition(x, y, roomName));
+                        if (Game.rooms[roomName]) {
+                            Game.rooms[roomName].visual.rect(x - 0.5, y - 0.5, 1, 1, {stroke: "#FFFF00", opacity: 0.5});
+                        }
                     }
                 }
+                // TODO track possible with alternate layouts?
             }
         }
     }
@@ -102,7 +84,7 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
             perfect = _.sample(perfect, 10);
         }
         let chosen = findBestSpawnPosition(roomName, perfect);
-        let spawnpos = new RoomPosition(chosen.x, chosen.y - 2, chosen.roomName);
+        let spawnpos = new RoomPosition(chosen.x, chosen.y, chosen.roomName);
         console.log("Found perfect spawnlocation for " + roomName + ": " + spawnpos);
         return {pos: spawnpos, value: 20};
     }
@@ -114,7 +96,7 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
             okey = _.sample(okey, 10);
         }
         let chosen = findBestSpawnPosition(roomName, okey);
-        let spawnpos = new RoomPosition(chosen.x, chosen.y - 2, chosen.roomName);
+        let spawnpos = new RoomPosition(chosen.x, chosen.y, chosen.roomName);
         console.log("Found okey spawnlocation for " + roomName + ": " + spawnpos);
         return {pos: spawnpos, value: 0};
     }
@@ -126,7 +108,7 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
             possible = _.sample(possible, 10);
         }
         let chosen = findBestSpawnPosition(roomName, possible);
-        let spawnpos = new RoomPosition(chosen.x, chosen.y - 2, chosen.roomName);
+        let spawnpos = new RoomPosition(chosen.x, chosen.y, chosen.roomName);
         console.log("Found possible spawnlocation for " + roomName + ": " + spawnpos);
         return {pos: spawnpos, value: -20};
     }
@@ -134,8 +116,9 @@ export function findSpawnLocation(roomName: string, firstRoom: boolean = false):
     if (firstRoom === true) {
         for (let x of _.range(1, 49)) {
             for (let y of _.range(1, 49)) {
-                if (matrix.get(x, y) === max - 1) {
-                    let spawnpos = new RoomPosition(x, y - 2, roomName);
+                if (cm.get(x, y) === max - 1) {
+                    let spawnpos = new RoomPosition(x, y, roomName);
+                    console.log("Found best spawnlocation for " + roomName + ": " + spawnpos);
                     return {pos: spawnpos, value: -100};
                 }
             }
@@ -235,4 +218,66 @@ function filterDistanceToVitalPositions(roomName: string, positions: RoomPositio
         }
     }
     return filtered;
+}
+
+/**
+ *   @param {Uint8Array(2500)} array - one entry per square in the room
+ *   @param {Number} oob - value used for pixels outside image bounds
+ *   @return {Uint8Array(2500)}
+ *
+ *   the oob parameter is used so that if an object pixel is at the image boundary
+ *   you can avoid having that reduce the pixel's value in the final output. Set
+ *   it to a high value (e.g., 255) for this. Set oob to 0 to treat out of bounds
+ *   as background pixels.
+ */
+function distanceTransform(array: Uint8Array, oob = 255) {
+    // Variables to represent the 3x3 neighborhood of a pixel.
+    let A, B, C;
+    let D, E, F;
+    let G, H, I;
+
+    let n, value;
+    for (n = 0; n < 2500; n++) {
+        if (array[n] !== 0) {
+            A = array[n - 51]; B = array[n - 1];
+            D = array[n - 50];
+            G = array[n - 49];
+            if (           n % 50  ===  0) { A = oob; B = oob; }
+            if (           n % 50  === 49) { G = oob; }
+            if (Math.floor(n / 50) ===  0) { A = oob; D = oob; G = oob; }
+
+            array[n] = (Math.min(A, B, D, G, 254) + 1);
+        }
+    }
+
+    for (n = 2499; n >= 0; n--) {
+        ;                                  C = array[n + 49];
+        ;                E = array[n    ]; F = array[n + 50];
+        ;                H = array[n + 1]; I = array[n + 51];
+        if (           n % 50  ===  0) { C = oob; }
+        if (           n % 50  === 49) { H = oob; I = oob; }
+        if (Math.floor(n / 50) === 49) { C = oob; F = oob; I = oob; }
+
+        array[n] = Math.min(C + 1, E, F + 1, H + 1, I + 1);
+    }
+
+    return array;
+}
+
+/**
+ *    @param {string} roomName
+ *    @return {Number[2500]}
+ */
+function walkablePixelsForRoom(roomName: string) {
+    const array = new Uint8Array(2500);
+    for (let x = 0; x < 50; ++x) {
+        for (let y = 0; y < 50; ++y) {
+            if (Game.map.getTerrainAt(x, y, roomName) !== "wall") {
+                array[x * 50 + y] = 1;
+            } else {
+                array[x * 50 + y] = 0;
+            }
+        }
+    }
+    return array;
 }

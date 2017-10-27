@@ -1,53 +1,48 @@
+"use strict";
+import * as BaseLib from "../lib/base";
 import * as IntelLib from "../lib/intel";
 
+import * as RoomPositionUtilities from "../utilities/RoomPosition";
+
+export function initExtensionMemory(room: Room, basePos: RoomPosition) {
+    if (room.memory.extPos === undefined || room.memory.extRoads === undefined) {
+        let posInfo = getRoomExtensionPositionInfo(basePos);
+        room.memory.extPos = JSON.stringify(_.map(posInfo.ext, RoomPositionUtilities.shortPos).join(""));
+        room.memory.extRoads = JSON.stringify(_.map(posInfo.roads, RoomPositionUtilities.shortPos).join(""));
+    }
+}
+
 export function simExtensions(basePos: RoomPosition) {
-    let cpu = Game.cpu.getUsed();
-    let extensionInfo = getRoomExtensionPositions(basePos);
-
-    console.log("Extensionmath: " + (Game.cpu.getUsed() - cpu));
-
-    console.log("Number of extensions: " + extensionInfo.ext.length);
-
-    for (let e of extensionInfo.ext) {
-        let p = longPosRoom(e);
-        new RoomVisual(p.roomName).rect(p.x - 0.5, p.y - 0.5, 1, 1);
+    // let cpu = Game.cpu.getUsed();
+    let extensionPositionInfo = getRoomExtensionPositionInfo(basePos);
+    const rv = new RoomVisual(basePos.roomName);
+    // console.log('Extensionmath: ' + (Game.cpu.getUsed() - cpu));
+    // console.log('Number of extensions: ' + extensionInfo.ext.length);
+    for (let e of extensionPositionInfo.ext) {
+        rv.rect(e.x - 0.5, e.y - 0.5, 1, 1);
     }
-
-    for (let e of extensionInfo.roads) {
-        let p = longPosRoom(e);
-        new RoomVisual(p.roomName).rect(p.x - 0.5, p.y - 0.5, 1, 1, {fill: "#0000FF"});
+    for (let e of extensionPositionInfo.roads) {
+        rv.rect(e.x - 0.5, e.y - 0.5, 1, 1, {fill: "#0000FF"});
     }
-
-    new RoomVisual(basePos.roomName).rect(basePos.x - 3.5, basePos.y - 1.5, 7, 7, {fill: "#FFFF00"});
-    new RoomVisual(basePos.roomName).rect(basePos.x - 2.5, basePos.y + 5.5, 5, 1, {fill: "#FFFF00"});
-    new RoomVisual(basePos.roomName).rect(basePos.x - 1.5, basePos.y + 6.5, 3, 1, {fill: "#FFFF00"});
-
+    rv.rect(basePos.x - 2.5, basePos.y - 2.5, 5, 5, {fill: "#FFFF00"});
 }
 
 export function getExtensionPositions(room: Room, basePos: RoomPosition): RoomPosition[] {
-    if (room.memory.extPos === undefined || room.memory.extRoads === undefined) {
-        let posInfo = getRoomExtensionPositions(basePos);
-        room.memory.extPos = JSON.stringify(posInfo.ext);
-        room.memory.extRoads = JSON.stringify(posInfo.roads);
+    initExtensionMemory(room, basePos);
+    function expand(shortPos: string) {
+        return RoomPositionUtilities.longPos(shortPos, room.name);
     }
-    let positionInfo = JSON.parse(room.memory.extPos) as string[];
-    let positions: RoomPosition[] = [];
-    for (let p of positionInfo) {
-        positions.push(longPosRoom(p));
-    }
-    return positions;
+    return _.map(JSON.parse(room.memory.extPos), expand);
 }
 
 export function getExtensions(room: Room, basePos: RoomPosition): StructureExtension[] {
-    if (room.memory.extPos === undefined || room.memory.extRoads === undefined) {
-        let posInfo = getRoomExtensionPositions(basePos);
-        room.memory.extPos = JSON.stringify(posInfo.ext);
-        room.memory.extRoads = JSON.stringify(posInfo.roads);
+    initExtensionMemory(room, basePos);
+    function expand(shortPos: string) {
+        return RoomPositionUtilities.longPos(shortPos, room.name);
     }
-    let positionInfo = JSON.parse(room.memory.extPos) as string[];
+    let positions = _.map(JSON.parse(room.memory.extPos), expand);
     let exts: StructureExtension[] = [];
-    for (let p of positionInfo) {
-        let position = longPosRoom(p);
+    for (const position of positions) {
         let atpos = position.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let s of atpos) {
             if (s.structureType === STRUCTURE_EXTENSION) {
@@ -55,19 +50,19 @@ export function getExtensions(room: Room, basePos: RoomPosition): StructureExten
             }
         }
     }
-    return exts;
+    return room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_EXTENSION});
+    // FIXME ^^ needed to not dismantle misplaced extensions, for now
+    // return exts;
 }
 
 export function getExtensionRoads(room: Room, basePos: RoomPosition): StructureRoad[] {
-    if (room.memory.extPos === undefined || room.memory.extRoads === undefined) {
-        let posInfo = getRoomExtensionPositions(basePos);
-        room.memory.extPos = JSON.stringify(posInfo.ext);
-        room.memory.extRoads = JSON.stringify(posInfo.roads);
+    initExtensionMemory(room, basePos);
+    function expand(shortPos: string) {
+        return RoomPositionUtilities.longPos(shortPos, room.name);
     }
-    let positionInfo = JSON.parse(room.memory.extRoads) as string[];
+    let positions = _.map(JSON.parse(room.memory.extRoads), expand);
     let extroads: StructureRoad[] = [];
-    for (let p of positionInfo) {
-        let position = longPosRoom(p);
+    for (const position of positions) {
         let atpos = position.lookFor(LOOK_STRUCTURES) as Structure[];
         for (let s of atpos) {
             if (s.structureType === STRUCTURE_ROAD) {
@@ -79,16 +74,14 @@ export function getExtensionRoads(room: Room, basePos: RoomPosition): StructureR
 }
 
 export function destroyExtensionsNotCorrectlyPlaced(room: Room, basePos: RoomPosition) {
-    if (room.memory.extPos === undefined || room.memory.extRoads === undefined) {
-        let posInfo = getRoomExtensionPositions(basePos);
-        room.memory.extPos = JSON.stringify(posInfo.ext);
-        room.memory.extRoads = JSON.stringify(posInfo.roads);
-    }
+    initExtensionMemory(room, basePos);
     let count = 0;
-    let positionInfo = JSON.parse(room.memory.extPos) as string[];
-    let extensions = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_EXTENSION}) as Structure[];
+    function expand(shortPos: string) {
+        return RoomPositionUtilities.longPos(shortPos, room.name);
+    }
+    let positions = _.map(JSON.parse(room.memory.extPos), expand);    let extensions = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_EXTENSION}) as Structure[];
     for (let e of extensions) {
-        if (!_.contains(positionInfo, shortPosRoom(e.pos))) {
+        if (!_.contains(positions, e.pos)) {
             count++;
             e.destroy();
         }
@@ -97,52 +90,38 @@ export function destroyExtensionsNotCorrectlyPlaced(room: Room, basePos: RoomPos
         console.log("Running destroy extensions in room " + room.name);
         console.log("Room " + room.name + " destroyed " + count + " extensions.");
     }
-
-    let linkpos = new RoomPosition(basePos.x, basePos.y - 2, basePos.roomName);
-    let atPos = linkpos.lookFor(LOOK_STRUCTURES) as Structure[];
-    for (let s of atPos) {
-        if (s.structureType === STRUCTURE_LINK) {
-            s.destroy();
-            console.log("Destroyed outdated link");
-        }
-    }
 }
 
 export function getRoadPositions(room: Room, basePos: RoomPosition): RoomPosition[] {
-    if (room.memory.extPos === undefined || room.memory.extRoads === undefined) {
-        let posInfo = getRoomExtensionPositions(basePos);
-        room.memory.extPos = JSON.stringify(posInfo.ext);
-        room.memory.extRoads = JSON.stringify(posInfo.roads);
+    initExtensionMemory(room, basePos);
+    function expand(shortPos: string) {
+        return RoomPositionUtilities.longPos(shortPos, room.name);
     }
-    let positionInfo = JSON.parse(room.memory.extRoads) as string[];
-    let positions: RoomPosition[] = [];
-    for (let p of positionInfo) {
-        positions.push(longPosRoom(p));
-    }
-    return positions;
+    return _.map(JSON.parse(room.memory.extRoads), expand);
 }
 
-export function getRoomExtensionPositions(basePos: RoomPosition): {ext: string[], roads: string[]} {
-    let roadPositions: string[] = [];
-    let extPositions: string[] = [];
+export function getRoomExtensionPositionInfo(basePos: RoomPosition): {ext: Array<{x: number, y: number}>, roads: Array<{x: number, y: number}>} {
+    let roadPositions: RoomPosition[] = [];
+    let extPositions: RoomPosition[] = [];
 
-    addMainWings(basePos, extPositions, roadPositions);
-
-    extPositions = _.uniq(extPositions);
-    for (let r of roadPositions) {
-        _.pull(extPositions, r);
+    let tempExtPositionsRelative: Array<{x: number, y: number}> = [];
+    // get the extensions in the order we should build them
+    for (const char of ["1", "2", "3", "4", "5", "6", "7", "8"]) {
+        tempExtPositionsRelative = tempExtPositionsRelative.concat(BaseLib.getPositions(BaseLib.bunkerExtensionOrder, char));
     }
+    for (let relPos of tempExtPositionsRelative) {
+        const pos = new RoomPosition(relPos.x + basePos.x, relPos.y + basePos.y, basePos.roomName);
+        if (Game.map.getTerrainAt(pos.x, pos.y, pos.roomName) !== "wall") {
+            extPositions.push(pos);
+        }
+    }
+    extPositions = _.uniq(extPositions);
 
     if (extPositions.length < 60) {
-        addLowerWings(basePos, extPositions, roadPositions);
+        // addLowerWings(basePos, extPositions, roadPositions);
     }
 
-    extPositions = _.uniq(extPositions);
-    for (let r of roadPositions) {
-        _.pull(extPositions, r);
-    }
-
-    removeExtensionToVitalTargets(basePos, extPositions);
+    // removeExtensionToVitalTargets(basePos, extPositions);
 
     if (extPositions.length > 60) {
         extPositions = extPositions.slice(0, 60);
@@ -153,12 +132,13 @@ export function getRoomExtensionPositions(basePos: RoomPosition): {ext: string[]
     return {ext: extPositions, roads: roadPositions};
 }
 
-function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
+function addSingleExtensions(basePos: RoomPosition, extPositions: RoomPosition[]) {
+    const roomName = basePos.roomName;
     let cm = new PathFinder.CostMatrix();
 
     for (let x of _.range(0, 50)) {
         for (let y of _.range(0, 50)) {
-            let terrain = Game.map.getTerrainAt(x, y, basePos.roomName);
+            let terrain = Game.map.getTerrainAt(x, y, roomName);
             if (terrain === "wall") {
                 cm.set(x, y, 1);
             } else
@@ -167,24 +147,18 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
             }
         }
     }
-    for (let x of _.range(-3, 4)) {
-        for (let y of _.range(-1, 6)) {
+    for (let x of _.range(-3, 3)) {
+        for (let y of _.range(-3, 3)) {
             cm.set(basePos.x + x, basePos.y + y, 1);
         }
     }
-    for (let x of _.range(-2, 3)) {
-        cm.set(basePos.x + x, basePos.y + 6, 1);
-    }
-    for (let x of _.range(-1, 2)) {
-        cm.set(basePos.x + x, basePos.y + 7, 1);
-    }
+    // TODO don't overwrite labs!
 
     for (let p of extPositions) {
-        let t = p.split("-");
-        cm.set(Number.parseInt(t[0]), Number.parseInt(t[1]), 1);
+        cm.set(p.x, p.y, 1);
     }
 
-    let room = Game.rooms[basePos.roomName];
+    let room = Game.rooms[roomName];
     if (room !== undefined) {
         if (room.controller !== undefined) {
             let controllerPos = room.controller.getContainerPosition();
@@ -208,8 +182,8 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
     for (let x of _.range(3, 47)) {
         for (let y of _.range(3, 47)) {
             if (cm.get(x, y) === 0 && x % 2 === y % 2 && posOnlyHasOneNeighbour(x, y, cm)) {
-                if (!_.contains(extPositions, shortPosRoomMaker(x, y, basePos.roomName))) {
-                    let p = new RoomPosition(x, y, basePos.roomName);
+                if (!_.contains(extPositions, {x, y, roomName})) {
+                    let p = new RoomPosition(x, y, roomName);
                     if (getRangeToClosestVital(p) > 2) {
                         possiblePositions.push(p);
                     }
@@ -217,12 +191,11 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
             }
         }
     }
-    if (IntelLib.hasIntel(basePos.roomName)) {
+    if (IntelLib.hasIntel(roomName)) {
         let extcm = new PathFinder.CostMatrix();
 
         for (let p of extPositions) {
-            let t = p.split("-");
-            extcm.set(Number.parseInt(t[0]), Number.parseInt(t[1]), 0xFF);
+            extcm.set(p.x, p.y, 0xFF);
         }
 
         let counter = 50;
@@ -236,7 +209,7 @@ function addSingleExtensions(basePos: RoomPosition, extPositions: string[]) {
             }}).path.length - 1;
             let range = basePos.getRangeTo(bestPos);
             if (pathDistance <= range * 1.5) {
-                extPositions.push(shortPosRoom(bestPos));
+                extPositions.push(bestPos);
             }
             _.pull(possiblePositions, bestPos);
             counter--;
@@ -284,7 +257,7 @@ function posOnlyHasOneNeighbour(x: number, y: number, cm: CostMatrix): boolean {
     return true;
 }
 
-function removeExtensionToVitalTargets(basePos: RoomPosition, extPositions: string[]) {
+function removeExtensionToVitalTargets(basePos: RoomPosition, extPositions: RoomPosition[]) {
     let roomName = basePos.roomName;
     if (!IntelLib.hasIntel(roomName)) {
         return;
@@ -317,130 +290,17 @@ function removeExtensionToVitalTargets(basePos: RoomPosition, extPositions: stri
         } );
         if (ret.cost > 200) {
             for (let p of ret.path) {
-                _.pull(extPositions, shortPosRoom(p));
+                _.pull(extPositions, p);
             }
         }
     }
 }
 
-function getExtensionRoomCallback(extPositions: string[]): CostMatrix {
+function getExtensionRoomCallback(extPositions: RoomPosition[]): CostMatrix {
     let costs = new PathFinder.CostMatrix();
 
     for (let p of extPositions) {
-        let t = p.split("-");
-        costs.set(Number.parseInt(t[0]), Number.parseInt(t[1]), 0xfe);
+        costs.set(p.x, p.y, 0xfe);
     }
     return costs;
-}
-
-function addLowerWings(basePos: RoomPosition, extPositions: string[], roadPositions: string[]) {
-    for (let s of [-1, 1]) {
-        roadPositions.push(shortPosRoomMaker(basePos.x + (s * 3), basePos.y + 1, basePos.roomName));
-        roadPositions.push(shortPosRoomMaker(basePos.x + (s * 4), basePos.y + 2, basePos.roomName));
-        for (let i of [5, 6]) {
-            let testPos = new RoomPosition(basePos.x + (s * i), basePos.y - 2 + i, basePos.roomName);
-            if (buildableAroundPos(testPos) && getRangeToClosestVital(testPos) > 3) {
-                roadPositions.push(shortPosRoom(testPos));
-                addPositionsAround(testPos, extPositions);
-            } else {
-                break;
-            }
-        }
-
-        let t1 = Game.map.getTerrainAt(basePos.x + (s * 4), basePos.y + 1, basePos.roomName);
-        if (t1 === "swamp" || t1 === "plain") {
-            if (!(basePos.x + (s * 4) < 3 || basePos.x + (s * 4) > 46 || basePos.y + 1 < 3 || basePos.y + 1 > 46)) {
-                extPositions.push(shortPosRoomMaker(basePos.x + (s * 4), basePos.y + 1, basePos.roomName));
-            }
-        }
-
-        let t2 = Game.map.getTerrainAt(basePos.x + (s * 5), basePos.y + 1, basePos.roomName);
-        if (t2 === "swamp" || t2 === "plain") {
-            if (!(basePos.x + (s * 5) < 3 || basePos.x + (s * 5) > 46 || basePos.y + 1 < 3 || basePos.y + 1 > 46)) {
-                extPositions.push(shortPosRoomMaker(basePos.x + (s * 5), basePos.y + 1, basePos.roomName));
-            }
-        }
-    }
-}
-
-function addMainWings(basePos: RoomPosition, extPositions: string[], roadPositions: string[]) {
-    roadPositions.push(shortPosRoomMaker(basePos.x, basePos.y - 1, basePos.roomName));
-    for (let s of [-1, 1]) {
-        roadPositions.push(shortPosRoomMaker(basePos.x + (s * 1), basePos.y - 2, basePos.roomName));
-        for (let i of [2, 3, 4]) {
-            let testPos = new RoomPosition(basePos.x + (s * i), basePos.y - 1 - i, basePos.roomName);
-            if (buildableAroundPos(testPos) && getRangeToClosestVital(testPos) > 3) {
-                roadPositions.push(shortPosRoom(testPos));
-                addPositionsAround(testPos, extPositions);
-            } else {
-                break;
-            }
-            if (i === 4) {
-                for (let s2 of [-1, 1]) {
-                    for (let j of [1, 2]) {
-                        let newTestPos = new RoomPosition(testPos.x + (s * s2 * j), testPos.y + (s2 * j), testPos.roomName);
-                        if (buildableAroundPos(newTestPos) && getRangeToClosestVital(testPos) > 3) {
-                            roadPositions.push(shortPosRoom(newTestPos));
-                            addPositionsAround(newTestPos, extPositions);
-                        } else {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        let t = Game.map.getTerrainAt(basePos.x + (s * 3), basePos.y - 1, basePos.roomName);
-        if (t === "swamp" || t === "plain") {
-            extPositions.push(shortPosRoomMaker(basePos.x + (s * 3), basePos.y - 1, basePos.roomName));
-        }
-    }
-}
-
-function buildableAroundPos(pos: RoomPosition): boolean {
-    let count = 0;
-    for (let x of [-1, 0, 1]) {
-        for (let y of [-1, 0, 1]) {
-            if (pos.x + x < 3 || pos.x + x > 46 || pos.y + y < 3 || pos.y + y > 46) {
-                return false;
-            }
-            let terrain = Game.map.getTerrainAt(pos.x + x, pos.y + y, pos.roomName);
-            if (terrain !== "swamp" && terrain !== "plain") {
-                if (x === 0 && y === 0) {
-                    return false;
-                } else
-                if (count > 2) {
-                    return false;
-                }
-                count++;
-            }
-        }
-    }
-    return true;
-}
-
-function addPositionsAround(pos: RoomPosition, list: string[]): void {
-    for (let x of [-1, 0, 1]) {
-        for (let y of [-1, 0, 1]) {
-            if (x !== 0 || y !== 0) {
-                let terrain = Game.map.getTerrainAt(pos.x + x, pos.y + y, pos.roomName);
-                if (terrain === "swamp" || terrain === "plain") {
-                    list.push(shortPosRoomMaker(pos.x + x, pos.y + y, pos.roomName));
-                }
-            }
-        }
-    }
-}
-
-function shortPosRoomMaker(x: number, y: number, roomName: string) {
-    return x + "-" + y + "-" + roomName;
-}
-
-function shortPosRoom(pos: RoomPosition) {
-    return pos.x + "-" + pos.y + "-" + pos.roomName;
-}
-
-function longPosRoom(pos: string): RoomPosition {
-    let split = pos.split("-");
-    return new RoomPosition(+split[0], +split[1], split[2]);
 }

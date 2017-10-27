@@ -154,7 +154,7 @@ export class ExpansionManager extends Manager {
             return false;
         }
 
-        let spawnPos = SpawnLib.findSpawnLocation(expansion);
+        let spawnPos = SpawnLib.findBaseLocation(expansion);
         if (spawnPos === undefined) {
             console.log("Room " + room.name + " wanted to make an expansion at room " + expansion + ", but could not find spawnlocation.");
             return false;
@@ -430,7 +430,7 @@ function evaluateExpansions(room: Room): boolean {
         if (room.memory.expansionTargets[n] === true) {
             let value = evaluateExpansion(n);
             if (value !== undefined) {
-                let spawn = SpawnLib.findSpawnLocation(n);
+                let spawn = SpawnLib.findBaseLocation(n);
                 if (spawn === undefined) {
                     room.memory.expansionTargets[n] = false;
                 } else {
