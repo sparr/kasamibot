@@ -11,6 +11,7 @@
  *   MovingToTarget - Moving to target room
  *   Declaring - Declaring target room as owned
  */
+"use strict";
 
 import {log} from "../tools/Logger";
 
@@ -63,7 +64,7 @@ function runDeclaring(creep: Creep): void {
         if (creep.pos.roomName !== creep.room.name || creep.pos.getRangeTo(targetController) > 1) {
             creep.travelTo(targetController);
         } else {
-            let quote = "This room is property of the AYCE alliance. Stay away from this and neighbouring rooms.";
+            const quote = `This room is property of ${Memory.settings.user}. Stay away from this and neighbouring rooms.`;
             creep.signController(targetController, quote);
             creep.memory.target = undefined;
         }
