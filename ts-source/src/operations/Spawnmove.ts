@@ -76,7 +76,7 @@ function checkIfWeCanStartPreparing(operation: Data) {
         return;
     }
     let spawn = room.getSpawn();
-    if (spawn === undefined || Object.keys(Game.constructionSites).length > 0) {
+    if (spawn === undefined || room.find(FIND_MY_CONSTRUCTION_SITES).length > 0) {
         return;
     }
     if (room.storage === undefined || room.storage.store[RESOURCE_ENERGY] < 25000) {
