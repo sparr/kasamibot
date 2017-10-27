@@ -14,12 +14,14 @@ export function run(creep: Creep) {
 
     if (tankingBuilding === null || (tankingBuilding instanceof StructureStorage && tankingBuilding.store[RESOURCE_ENERGY] === 0) ||
         (tankingBuilding instanceof StructureContainer && tankingBuilding.store[RESOURCE_ENERGY] === 0)) {
-        if (creep.carry[RESOURCE_ENERGY] > 0) {
-            creep.stopTanking();
-            dropofBuilding = null;
-        } else {
+        // TODO figure out what this was supposed to do?
+        // instead of working, it freezes a creep with null tankingBuilding and set dropofBuilding and nonzero energy
+        // if (creep.carry[RESOURCE_ENERGY] > 0) {
+        //     creep.stopTanking();
+        //     dropofBuilding = null;
+        // } else {
             tankingBuilding = findTankingBuilding(creep);
-        }
+        // }
     }
 
     if (creep.ticksToLive < 20 && creep.room.storage instanceof StructureStorage) {
