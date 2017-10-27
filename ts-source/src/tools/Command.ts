@@ -363,7 +363,7 @@ export class Command {
             return start + "<span style='color:" + errorColor + ";'>Room " + roomName + " can't be it's own outpost.</span>";
         }
         if (_.contains(room.memory.outposts, outpost)) {
-            return start + "<span style='color:" + errorColor + ";'>Room " + roomName + " already has " + outpost + " as an outpost.</span>";
+            return start + "<span style='color:" + errorColor + ";'>Room " + roomName + " already has " + room.memory.expansion + " as an outpost.</span>";
         }
         room.memory.outposts.push(outpost);
         return  start + "Room now has these outposts: " + JSON.stringify(room.memory.outposts) + "<br/>" +
@@ -421,6 +421,9 @@ export class Command {
         }
         room.memory.expansion = undefined;
         room.memory.expansionRoute = undefined;
+        if (Memory.rooms[expansion]) {
+            delete Memory.rooms[expansion].isExpansion;
+        }
         return  start + "Room now has no expansion: " + JSON.stringify(room.memory.expansion) + "<br/>" +
                 "<span style='color:" + successColor + ";'>Expansion successfully removed.</span>";
     }
