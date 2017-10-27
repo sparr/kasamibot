@@ -4,6 +4,8 @@
 
 import * as PathfindingUtilities from "../utilities/Pathfinding";
 
+import * as ProfileUtilities from "../utilities/Profiles";
+
 import {RoomLevel} from "../enums/roomlevel";
 
 import * as RoomRepository from "../repository/Room";
@@ -11,12 +13,32 @@ import * as RoomRepository from "../repository/Room";
 import * as IntelLib from "../lib/intel";
 
 export function getTiersRequiredForPioneerMining(tier: number, possibleMiningPositions: number, spawnPos: RoomPosition, sourcePos: RoomPosition): number {
+    const room = Game.rooms[spawnPos.roomName];
+    const extensions: Extension[] = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_EXTENSION});
+    const constructionSites: ConstructionSite[] = room.find(FIND_MY_CONSTRUCTION_SITES);
+    let totalDist = 0;
+    let totalWeight = 0;
+    if (room.controller) {
+        totalDist += PathfindingUtilities.getDistanseBetween(sourcePos, room.controller.pos) * 5;
+        totalWeight += 5;
+    }
+    totalDist += PathfindingUtilities.getDistanseBetween(sourcePos, spawnPos) * 10;
+    totalWeight += 5;
+    for (const extension of extensions) {
+        totalDist += PathfindingUtilities.getDistanseBetween(sourcePos, extension.pos);
+        totalWeight += 1;
+    }
+    for (const constructionSite of constructionSites) {
+        totalDist += PathfindingUtilities.getDistanseBetween(sourcePos, constructionSite.pos);
+        totalWeight += 5;
+    }
+    const distance = totalDist / totalWeight;
     const ticksToFill = 25; // 50 capacity / 2 mined per tick
-    let distance = PathfindingUtilities.getDistanseBetween(spawnPos, sourcePos);
     let workerpartsNeeded = 5;
     let possibleWorkerpartsAtOnceWithTier = possibleMiningPositions * tier;
     let workerpartsPossbleAtSource = Math.min(workerpartsNeeded, possibleWorkerpartsAtOnceWithTier);
-    let timeUsedForMining = ticksToFill / (ticksToFill + (2 * distance));
+    let pioneerSlowness = ProfileUtilities.getEngineerSlowness(distance);
+    let timeUsedForMining = ticksToFill / (ticksToFill + (2 * distance * pioneerSlowness));
     let workerpartsNeededWithTravel = Math.ceil(workerpartsPossbleAtSource / timeUsedForMining);
     return workerpartsNeededWithTravel;
 }

@@ -184,14 +184,34 @@ export class CrisisManager extends Manager {
 }
 
 function orderPioneer(room: Room): void {
-    let maxTier = ProfileUtilities.getMaxTierEngineer(room.energyAvailable);
+    const spawns: Spawn[] = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_SPAWN});
+    const sources: Source[] = room.find(FIND_SOURCES);
+    const extensions: Extension[] = room.find(FIND_MY_STRUCTURES, {filter: (s: Structure) => s.structureType === STRUCTURE_EXTENSION});
+    let totalDist = 0;
+    let totalWeight = 0;
+    for (const source of sources) {
+        if (room.controller) {
+            totalDist += source.pos.getRangeTo(room.controller) * 5;
+        }
+        totalWeight += 5;
+        for (const spawn of spawns) {
+            totalDist += source.pos.getRangeTo(spawn) * 10;
+            totalWeight += 10;
+        }
+        for (const extension of extensions) {
+            totalDist += source.pos.getRangeTo(extension);
+            totalWeight += 1;
+        }
+    }
+    const avgDist = totalDist / totalWeight;
+    let maxTier = ProfileUtilities.getMaxTierEngineer(room.energyAvailable, avgDist);
 
     if (maxTier < 1) {
         return;
     }
 
     let order = new Order();
-    order.body = ProfileUtilities.getEngineerBody(maxTier);
+    order.body = ProfileUtilities.getEngineerBody(maxTier, avgDist);
     order.priority = Priority.Blocker;
     order.memory = {role: Role.Pioneer, target: room.name, tier: maxTier};
 

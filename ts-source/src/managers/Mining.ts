@@ -181,11 +181,12 @@ export class MiningManager extends Manager {
      * Number of engineers needed is described in startup-manager.
      */
     private orderPioneers(room: Room, sourceId: string, sourcePos: RoomPosition, miningPositions: number): void {
-        let maxTier = ProfileUtilities.getMaxTierEngineer(room.energyCapacityAvailable);
         let spawn = room.getSpawn();
         if (spawn === undefined) {
             return;
         }
+        const dist = spawn.pos.getRangeTo(sourcePos);
+        let maxTier = ProfileUtilities.getMaxTierEngineer(room.energyCapacityAvailable, dist);
         let currentCreeps = this.creepService.getCreeps(Role.Pioneer, sourceId, room.name).length;
         let currentTiers = this.creepService.getNumberOfTiers(Role.Pioneer, sourceId, room.name);
         let orderedTiers = OrdersRepository.getNumberOfTiersInQueue(room, Role.Pioneer, sourceId);
@@ -193,7 +194,7 @@ export class MiningManager extends Manager {
 
         if (orderedTiers === 0 && currentTiers < wantedTiers && currentCreeps < 10) {
             let order = new Order();
-            order.body = ProfileUtilities.getEngineerBody(maxTier);
+            order.body = ProfileUtilities.getEngineerBody(maxTier, dist);
             order.priority = Priority.Standard;
             order.memory = {role: Role.Pioneer, tier: maxTier, target: sourceId};
 

@@ -283,12 +283,32 @@ export function getBankRanger(): string[] {
  * [WORK, CARRY, MOVE, MOVE] * Tier
  * Each Tier cost 250 energy
  */
-export function getEngineerBody(tier: number): string[] {
-  if (tier > 12) { tier = 12; }
-  return addToBody([], tier, [WORK, CARRY, MOVE, MOVE]);
+export function getEngineerSlowness(dist: number = 50): number {
+  if (dist < 10) {
+    return 2.5;
+  } else if (dist < 20) {
+    return 1.5;
+  } else {
+    return 1;
+  }
 }
-export function getMaxTierEngineer(energy: number): number {
-  return getMaxTier(energy, getEngineerBody, 12);
+
+export function getEngineerBody(tier: number, dist: number = 50): string[] {
+  if (dist < 10) {
+    return addToBody(addToBody([], Math.min(Math.floor(tier / 2), 6), [WORK]), Math.min(Math.ceil(tier / 2), 6), [WORK, CARRY, MOVE]); // 2.5 ticks per move
+ } else if (dist < 20) {
+    return addToBody([], Math.min(tier, 16), [WORK, CARRY, MOVE]);       // 1.5 ticks per ove
+  } else {
+    return addToBody([], Math.min(tier, 12), [WORK, CARRY, MOVE, MOVE]); // 1 tick per move
+  }
+  // TODO fewer move parts when roads are in use
+}
+
+export function getMaxTierEngineer(energy: number, dist: number = 50): number {
+  const getEngineerBodyRange = (tier: number) => {
+    return getEngineerBody(tier, dist);
+  };
+  return getMaxTier(energy, getEngineerBodyRange, 16);
 }
 
 export function getTaggerBody(): string[] {
