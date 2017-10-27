@@ -7,7 +7,7 @@ export function run(creep: Creep) {
         return;
     }
 
-    let tankingBuilding = Game.getObjectById(creep.memory.tankingBuilding) as Structure | null;
+    let tankingBuilding = Game.getObjectById(creep.memory.tankingBuilding) as Structure | Resource | null;
     let dropofBuilding = Game.getObjectById(creep.memory.dropofBuilding) as Tower | Spawn | Extension | Lab | Link | null;
 
     creep.room.memory.basehauler = creep.id;
@@ -63,14 +63,18 @@ export function run(creep: Creep) {
     }
 
     if (creep.isTanking()) {
-
-        let response = creep.withdraw(tankingBuilding, RESOURCE_ENERGY);
+        let response;
+        if (tankingBuilding instanceof Resource) {
+             response = creep.pickup(tankingBuilding);
+        } else {
+             response = creep.withdraw(tankingBuilding, RESOURCE_ENERGY);
+        }
         if (response === ERR_NOT_IN_RANGE) {
             creep.moveTo(tankingBuilding);
         }
         if (response === ERR_NOT_ENOUGH_RESOURCES) {
             creep.memory.tankingBuilding = undefined;
-        } else {
+        } else if (!(tankingBuilding instanceof Resource)) {
             for (let resourceType in creep.carry) {
                 if (resourceType !== RESOURCE_ENERGY) {
                     creep.transfer(tankingBuilding, resourceType);
@@ -142,7 +146,12 @@ function transferEnergyToNearbyExtensions(creep: Creep) {
     }
 }
 
-function findTankingBuilding(creep: Creep): Structure | null {
+function findTankingBuilding(creep: Creep): Structure | Resource | null {
+    let dropped: Resource = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: (r: Resource) => r.resourceType === RESOURCE_ENERGY && r.amount >= (creep.carryCapacity / 2)});
+    if (dropped !== null && dropped !== undefined && dropped.pos.getRangeTo(creep.pos) < 10) {
+        creep.memory.tankingBuilding = dropped.id;
+        return dropped;
+    } else
     if (creep.room.storage !== undefined && creep.room.storage.store[RESOURCE_ENERGY] < 100000 &&
     creep.room.terminal !== undefined && creep.room.terminal.store[RESOURCE_ENERGY] > 60000) {
         creep.memory.tankingBuilding = creep.room.terminal.id;
@@ -157,6 +166,10 @@ function findTankingBuilding(creep: Creep): Structure | null {
     creep.room.terminal !== undefined && creep.room.terminal.store[RESOURCE_ENERGY] > 10000) {
         creep.memory.tankingBuilding = creep.room.terminal.id;
         return creep.room.terminal;
+    } else
+    if (dropped !== null && dropped !== undefined) {
+        creep.memory.tankingBuilding = dropped.id;
+        return dropped;
     } else
     if (creep.room.storage === undefined || creep.room.storage.store[RESOURCE_ENERGY] === 0) {
         let b = creep.room.getBaseContainer();
