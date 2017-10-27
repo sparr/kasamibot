@@ -153,6 +153,21 @@ function runMining(creep: Creep) {
             }
         }
     }
+    let pickup = creep.pos.lookFor(LOOK_RESOURCES)[0] as Resource;
+    if (creep.carry[RESOURCE_ENERGY] > 0) {
+        // TODO memory this, handle better
+        let transferSpawn: StructureSpawn = creep.pos.findInRange(creep.room.getSpawns(), 1)[0];
+        if (transferSpawn && transferSpawn.energy < transferSpawn.energyCapacity) {
+            creep.transfer(transferSpawn, RESOURCE_ENERGY);
+        } else if (pickup) {
+            if (container && container.store[RESOURCE_ENERGY] < container.storeCapacity && creep.carry[RESOURCE_ENERGY] === creep.carryCapacity) {
+                creep.transfer(container, RESOURCE_ENERGY);
+            }
+            if (creep.carry[RESOURCE_ENERGY] < creep.carryCapacity) {
+                creep.pickup(pickup);
+            }
+        }
+    }
 }
 function getTargetRoomname(creep: Creep): string {
     if (creep.memory.targetRoom === undefined) {
