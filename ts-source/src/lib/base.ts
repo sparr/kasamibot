@@ -1,27 +1,10 @@
 import * as RoomRepository from "../repository/Room";
 
 export function getPossibleExtensionsCount(room: Room): number {
-    if (room === undefined || room.controller === undefined || room.controller.level < 2) {
+    if (room === undefined || room.controller === undefined) {
         return 0;
     }
-    switch (room.controller.level) {
-        case 2:
-            return 5;
-        case 3:
-            return 10;
-        case 4:
-            return 20;
-        case 5:
-            return 30;
-        case 6:
-            return 40;
-        case 7:
-            return 50;
-        case 8:
-            return 60;
-        default:
-            return 0;
-    }
+    return CONTROLLER_STRUCTURES[STRUCTURE_EXTENSION][room.controller.level];
 }
 
 export function getExtensionPositions(): number[][] {
@@ -48,25 +31,10 @@ export function getExtensionPositions(): number[][] {
 }
 
 export function getPossibleTowerCount(room: Room): number {
-    if (room === undefined || room.controller === undefined || room.controller.level < 3) {
+    if (room === undefined || room.controller === undefined) {
         return 0;
     }
-    switch (room.controller.level) {
-        case 3:
-            return 1;
-        case 4:
-            return 1;
-        case 5:
-            return 2;
-        case 6:
-            return 2;
-        case 7:
-            return 3;
-        case 8:
-            return 6;
-        default:
-            return 0;
-    }
+    return CONTROLLER_STRUCTURES[STRUCTURE_TOWER][room.controller.level];
 }
 export function getTowerPositions(): number[][] {
     let positions = [
@@ -76,47 +44,17 @@ export function getTowerPositions(): number[][] {
 }
 
 export function getPossibleSpawnCount(room: Room): number {
-    if (room === undefined || room.controller === undefined || room.controller.level < 1) {
+    if (room === undefined || room.controller === undefined) {
         return 0;
     }
-    switch (room.controller.level) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-            return 1;
-        case 7:
-            return 2;
-        case 8:
-            return 3;
-        default:
-            return 0;
-    }
+    return CONTROLLER_STRUCTURES[STRUCTURE_SPAWN][room.controller.level];
 }
 
 export function getPossibleLinkCount(room: Room): number {
-    if (room === undefined || room.controller === undefined || room.controller.level < 1) {
+    if (room === undefined || room.controller === undefined) {
         return 0;
     }
-    switch (room.controller.level) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-            return 0;
-        case 5:
-            return 2;
-        case 6:
-            return 3;
-        case 7:
-            return 4;
-        case 8:
-            return 6;
-        default:
-            return 0;
-    }
+    return CONTROLLER_STRUCTURES[STRUCTURE_LINK][room.controller.level];
 }
 
 export function getSpawnPositions(): number[][] {
