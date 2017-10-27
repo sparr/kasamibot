@@ -207,6 +207,7 @@ function findDropofBuilding(creep: Creep, exceptId: string | null = null) {
         return;
     }
 
+    // find an adjacent extension/spawn/lab to drop into
     if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
         // Find extensions in range 1 that needs filling
         let close = lookForCloseStructureNeedingEnergy(creep, 1, exceptId);
@@ -214,14 +215,28 @@ function findDropofBuilding(creep: Creep, exceptId: string | null = null) {
             creep.memory.dropofBuilding = close.id;
             return;
         }
-
-        // Find extensions in range 2 that needs filling
-        let closish = lookForCloseStructureNeedingEnergy(creep, 2, exceptId);
-        if (closish !== undefined) {
-            creep.memory.dropofBuilding = closish.id;
+        // if there's a single step to take that brings us in range of more extension/spawn, take the best one
+        let bestDirection = null;
+        let bestDirectionCount = 0;
+        let bestDirectionStructure: Structure | null = null;
+        for (let direction = 1; direction <= 8; direction++) {
+            let checkPos = new RoomPosition(creep.pos.x, creep.pos.y, creep.pos.roomName);
+            checkPos = checkPos.getPositionInDirection(direction);
+            let targets: OwnedStructure[] = checkPos.findInRange(FIND_MY_STRUCTURES, 1, {filter: (s: OwnedStructure) =>
+                (s instanceof StructureExtension || s instanceof StructureSpawn) &&
+                s.energy < s.energyCapacity,
+            });
+            if (targets.length > bestDirectionCount) {
+                bestDirection = direction;
+                bestDirectionCount = targets.length;
+                bestDirectionStructure = targets[0];
+            }
+        }
+        if (bestDirection) {
+            creep.move(bestDirection);
+            creep.memory.dropofBuilding = bestDirectionStructure ? bestDirectionStructure.id : null;
             return;
         }
-
     }
 
     let energyLimitForPowerProcessing = 450000;
