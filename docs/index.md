@@ -1,5 +1,11 @@
 [Home](index.md) - [Features](features.md) - [Patchnotes](patchnotes.md) - [Manual control](console.md)
 
+Kasamifork is a fork of the KasamiBot codebase (https://github.com/kasami/kasamibot/), made with the blessing of Kasami, and with the name changed at Kasami's request to avoid confusion.
+
+KasamiBot is published as an autonomous bot written exclusively by Kasami. KasamiFork is meant to be a collaborative codebase, treating Kasami's published changes as an upstream source and accepting pull requests and Issues from other contributors.
+
+Below you will find information about KasamiBot, some of which is not applicable to this codebase. Updating the documentation is on the agenda for this fork.
+
 ---
 
 # About KasamiBot

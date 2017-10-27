@@ -1,4 +1,4 @@
-# KasamiBot - Typescript source
+# KasamiFork - Typescript source
 
 'npm install' to install packages
 

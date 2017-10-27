@@ -1,4 +1,12 @@
-# KasamiBot - Autonomous Screeps bot
+# KasamiFork - Autonomous Screeps bot
+
+This is a fork of the KasamiBot codebase (https://github.com/kasami/kasamibot/), made with the blessing of Kasami, and with the name changed at Kasami's request to avoid confusion.
+
+KasamiBot is published as an autonomous bot written exclusively by Kasami. KasamiFork is meant to be a collaborative codebase, treating Kasami's published changes as an upstream source and accepting pull requests and Issues from other contributors.
+
+Below you will find the README for KasamiBot, some of which is not applicable to this codebase. Updating the README and other documentation is on the agenda for this fork.
+
+--
 
 **Current Release: Cake and grief counseling - version 1.0**
 

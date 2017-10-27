@@ -18,7 +18,7 @@
       "lintRequired": false
     },
     "bot": {
-      "branch": "KasamiBot",
+      "branch": "KasamiFork",
       "bundle": true,
       "lint": true,
       "lintRequired": false

@@ -1,16 +1,16 @@
 {
-  "name": "screeps-bot-kasamibot",
+  "name": "screeps-bot-kasamifork",
   "description": "A bot for the MMO RPG game Screeps, where you program your own AI.",
   "version": "1.0.2",
   "main": "dist/main.js",
   "screeps_bot": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/kasami/kasamibot.git"
+    "url": "git://github.com/sparr/kasamifork.git"
   },
-  "homepage": "https://kasami.github.io/kasamibot/",
+  "homepage": "https://sparr.github.io/kasamifork/",
   "bugs": {
-    "url": "https://github.com/kasami/kasamibot/issues"
+    "url": "https://github.com/sparr/kasamifork/issues"
   },
   "license": "CC-BY-3.0"
 }

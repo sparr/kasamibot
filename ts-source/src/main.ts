@@ -10,7 +10,7 @@ try {
         if (Memory.settings === undefined) {
             Memory.settings = {};
             console.log("* * * * * * * * * * * * *");
-            console.log(" Loading KasamiBot " + version + " ");
+            console.log(" Loading KasamiFork " + version + " ");
             console.log("* * * * * * * * * * * * *");
         }
 

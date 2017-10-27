@@ -1,26 +1,26 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * *\
-*   _  __                         _ ____        _     *
-*  | |/ /                        (_)  _ \      | |    *
-*  | ' / __ _ ___  __ _ _ __ ___  _| |_) | ___ | |_   *
-*  |  < / _` / __|/ _` | '_ ` _ \| |  _ < / _ \| __|  *
-*  | . \ (_| \__ \ (_| | | | | | | | |_) | (_) | |_   *
-*  |_|\_\__,_|___/\__,_|_| |_| |_|_|____/ \___/ \__|  *
-*                                                     *
-*                   Version 1.0.0                     *
-*                                                     *
-* This is a bot developed for the game Screeps.       *
-*                                                     *
-* Use this config-file to configure your bot, options *
-* are expained below.                                 *
-*                                                     *
-* More information about the bot at:                  *
-* http://kasami.github.io/kasamibot                   *
-*                                                     *
-* Version history:                                    *
-* 1.0 - Cake and grief counseling                     *
-* 0.9 - Beta than before                              *
-*                                                     *
-\* * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+*   _  __                         _ ____          _     *
+*  | |/ /                        (_)  __|        | |    *
+*  | ' / __ _ ___  __ _ _ __ ___  _| |_ ___  ____| | __ *
+*  |  < / _` / __|/ _` | '_ ` _ \| |  _/   \|  __\ |/ / *
+*  | . \ (_| \__ \ (_| | | | | | | | |( (_) ) |  | . <  *
+*  |_|\_\__,_|___/\__,_|_| |_| |_|_|_| \___/|_|  |_|\_\ *
+*                                                       *
+*                   Version 1.0.2                       *
+*                                                       *
+* This is a bot developed for the game Screeps.         *
+*                                                       *
+* Use this config-file to configure your bot, options   *
+* are expained below.                                   *
+*                                                       *
+* More information about the bot at:                    *
+* http://sparr.github.io/kasamifork                     *
+*                                                       *
+* Version history:                                      *
+* 1.0 - Cake and grief counseling                       *
+* 0.9 - Beta than before                                *
+*                                                       *
+\* * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 "use strict";
 export const config = {

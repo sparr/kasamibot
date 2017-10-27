@@ -9,7 +9,7 @@ export function getRandomQuote(ownedRoom: boolean): string {
     return quotes[Math.floor(Math.random() * quotes.length)];
 };
 
-const quote = "Operated by KasamiBot - https:// kasami.github.io/kasamibot/";
+const quote = "Operated by KasamiFork - https://sparr.github.io/kasamifork/";
 
 const quotes =  [
     "Life is about increasing GCL, not mining minerals. -Kevin Kruse",
