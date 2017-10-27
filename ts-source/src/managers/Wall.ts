@@ -98,20 +98,6 @@ export class WallManager extends Manager {
                 this.setValue(this.MEMORY_LASTRUN_BORDERWALL, Game.time);
             }
         }
-        if (pri === ManagerPriority.Trivial && Game.time === 1) {
-            let room = Game.rooms["E83Ndd9"];
-            if (room !== undefined) {
-                if (room.name === "E83Ndd9" && Game.time % 20 === 0) {
-                    this.simBorderWall(room);
-                }
-                if (room.name === "E82Nff4" && Game.time % 20 === 0) {
-                    this.simOuterWall(room);
-                }
-                if (Game.time % 20 === 17) {
-                    deleteAllFlags();
-                }
-            }
-        }
     }
 
     private orderBaseBuilder(room: Room, count: number = 1) {
