@@ -1295,6 +1295,10 @@ interface CostMatrix {
      * @param val Whatever serialize returned
      */
     deserialize(val: number[]): CostMatrix;
+    /**
+     * UInt8Array(2500).
+     */
+    _bits: Uint8Array;
 }
 /**
  * RawMemory object allows to implement your own memory stringifier instead of built-in serializer based on JSON.stringify.
