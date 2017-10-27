@@ -89,7 +89,7 @@ function runMovingToTarget(creep: Creep) {
         creep.setState(State.MovingToDrainingPosition);
         runMovingToDrainingPosition(creep);
     } else {
-        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true});
+        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true, avoidKeepers: true});
     }
 }
 

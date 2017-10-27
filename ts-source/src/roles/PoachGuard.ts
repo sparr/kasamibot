@@ -59,7 +59,7 @@ function runMoveToRoom(creep: Creep) {
         return;
     }
     if (targetRoom !== creep.room.name || PositionLib.positionIsBorder(creep.pos)) {
-        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true});
+        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true, avoidKeepers: true});
     } else {
         creep.setState(State.Waiting);
         runWaiting(creep);

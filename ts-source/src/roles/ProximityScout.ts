@@ -18,7 +18,7 @@ export function run(creep: Creep) {
             return;
         }
 
-        let response = creep.travelToRoom(creep.memory.target, {allowHostile: false, allowSK: true}, true);
+        let response = creep.travelToRoom(creep.memory.target, {allowHostile: false, allowSK: true, avoidKeepers: true}, true);
         if (response === ERR_NO_PATH || response === ERR_INVALID_ARGS) {
             if (Memory.rooms[creep.memory.target] === undefined) {
                 Memory.rooms[creep.memory.target] = {};

@@ -58,7 +58,7 @@ function runMovingToTarget(creep: Creep): void {
         creep.setState(State.Wrecking);
         runWrecking(creep);
     } else {
-        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true});
+        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true, avoidKeepers: true});
     }
 }
 

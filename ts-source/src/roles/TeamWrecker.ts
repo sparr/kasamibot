@@ -90,7 +90,7 @@ function runMoveToStartPosition(creep: Creep): void {
 
     if (startRoom !== creep.room.name) {
         if (!destroyWallInPath(creep)) {
-            RouteTravel.travelByRoute(creep, {allowSK: true});
+            RouteTravel.travelByRoute(creep, {allowSK: true, avoidKeepers: true});
         }
     } else {
         creep.setState(State.MovingToTarget);
@@ -119,7 +119,7 @@ function runMovingToTarget(creep: Creep): void {
         runWrecking(creep);
     } else {
         if (!destroyWallInPath(creep)) {
-            creep.travelToRoom(targetRoom, {allowSK: true});
+            creep.travelToRoom(targetRoom, {allowSK: true, avoidKeepers: true});
         }
     }
 }

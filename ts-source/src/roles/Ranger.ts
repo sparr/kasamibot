@@ -76,7 +76,7 @@ function runMovingToTarget(creep: Creep): void {
     if (targetRoom === creep.room.name && !PositionLib.positionIsBorder(creep.pos)) {
         creep.setState(State.Attacking);
     } else {
-        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true});
+        creep.travelToRoom(targetRoom, {allowSK: true, ignoreRoads: true, avoidKeepers: true});
     }
 }
 
