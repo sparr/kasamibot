@@ -8,7 +8,7 @@ export enum Roomtype {
     NormalWithExpansion = 102,
     NormalWithDismantleTarget = 103,
     NormalWithAcceleratedPraising = 104,
-    Expanion = 105,
+    Expansion = 105,
     My = 106,
     NormalWithPraiseroom = 107,
     BeingAbandoned = 108,

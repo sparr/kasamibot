@@ -85,6 +85,13 @@ export class RoomService {
         return [];
     }
 
+    public getExpansion(): Room[] {
+        if (this.roomDictionary[Roomtype.Expansion] !== undefined) {
+            return this.roomDictionary[Roomtype.Expansion];
+        }
+        return [];
+    }
+
     private makeDictionary(): {[type: number]: Room[]} {
         let rooms: {[type: number]: Room[]} = {};
         rooms[Roomtype.NormalAndNotExpansion] = [];
@@ -93,7 +100,7 @@ export class RoomService {
         rooms[Roomtype.NormalWithPraiseroom] = [];
         rooms[Roomtype.NormalUnderSiege] = [];
         rooms[Roomtype.NormalWithDismantleTarget] = [];
-        rooms[Roomtype.Expanion] = [];
+        rooms[Roomtype.Expansion] = [];
         rooms[Roomtype.My] = [];
         rooms[Roomtype.BeingAbandoned] = [];
         rooms[Roomtype.NormalNotAbandoned] = [];
@@ -113,7 +120,7 @@ export class RoomService {
             rooms[room.memory.t].push(room);
             rooms[Roomtype.My].push(room);
             if (room.isExpansion()) {
-                rooms[Roomtype.Expanion].push(room);
+                rooms[Roomtype.Expansion].push(room);
             }
             if (!room.isExpansion() && room.memory.t === Roomtype.Normal) {
                 rooms[Roomtype.NormalAndNotExpansion].push(room);
