@@ -199,8 +199,8 @@ function runRepairWall(creep: Creep) {
 function runTanking(creep: Creep) {
     let homeroom = Game.rooms[creep.memory.homeroom];
     let storage = homeroom.storage;
-    if (storage === undefined) {
-        let buildingId = EnergyLib.getBuildingIdForTanking(creep.room);
+    if (storage === undefined || !shouldTank(creep, storage)) {
+        let buildingId = EnergyLib.getBuildingIdForTanking(creep.room, (s: Structure) => shouldTank(creep, s));
         storage = Game.getObjectById(buildingId) as Storage;
         if (storage === null) {
             console.log("BaseBuilder without energy pickup " + homeroom.name);
@@ -274,8 +274,8 @@ function findNewTargetWallSite(creep: Creep): Structure | null {
     return target;
 }
 
-function shouldTank(creep: Creep, storage: StructureStorage): boolean {
-    if (storage !== undefined && storage.structureType !== STRUCTURE_STORAGE) {
+function shouldTank(creep: Creep, storage: Structure): boolean {
+    if (!(storage instanceof StructureStorage)) {
         return true;
     }
     if (storage.store[RESOURCE_ENERGY] > 20000 ||

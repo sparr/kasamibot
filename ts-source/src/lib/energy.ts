@@ -21,31 +21,41 @@ export function roomIsFull(room: Room): boolean {
     return false;
 }
 
-export function getBuildingIdForTanking(room: Room): string {
+export function getBuildingIdForTanking(room: Room, validFunc: Function = () => true): string {
 
     // Storage
     if (room.storage !== undefined) {
-        return room.storage.id;
+        if (validFunc(room.storage)) {
+            return room.storage.id;
+        }
     }
 
     let baseContainer = room.getBaseContainer();
     if (baseContainer instanceof StructureContainer) {
-      return baseContainer.id;
+        if (validFunc(baseContainer)) {
+            return baseContainer.id;
+        }
     }
 
     if (room.terminal !== undefined) {
-        return room.terminal.id;
+        if (validFunc(room.terminal)) {
+            return room.terminal.id;
+        }
     }
 
     let containersInRoom = room.find(FIND_STRUCTURES, {filter: {structureType: STRUCTURE_CONTAINER}}) as Container[];
     for (let container of containersInRoom) {
-      return container.id;
+        if (validFunc(container)) {
+            return container.id;
+        }
     }
 
     // Spawn ellers
     let spawnsInRoom = room.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_SPAWN}}) as Spawn[];
     for (let spawn of spawnsInRoom) {
-      return spawn.id;
+        if (validFunc(spawn)) {
+            return spawn.id;
+        }
     }
 
     // Kommer vi hit må det være et tomt rom.
