@@ -143,7 +143,7 @@ function runMining(creep: Creep) {
         if (container.hits < 200000 && creep.carry[RESOURCE_ENERGY] === creep.carryCapacity) {
             creep.repair(container);
         } else
-        if (source.energy > 0 && container.store[RESOURCE_ENERGY] < container.storeCapacity) {
+        if (source.energy > 0 /*&& container.store[RESOURCE_ENERGY] < container.storeCapacity*/) {
             let responseHarvest = creep.harvest(source);
             if (responseHarvest === OK) {
                 if (Memory.stats["room." + creep.memory.homeroom + ".energyHarvested"] === undefined) {
