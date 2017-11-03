@@ -67,7 +67,7 @@ Room.prototype.getBoostLab = function getBoostLab(): StructureLab | undefined {
         return undefined;
     }
     let pos = RoomPositionUtilities.longPos(this.memory.b, this.name);
-    let structures = (new RoomPosition(pos.x + 3, pos.y + 2, pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
+    let structures = (new RoomPosition(pos.x + 2, pos.y + 3, pos.roomName)).lookFor(LOOK_STRUCTURES) as Structure[];
     for (let s of structures) {
         if (s.structureType === STRUCTURE_LAB) {
             return s as StructureLab;
@@ -178,7 +178,7 @@ Room.prototype.getProcessingLabs = function getProcessingLabs(): Lab[] {
     }
     return labs;
 };
-Room.prototype.getSupplyingLabs = function getSupplyingLabs():  Lab[] {
+Room.prototype.getSupplyingLabs = function getSupplyingLabs(): Lab[] {
     if (this.memory.lab === undefined || this.memory.lab.supplyingLabs === undefined) {
         return [];
     }

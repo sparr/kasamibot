@@ -247,14 +247,14 @@ export function placeBuildings(room: Room): void {
     }
 
     if (level >= RoomLevel.Town) {
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 3, 2, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 4, 4, false, true);
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 3, false, true);
     }
 
     if (level >= RoomLevel.City) {
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 4, 2, false, true);
         BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 2, 4, false, true);
-        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 4, 4, false, true);
+        BuildLib.buildIfNotPresent(STRUCTURE_LAB, basePosition, 3, 2, false, true);
     }
 
     if (level >= RoomLevel.Metropolis) {

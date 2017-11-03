@@ -294,7 +294,7 @@ function townCheck(room: Room) {
             room.memory.lab.supplyingLabs === undefined || room.memory.lab.supplyingLabs !== 2) {
             room.memory.lab.processingLabs = RoomUtilities.getProcessingLabs(room);
             room.memory.lab.supplyingLabs = RoomUtilities.getSupplyLabs(room);
-            if (room.memory.lab.supplyingLabs.length === 2 && room.memory.lab.processingLabs.length === 0) {
+            if (room.memory.lab.supplyingLabs.length === 2 && room.memory.lab.processingLabs.length === 1) {
                 room.memory.lab.operational = true;
             } else {
                 room.memory.lab.operational = false;
@@ -342,7 +342,7 @@ function cityCheck(room: Room) {
             room.memory.lab.processingLabs.length < 3 || room.memory.lab.supplyingLabs === undefined || room.memory.lab.supplyingLabs !== 2) {
             room.memory.lab.processingLabs = RoomUtilities.getProcessingLabs(room);
             room.memory.lab.supplyingLabs = RoomUtilities.getSupplyLabs(room);
-            if (room.memory.lab.supplyingLabs.length === 2 && room.memory.lab.processingLabs.length === 3) {
+            if (room.memory.lab.supplyingLabs.length === 2 && room.memory.lab.processingLabs.length === 4) {
                 room.memory.lab.operational = true;
             } else {
                 room.memory.lab.operational = false;
@@ -397,7 +397,7 @@ function metropolisCheck(room: Room) {
             room.memory.lab.processingLabs.length < 7 || room.memory.lab.supplyingLabs === undefined || room.memory.lab.supplyingLabs !== 2) {
             room.memory.lab.processingLabs = RoomUtilities.getProcessingLabs(room);
             room.memory.lab.supplyingLabs = RoomUtilities.getSupplyLabs(room);
-            if (room.memory.lab.supplyingLabs.length === 2 && room.memory.lab.processingLabs.length === 7) {
+            if (room.memory.lab.supplyingLabs.length === 2 && room.memory.lab.processingLabs.length === 8) {
                 room.memory.lab.operational = true;
             } else {
                 room.memory.lab.operational = false;

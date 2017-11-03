@@ -1,7 +1,10 @@
 /*
 
-LabManager skal ta seg av å passe på at vi har nok av ønskede advanced mineraler, og produsere disse hvis det ikke finnes, og vi har grunnstoffene tilgjengelig.
-TradeManageren tar seg av å sende mineraler vi selv produserer, evt kjøpe hvis det er behov for mineraler vi ikke har.
+LabManager will take care that we have enough of the advanced minerals
+required, and produce these if it is not available and we have the basic
+ingredients available.
+TradeManager takes care of sending minerals we produce, possibly buying
+if there is a need for minerals we do not have.
 
 F.eks for RESOURCE_CATALYZED_ZYNTHIUM_ACID:
 RESOURCE_CATALYZED_GHODIUM_ALKALIDE: RESOURCE_GHODIUM_ALKALIDE + RESOURCE_HYDROXIDE

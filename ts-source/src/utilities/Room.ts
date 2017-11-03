@@ -113,7 +113,7 @@ export function getProcessingLabs(room: Room): string[] {
     }
     let spawnPos = basePosition;
     let labs: string[] = [];
-    let positions = [[-1, 5], [-1, 6], [-1, 7], [0, 7], [1, 7], [2, 5], [2, 6]];
+    let positions = [[2, 4], [3, 5], [3, 2], [4, 5], [2, 3], [5, 4], [4, 2]];
 
     for (let p of positions) {
         let labPos = new RoomPosition(spawnPos.x + p[0], spawnPos.y + p[1], spawnPos.roomName);
@@ -134,7 +134,7 @@ export function getSupplyLabs(room: Room): string[] {
     }
     let spawnPos = basePosition;
     let labs: string[] = [];
-    let positions = [[0, 5], [1, 6]];
+    let positions = [[3, 3], [4, 4]];
 
     for (let p of positions) {
         let labPos = new RoomPosition(spawnPos.x + p[0], spawnPos.y + p[1], spawnPos.roomName);
