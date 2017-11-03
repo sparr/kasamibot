@@ -308,20 +308,20 @@ export class OutpostManager extends Manager {
             }
         }
 
-        if (roomLevel >= RoomLevel.CityReadyForExpansion && Memory.settings.bot === true) {
+        if (roomLevel >= RoomLevel.CityReadyForExpansion && Memory.settings.bot === true && room.getSpawns().length > 2) {
             wanted = 6;
         } else
-        if (roomLevel >= RoomLevel.TownReadyForExpansion) {
+        if (roomLevel >= RoomLevel.TownReadyForExpansion && room.getSpawns().length > 1) {
             wanted = 4;
         } else {
             wanted = 2;
         }
 
         if (Memory.settings.slow === true && Memory.settings.bot === true) {
-            if (roomLevel >= RoomLevel.CityReadyForExpansion) {
+            if (roomLevel >= RoomLevel.CityReadyForExpansion && room.getSpawns().length > 2) {
                 wanted = 3;
             } else
-            if (roomLevel >= RoomLevel.TownReadyForExpansion) {
+            if (roomLevel >= RoomLevel.TownReadyForExpansion && room.getSpawns().length > 1) {
                 wanted = 2;
             } else {
                 wanted = 1;
