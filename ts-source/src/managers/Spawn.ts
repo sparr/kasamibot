@@ -82,7 +82,7 @@ export class SpawnManager extends Manager {
             return;
         }
 
-        let name = OrdersUtilities.makeRoleName(order.memory.role) + "-" + "T" + order.memory.tier + "-" + OrdersUtilities.makeRandomCreepId();
+        let name = OrdersUtilities.makeRoleName(order.memory.role) + "_" + "T" + order.memory.tier + "_" + OrdersUtilities.makeRandomCreepId();
         if (room.name !== spawn.room.name) {
             order.memory.homeroom = room.name;
         }
